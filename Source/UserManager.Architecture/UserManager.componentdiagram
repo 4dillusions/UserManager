@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<componentModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="5f8484d3-e14a-4b80-a069-06a9a6084cc5" name="UserManager" linkedPackageId="abf5c8e2-ab0a-4d32-a61e-2f9db36e9d6b" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner">
+  <ownedCommentsInternal>
+    <comment Id="c1c31a9f-713b-44e0-bd19-7a09201878a1">
+      <elementDefinition Id="7ab603f2-48aa-4a1f-9c92-c50b811640f1" />
+      <body>Json/XML and mock data</body>
+    </comment>
+    <comment Id="102abd74-da4f-47e5-b42b-8195534d8715">
+      <elementDefinition Id="68239013-1561-4611-ba7a-222793863ed1" />
+      <body>data objects, data logic</body>
+    </comment>
+    <comment Id="f191d47f-4cc5-407c-bafc-1add240bd0ec">
+      <elementDefinition Id="5419867b-7c77-4b80-a60e-2e8172d95fff" />
+      <body>integration tests</body>
+    </comment>
+    <comment Id="b0d8e27e-147e-4e74-ac71-4042e9ebfbd4">
+      <elementDefinition Id="14f358c1-55ee-4ae6-aa9e-fb6244df6d83" />
+      <body>properties, commands, bridge</body>
+    </comment>
+    <comment Id="2734a4d1-5663-4f9e-8fcf-7c3bdc2ce704">
+      <elementDefinition Id="c90679c6-7d74-41a9-8760-595bb0e94c1a" />
+      <body>XAML, code behind</body>
+    </comment>
+    <comment Id="817c1201-d8eb-4a2c-a359-4eddfc28e28b">
+      <elementDefinition Id="f434bc94-98cc-4842-bcb5-84dcea8dae2a" />
+      <body>constants, helpers,
+managers</body>
+    </comment>
+  </ownedCommentsInternal>
+  <profileInstances>
+    <packageHasProfileInstances Id="85591f56-9169-4aac-a2f4-dfffff0ad441">
+      <profileInstance Id="3b5da1b9-b611-4df2-b7d6-ac58c8dc4ad1" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="6e3b0d12-9477-4e10-98ff-db9c92308aaf">
+      <profileInstance Id="6b3193b0-300f-4f2d-9367-72fbe3092e0d" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <componentModelHasComponents>
+      <component Id="0945c4e2-2228-4112-a7c4-1df061733ed8" name="UserManager.Data.dll" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="3efbce76-acfd-4486-9441-05e2ae3d6454" />
+      </component>
+    </componentModelHasComponents>
+    <componentModelHasComponents>
+      <component Id="d64b0096-4891-4e52-b8d4-0064716b9242" name="UserManager.Model.dll" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="04d00ce5-9a55-469c-8cf9-4eec22324515" />
+        <suppliersInternal>
+          <dependency Id="1f46a68d-79f9-4c2b-b560-d8911034ad3d">
+            <componentMoniker Id="0945c4e2-2228-4112-a7c4-1df061733ed8" LastKnownName="UserManager.Data.dll" />
+            <elementDefinition Id="865d7cc9-5871-40aa-8d88-41691fdacca3" />
+          </dependency>
+          <dependency Id="0377ddbe-08ac-4474-bd4f-01e0e2fdc821">
+            <componentMoniker Id="fbd64415-0044-4bf3-91ce-7214c16a0eed" LastKnownName="UserManager.Core.dll" />
+            <elementDefinition Id="871539ed-bcc6-470d-8a73-97f5da61cc59" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </componentModelHasComponents>
+    <componentModelHasComponents>
+      <component Id="25c8550b-82b6-4329-9de1-f7871a259e86" name="UserManager.Test.dll" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="36c3774e-2d4a-481b-a304-c1af801080a4" />
+        <suppliersInternal>
+          <dependency Id="18696bb3-8f75-454c-9bd3-a26cde1db570">
+            <componentMoniker Id="d64b0096-4891-4e52-b8d4-0064716b9242" LastKnownName="UserManager.Model.dll" />
+            <elementDefinition Id="2c936835-b3ef-46d5-a411-215787323cfd" />
+          </dependency>
+          <dependency Id="14eab2e1-4342-408b-ab63-d71b7ef45fbd">
+            <componentMoniker Id="fbd64415-0044-4bf3-91ce-7214c16a0eed" LastKnownName="UserManager.Core.dll" />
+            <elementDefinition Id="a20b7a50-0c63-4d77-a58a-c402e8f91eda" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </componentModelHasComponents>
+    <componentModelHasComponents>
+      <component Id="af16e61a-11c0-45a7-aea0-2c425982fc62" name="UserManager.ViewModel.dll" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="b83b3520-443d-47ea-b031-afe46293c3ed" />
+        <suppliersInternal>
+          <dependency Id="abb00e7e-122f-4ae8-b8c5-39c1ce11ff6c">
+            <componentMoniker Id="d64b0096-4891-4e52-b8d4-0064716b9242" LastKnownName="UserManager.Model.dll" />
+            <elementDefinition Id="fbb64555-ad42-4fca-8df9-cf7df63eba8f" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </componentModelHasComponents>
+    <componentModelHasComponents>
+      <component Id="8787562a-cbb3-4f7c-8067-5b4434dc2c6c" name="UserManager.View.exe" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="4a8ab689-b44f-42a8-8849-4b75fa2608f4" />
+        <suppliersInternal>
+          <dependency Id="768b10f3-10ae-4359-9c1b-95883283eec6">
+            <componentMoniker Id="af16e61a-11c0-45a7-aea0-2c425982fc62" LastKnownName="UserManager.ViewModel.dll" />
+            <elementDefinition Id="8296f723-3ea4-4e35-8867-7cbf88d07e5a" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </componentModelHasComponents>
+    <componentModelHasComponents>
+      <component Id="fbd64415-0044-4bf3-91ce-7214c16a0eed" name="UserManager.Core.dll" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="37b3a742-0939-490f-9e0b-0a3195eb45f5" />
+      </component>
+    </componentModelHasComponents>
+  </packagedElements>
+  <package Id="abf5c8e2-ab0a-4d32-a61e-2f9db36e9d6b" name="UserManager.Architecture">
+    <elementDefinition Id="ae081110-dfa0-4325-91e6-0f7910f3312e" />
+  </package>
+</componentModel>

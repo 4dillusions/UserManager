@@ -1,0 +1,43 @@
+﻿<UserControl
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ViewModel="clr-namespace:UserManager.ViewModel;assembly=UserManager.ViewModel" x:Class="UserManager.View.LoginView" Height="328" Width="291"
+        Background="#E2E2E2" BorderBrush="#1A1A1A" BorderThickness="1">
+    <UserControl.DataContext>
+        <ViewModel:LoginViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <StackPanel>
+            <Label Content="  Please Log In" FontSize="20" FontWeight="Bold" Width="300" VerticalAlignment="Center" Foreground="White" 
+                   Background="{StaticResource HeaderBackground}"/>
+            <Label Background="#29ADC6" BorderBrush="#1A1A1A" BorderThickness="1" Height="7"/>
+            <Image Width="100" Height="100" Margin="0, 10, 0, 0" Source="Contents/login.png"/>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="28" />
+                    <RowDefinition Height="28" />
+                    <RowDefinition Height="28" />
+                    <RowDefinition Height="28" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="1" Grid.Column="0" Content="Login Name" HorizontalAlignment="Right"/>
+                <TextBox Grid.Row="1" Grid.Column="1" MaxWidth="120" Margin="0, 2, 0, 0" Text="{Binding LoginName, Mode=TwoWay}"/>
+                <Label Grid.Row="2" Grid.Column="0" Content="Password" HorizontalAlignment="Right"/>
+                <PasswordBox Grid.Row="2" Grid.Column="1" Margin="0, 2, 0, 0" PasswordChar="*" x:Name="Password" MaxWidth="120"/>
+
+                <Button Grid.Row="5" Grid.Column="0" Content="OK" Command="{Binding LoginCommand, Mode=Default}"/>
+                <Button Grid.Row="5" Grid.Column="1" Content="Cancel" Command="{Binding CancelCommand, Mode=Default}"/>            
+            </Grid>
+
+            <Label Content=" User Manager by Robert Oze" FontSize="13" FontWeight="Bold" Height="40" Width="300" HorizontalAlignment="Center"
+               VerticalAlignment="Center" Foreground="White" Background="{StaticResource FooterBackground}"/>
+        </StackPanel>
+    </Grid>
+
+</UserControl>

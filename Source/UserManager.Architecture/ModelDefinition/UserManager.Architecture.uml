@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner"
+  dslVersion="1.0.0.0"
+  Id="ae081110-dfa0-4325-91e6-0f7910f3312e"
+  name="UserManager.Architecture" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="7ab603f2-48aa-4a1f-9c92-c50b811640f1">
+      <body>Json/XML and mock data</body>
+    </comment>
+    <comment
+      Id="68239013-1561-4611-ba7a-222793863ed1">
+      <body>data objects, data logic</body>
+    </comment>
+    <comment
+      Id="5419867b-7c77-4b80-a60e-2e8172d95fff">
+      <body>integration tests</body>
+    </comment>
+    <comment
+      Id="14f358c1-55ee-4ae6-aa9e-fb6244df6d83">
+      <body>properties, commands, bridge</body>
+    </comment>
+    <comment
+      Id="c90679c6-7d74-41a9-8760-595bb0e94c1a">
+      <body>XAML, code behind</body>
+    </comment>
+    <comment
+      Id="f434bc94-98cc-4842-bcb5-84dcea8dae2a">
+      <body>constants, helpers,
+managers</body>
+    </comment>
+  </ownedCommentsInternal>
+  <profileInstances>
+    <packageHasProfileInstances
+      Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b">
+      <profileInstance
+        Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791"
+        name="StandardProfileL2" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances
+      Id="29349502-908c-4fda-9054-c48619c59ed0">
+      <profileInstance
+        Id="532ea607-fb19-44b8-8502-3351b05452be"
+        name="StandardProfileL3" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <packageHasNamedElement>
+      <component
+        Id="3efbce76-acfd-4486-9441-05e2ae3d6454"
+        name="UserManager.Data.dll"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="04d00ce5-9a55-469c-8cf9-4eec22324515"
+        name="UserManager.Model.dll"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="865d7cc9-5871-40aa-8d88-41691fdacca3">
+            <componentMoniker
+              Id="3efbce76-acfd-4486-9441-05e2ae3d6454"
+              LastKnownName="UserManager.Data.dll"
+              LastKnownLocation="UserManager.Architecture.uml" />
+          </dependency>
+          <dependency
+            Id="871539ed-bcc6-470d-8a73-97f5da61cc59">
+            <componentMoniker
+              Id="37b3a742-0939-490f-9e0b-0a3195eb45f5"
+              LastKnownName="UserManager.Core.dll"
+              LastKnownLocation="UserManager.Architecture.uml" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="36c3774e-2d4a-481b-a304-c1af801080a4"
+        name="UserManager.Test.dll"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="2c936835-b3ef-46d5-a411-215787323cfd">
+            <componentMoniker
+              Id="04d00ce5-9a55-469c-8cf9-4eec22324515"
+              LastKnownName="UserManager.Model.dll"
+              LastKnownLocation="UserManager.Architecture.uml" />
+          </dependency>
+          <dependency
+            Id="a20b7a50-0c63-4d77-a58a-c402e8f91eda">
+            <componentMoniker
+              Id="37b3a742-0939-490f-9e0b-0a3195eb45f5"
+              LastKnownName="UserManager.Core.dll"
+              LastKnownLocation="UserManager.Architecture.uml" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="b83b3520-443d-47ea-b031-afe46293c3ed"
+        name="UserManager.ViewModel.dll"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="fbb64555-ad42-4fca-8df9-cf7df63eba8f">
+            <componentMoniker
+              Id="04d00ce5-9a55-469c-8cf9-4eec22324515"
+              LastKnownName="UserManager.Model.dll"
+              LastKnownLocation="UserManager.Architecture.uml" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="4a8ab689-b44f-42a8-8849-4b75fa2608f4"
+        name="UserManager.View.exe"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="8296f723-3ea4-4e35-8867-7cbf88d07e5a">
+            <componentMoniker
+              Id="b83b3520-443d-47ea-b031-afe46293c3ed"
+              LastKnownName="UserManager.ViewModel.dll"
+              LastKnownLocation="UserManager.Architecture.uml" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="37b3a742-0939-490f-9e0b-0a3195eb45f5"
+        name="UserManager.Core.dll"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+  </packagedElements>
+  <primitiveType
+    Id="220a3521-e091-4221-bae9-3ef9018e845c"
+    name="Integer"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+    name="Boolean"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+    name="String"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="3ab42e7d-4969-445a-b209-471f5cb8209c"
+    name="UnlimitedNatural"
+    isAbstract="false"
+    isLeaf="false" />
+</modelStoreModel>
