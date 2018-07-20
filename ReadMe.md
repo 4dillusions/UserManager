@@ -1,7 +1,6 @@
-![alt tag](Doc/Doxygen/Res/userManager.jpg)
-
 User Manager (senior C#/.NET interview test)
 ============================================
+![alt tag](Doc/Doxygen/Res/userManager.jpg)
 
 Create a WPF application what can do
 ------------------------------------
