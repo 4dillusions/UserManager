@@ -40,7 +40,7 @@ name: UserManager2
 
 on:
   push:
-    branches: [ "master", "UserManager2" ]
+    branches: [ "master" ]
   pull_request:
     branches: [ "master", "UserManager2" ]
 
