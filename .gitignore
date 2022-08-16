@@ -3,6 +3,8 @@ TestResults/
 Database/
 Dropbox/
 obj/
+Bin/
+.vs/
 .history/
 *.pdom
 *.index
@@ -30,3 +32,5 @@ obj/
 *.opensdf
 *.tree
 *.suo
+!data.xml
+!Newtonsoft.Json.*
