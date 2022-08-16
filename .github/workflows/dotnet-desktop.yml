@@ -40,9 +40,9 @@ name: UserManager2
 
 on:
   push:
-    branches: [ "UserManager2" ]
+    branches: [ "master", "UserManager2" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "UserManager2" ]
 
 jobs:
 
