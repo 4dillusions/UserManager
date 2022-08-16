@@ -15,7 +15,7 @@ namespace UserManager.Core.Common
 
         protected void NotifyPropertyChanged(string propertyName)
         {
-            if (PropertyChanged != null)
+            if (PropertyChanged != null)fff
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
