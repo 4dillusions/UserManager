@@ -80,6 +80,10 @@ jobs:
     # Build the solution
     - name: Build
       run: msbuild -m $env:Solution_Name
+     
+   # Add vstest to the PATH
+    - name: Setup VSTest Path
+      uses: darenm/Setup-VSTest@v1
         
     # Execute all unit tests in the solution
     - name: Execute unit tests
