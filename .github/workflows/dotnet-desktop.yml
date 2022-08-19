@@ -80,14 +80,10 @@ jobs:
     # Build the solution
     - name: Build
       run: msbuild -m $env:Solution_Name
-      
-    # Install test environment
-    - name: Setup Microsoft.NET.Test.Sdk
-      run: dotnet add package Microsoft.NET.Test.Sdk --version 17.3.0
-      
+        
     # Execute all unit tests in the solution
     - name: Execute unit tests
-      run: dotnet test $env:Test_Project_Path
+      run: vstest.console Bin\${{ configuration }}\UserManager.Test.dll
       
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     #- name: Decode the pfx
