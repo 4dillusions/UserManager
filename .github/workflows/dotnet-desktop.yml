@@ -83,7 +83,7 @@ jobs:
         
     # Execute all unit tests in the solution
     - name: Execute unit tests
-      run: vstest.console Bin\${{ configuration }}\UserManager.Test.dll
+      run: vstest.console Bin\${{ matrix.configuration }}\UserManager.Test.dll
       
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     #- name: Decode the pfx
