@@ -79,7 +79,7 @@ jobs:
 
     # Build the solution
     - name: Build
-      run: msbuild $env:Solution_Name
+      run: msbuild -m $env:Solution_Name
       
     # Execute all unit tests in the solution
     - name: Execute unit tests
