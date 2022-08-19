@@ -19,7 +19,7 @@ namespace UserManager.Core.Factory
         }
 
         public static void Register<TType>() 
-            where TType : TInstance, new()
+            where TType : TInstance, new()sss
         {
             if (function == null)
                 function = () => new TType();
