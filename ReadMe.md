@@ -1,4 +1,4 @@
-User Manager (senior C#/.NET interview test)
+User Manager (senior C#/.NET interview test) <img src=https://github.com/4dillusions/UserManager/actions/workflows/dotnet-desktop.yml/badge.svg>
 ============================================
 ![alt tag](Doc/Doxygen/Res/userManager.jpg)
 
