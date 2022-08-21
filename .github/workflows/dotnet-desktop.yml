@@ -83,7 +83,7 @@ jobs:
      
    # Add vstest to the PATH
     - name: Setup VSTest Path
-      uses: darenm/Setup-VSTest@v1
+      uses: Malcolmnixon/Setup-VSTest@v4
         
     # Execute all unit tests in the solution
     - name: Execute unit tests
