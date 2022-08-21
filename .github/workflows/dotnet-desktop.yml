@@ -76,15 +76,15 @@ jobs:
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
-      
-    # Add vstest to the PATH
-    - name: Setup VSTest Path
-      uses: Malcolmnixon/Setup-VSTest@v4
 
     # Build the solution
     - name: Build
       run: msbuild -m $env:Solution_Name
         
+    # Add vstest to the PATH
+    - name: Setup VSTest Path
+      uses: Malcolmnixon/Setup-VSTest@v4
+      
     # Execute all unit tests in the solution
     - name: Execute unit tests
       run: vstest.console.exe Source\Bin\${{ matrix.configuration }}\UserManager.Test.dll
