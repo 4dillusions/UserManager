@@ -89,7 +89,7 @@ jobs:
     - name: Execute unit tests
       run: vstest.console.exe Source\Bin\${{ matrix.configuration }}\UserManager.Test.dll
       
-    # Decode the base 64 encoded pfx and save the Signing_Certificate
+    # Decode the base 64 encoded pfx and save the Signing_Certificate.
     #- name: Decode the pfx
     #  run: |
     #    $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
