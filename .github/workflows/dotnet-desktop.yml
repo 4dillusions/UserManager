@@ -79,7 +79,7 @@ jobs:
 
     # Build the solution
     - name: Build
-      run: msbuild -m $env:Solution_Name
+      run: msbuild -m $env:Solution_Name /property:Configuration=${{ matrix.configuration }}
         
     # Add vstest to the PATH
     - name: Setup VSTest Path
