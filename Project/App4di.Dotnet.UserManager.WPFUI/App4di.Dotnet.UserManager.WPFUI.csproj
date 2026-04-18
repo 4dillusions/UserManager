@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -18,5 +18,17 @@
   <ItemGroup>
     <Resource Include="Assets\Icojam-Blue-Bits-User-settings.ico" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\Data\data.xml" Link="Data\data.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>Data\data.xml</TargetPath>
+    </Content>
+  </ItemGroup>
+
+  <Target Name="CopyDataXmlToSharedBin" AfterTargets="Build">
+    <MakeDir Directories="..\Bin\Data\" />
+    <Copy SourceFiles="..\Data\data.xml" DestinationFolder="..\Bin\Data\" SkipUnchangedFiles="true" />
+  </Target>
 
 </Project>

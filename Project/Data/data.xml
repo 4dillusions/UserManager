@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <User>
+    <UserId>1</UserId>
+    <LoginName>Albert</LoginName>
+    <Password>albert</Password>
+    <FirstName>Albert</FirstName>
+    <Surname>Einstein</Surname>
+    <BirthDate>2879-03-14T00:00:00</BirthDate>
+    <BirthPlace>German</BirthPlace>
+    <AddressCity>Württemberg</AddressCity>
+  </User>
+  <User>
+    <UserId>2</UserId>
+    <LoginName>Zoltan</LoginName>
+    <Password>zoltan</Password>
+    <FirstName>Zoltan</FirstName>
+    <Surname>Kodaly</Surname>
+    <BirthDate>1882-12-16T00:00:00</BirthDate>
+    <BirthPlace>Hungary</BirthPlace>
+    <AddressCity>Kecskemet</AddressCity>
+  </User>
+  <User>
+    <UserId>3</UserId>
+    <LoginName>Erno</LoginName>
+    <Password>erno</Password>
+    <FirstName>Erno</FirstName>
+    <Surname>Rubik</Surname>
+    <BirthDate>1944-07-13T00:00:00</BirthDate>
+    <BirthPlace>Hungary</BirthPlace>
+    <AddressCity>Budapest</AddressCity>
+  </User>
+  <User>
+    <UserId>4</UserId>
+    <LoginName>Nikola</LoginName>
+    <Password>nikola</Password>
+    <FirstName>Nikola</FirstName>
+    <Surname>Tesla</Surname>
+    <BirthDate>1856-07-10T00:00:00</BirthDate>
+    <BirthPlace>Hungary Kingdom</BirthPlace>
+    <AddressCity>Smiljan</AddressCity>
+  </User>
+  <User>
+    <UserId>5</UserId>
+    <LoginName>Charles</LoginName>
+    <Password>charles</Password>
+    <FirstName>Charles</FirstName>
+    <Surname>Simonyi</Surname>
+    <BirthDate>1948-09-10T00:00:00</BirthDate>
+    <BirthPlace>Hungary</BirthPlace>
+    <AddressCity>Washington</AddressCity>
+  </User>
+</ArrayOfUser>
