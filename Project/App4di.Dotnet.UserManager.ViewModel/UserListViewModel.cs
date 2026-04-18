@@ -7,7 +7,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 using App4di.Dotnet.UserManager.Core.Common;
 using App4di.Dotnet.UserManager.Core.Data;
 using App4di.Dotnet.UserManager.Core.Factory;
-using App4di.Dotnet.UserManager.Model;
+using App4di.Dotnet.UserManager.Model.Entities;
 using App4di.Dotnet.UserManager.ViewModel.ViewManagement;
 using System.Collections.ObjectModel;
 using System.IO;

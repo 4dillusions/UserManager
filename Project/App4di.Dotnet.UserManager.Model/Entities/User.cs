@@ -9,7 +9,7 @@ using App4di.Dotnet.UserManager.Core.Common;
 using App4di.Dotnet.UserManager.Core.Data;
 using System.IO;
 
-namespace App4di.Dotnet.UserManager.Model;
+namespace App4di.Dotnet.UserManager.Model.Entities;
 
 [Serializable]
 public class User : NotificationObject

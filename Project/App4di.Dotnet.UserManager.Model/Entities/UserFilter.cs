@@ -6,7 +6,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 
 using App4di.Dotnet.UserManager.Core.Common;
 
-namespace App4di.Dotnet.UserManager.Model;
+namespace App4di.Dotnet.UserManager.Model.Entities;
 
 public class UserFilter : NotificationObject
 {
