@@ -15,4 +15,8 @@
     <ProjectReference Include="..\App4di.Dotnet.UserManager.ViewModel\App4di.Dotnet.UserManager.ViewModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Resource Include="Assets\Icojam-Blue-Bits-User-settings.ico" />
+  </ItemGroup>
+
 </Project>
