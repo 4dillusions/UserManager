@@ -3,6 +3,15 @@
 
 # Custom for Visual Studio
 *.cs     diff=csharp
+*.cs     text eol=crlf
+*.csproj text eol=crlf
+*.props  text eol=crlf
+*.targets text eol=crlf
+*.sln    text eol=crlf
+*.slnx   text eol=crlf
+*.xaml   text eol=crlf
+*.config text eol=crlf
+*.xml    text eol=crlf
 
 # Standard to msysgit
 *.doc	 diff=astextplain
