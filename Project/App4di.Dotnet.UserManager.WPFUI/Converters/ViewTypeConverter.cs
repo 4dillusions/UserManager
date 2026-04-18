@@ -5,8 +5,8 @@ Released under the terms of the GNU General Public License version 3 or later.
 */
 
 using App4di.Dotnet.UserManager.Core.ViewManagement;
-using App4di.Dotnet.UserManager.ViewModel;
-using App4di.Dotnet.UserManager.ViewModel.ViewManagement;
+using App4di.Dotnet.UserManager.ViewModel.Navigation;
+using App4di.Dotnet.UserManager.ViewModel.ViewModels;
 using System.Globalization;
 using System.Windows;
 

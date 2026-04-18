@@ -6,9 +6,9 @@ Released under the terms of the GNU General Public License version 3 or later.
 
 using App4di.Dotnet.UserManager.Core.Common;
 using App4di.Dotnet.UserManager.Core.Factory;
-using App4di.Dotnet.UserManager.ViewModel.ViewManagement;
+using App4di.Dotnet.UserManager.ViewModel.Navigation;
 
-namespace App4di.Dotnet.UserManager.ViewModel;
+namespace App4di.Dotnet.UserManager.ViewModel.ViewModels;
 
 public class MainViewModel : NotificationObject
 {

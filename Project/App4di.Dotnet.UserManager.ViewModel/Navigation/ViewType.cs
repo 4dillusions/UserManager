@@ -5,7 +5,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 */
 
 
-namespace App4di.Dotnet.UserManager.ViewModel.ViewManagement;
+namespace App4di.Dotnet.UserManager.ViewModel.Navigation;
 
 public enum ViewType
 {

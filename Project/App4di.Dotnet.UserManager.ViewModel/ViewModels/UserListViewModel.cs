@@ -8,13 +8,13 @@ using App4di.Dotnet.UserManager.Core.Common;
 using App4di.Dotnet.UserManager.Core.Data;
 using App4di.Dotnet.UserManager.Core.Factory;
 using App4di.Dotnet.UserManager.Model.Entities;
-using App4di.Dotnet.UserManager.ViewModel.ViewManagement;
+using App4di.Dotnet.UserManager.ViewModel.Navigation;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
 
-namespace App4di.Dotnet.UserManager.ViewModel;
+namespace App4di.Dotnet.UserManager.ViewModel.ViewModels;
 
 public class UserListViewModel : NotificationObject
 {

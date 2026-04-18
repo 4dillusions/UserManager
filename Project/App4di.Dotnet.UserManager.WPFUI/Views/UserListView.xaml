@@ -1,7 +1,7 @@
 <UserControl
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:ViewModel="clr-namespace:App4di.Dotnet.UserManager.ViewModel;assembly=App4di.Dotnet.UserManager.ViewModel"
+        xmlns:ViewModel="clr-namespace:App4di.Dotnet.UserManager.ViewModel.ViewModels;assembly=App4di.Dotnet.UserManager.ViewModel"
         x:Class="App4di.Dotnet.UserManager.WPFUI.UserListView" Height="496" Width="910"
         Background="#E2E2E2" BorderBrush="#1A1A1A" BorderThickness="1">
     <UserControl.DataContext>
