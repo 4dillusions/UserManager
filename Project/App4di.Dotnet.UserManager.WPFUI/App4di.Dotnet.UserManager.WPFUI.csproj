@@ -26,9 +26,5 @@
     </Content>
   </ItemGroup>
 
-  <Target Name="CopyDataXmlToSharedBin" AfterTargets="Build">
-    <MakeDir Directories="..\Bin\Data\" />
-    <Copy SourceFiles="..\Data\data.xml" DestinationFolder="..\Bin\Data\" SkipUnchangedFiles="true" />
-  </Target>
 
 </Project>
