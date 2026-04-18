@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="App4di.Dotnet.UserManager.Contracts/App4di.Dotnet.UserManager.Contracts.csproj" Id="5c2f3d14-0373-40bc-9e81-bfaa9aa67b7b" />
   <Project Path="App4di.Dotnet.UserManager.Core/App4di.Dotnet.UserManager.Core.csproj" Id="a59f4788-bf73-46f1-ab2d-e8261ea2492a" />
+  <Project Path="App4di.Dotnet.UserManager.Model/App4di.Dotnet.UserManager.Model.csproj" Id="486a93df-0628-4097-bf74-669605375071" />
 </Solution>
