@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>App4di.Dotnet.UserManager.WPFUI</RootNamespace>
+    <AssemblyName>App4di.Dotnet.UserManager.WPFUI</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\App4di.Dotnet.UserManager.Model\App4di.Dotnet.UserManager.Model.csproj" />
+    <ProjectReference Include="..\App4di.Dotnet.UserManager.ViewModel\App4di.Dotnet.UserManager.ViewModel.csproj" />
+  </ItemGroup>
+
+</Project>

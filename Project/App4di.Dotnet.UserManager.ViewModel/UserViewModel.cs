@@ -4,11 +4,11 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
-using System.Windows.Input;
 using App4di.Dotnet.UserManager.Core.Common;
 using App4di.Dotnet.UserManager.Core.Factory;
 using App4di.Dotnet.UserManager.Model;
 using App4di.Dotnet.UserManager.ViewModel.ViewManagement;
+using System.Windows.Input;
 
 namespace App4di.Dotnet.UserManager.ViewModel;
 

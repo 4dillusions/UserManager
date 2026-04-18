@@ -3,4 +3,5 @@
   <Project Path="App4di.Dotnet.UserManager.Core/App4di.Dotnet.UserManager.Core.csproj" Id="a59f4788-bf73-46f1-ab2d-e8261ea2492a" />
   <Project Path="App4di.Dotnet.UserManager.Model/App4di.Dotnet.UserManager.Model.csproj" Id="486a93df-0628-4097-bf74-669605375071" />
   <Project Path="App4di.Dotnet.UserManager.ViewModel/App4di.Dotnet.UserManager.ViewModel.csproj" Id="f04740aa-1217-4f1d-9c98-5496965213d8" />
+  <Project Path="App4di.Dotnet.UserManager.WPFUI/App4di.Dotnet.UserManager.WPFUI.csproj" Id="56deef58-a841-4a4c-9774-ec51894c9693" />
 </Solution>
