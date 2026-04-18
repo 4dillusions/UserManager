@@ -2,9 +2,11 @@ html/
 TestResults/
 Database/
 Dropbox/
+bin/
 obj/
 Bin/
 .vs/
+.dotnet/
 .history/
 *.pdom
 *.index
