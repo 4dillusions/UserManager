@@ -25,7 +25,7 @@ public class UserListViewModel : NotificationObject
     private User? selectedUser;
     private ObservableCollection<User> users = [];
 
-    private UserFilter filter;
+    private UserFilter filter = new();
     #endregion
 
     #region Methods
