@@ -1,0 +1,47 @@
+
+/*
+4di .NET UserManager application
+Copyright (c) by 4D Illusions. All rights reserved.
+Released under the terms of the GNU General Public License version 3 or later.
+*/
+
+using App4di.Dotnet.UserManager.ViewModel.ViewModels;
+using FW4di.Dotnet.Core.DependencyInjection;
+
+namespace App4di.Dotnet.UserManager.ViewModel.Service;
+
+public class DIBindings
+{
+    IDIManager di { get; set; } = new DIManager();
+
+    public void bindAllDepencies()
+    {
+        di.Init
+        (
+            () =>
+            {
+                di.Bind<MainViewModel, MainViewModel>(DILifetimeScopes.Singleton);
+                di.Bind<LoginViewModel, LoginViewModel> (DILifetimeScopes.Singleton);
+                di.Bind<UserViewModel, UserViewModel> (DILifetimeScopes.Singleton);
+                di.Bind<UserListViewModel, UserListViewModel> (DILifetimeScopes.Singleton);
+            }
+        );
+    }
+
+    public T GetDependency<T>()
+    {
+        return di.GetDependency<T>();
+    }
+
+    public object GetDependency(Type type)
+    {
+        var method = GetType()
+            .GetMethods()
+            .Single(m => m.Name == nameof(GetDependency)
+                && m.IsGenericMethodDefinition
+                && m.GetParameters().Length == 0);
+
+        return method.MakeGenericMethod(type).Invoke(this, null)
+            ?? throw new InvalidOperationException($"Unable to resolve dependency for type '{type.FullName}'.");
+    }
+}

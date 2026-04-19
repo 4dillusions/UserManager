@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\App4di.Dotnet.UserManager.Core\App4di.Dotnet.UserManager.Core.csproj" />
     <ProjectReference Include="..\App4di.Dotnet.UserManager.Model\App4di.Dotnet.UserManager.Model.csproj" />
+    <ProjectReference Include="..\FirstParty\FW4di.Dotnet.Core\Project\FW4di.Dotnet.Core\FW4di.Dotnet.Core.csproj" />
   </ItemGroup>
 
 </Project>

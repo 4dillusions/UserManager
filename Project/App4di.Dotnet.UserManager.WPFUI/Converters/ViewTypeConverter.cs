@@ -42,7 +42,8 @@ public class ViewTypeConverter : ConverterMarkupExtension<ViewTypeConverter>
         {
             try
             {
-                logic.CachedView.DataContext = Activator.CreateInstance(logic.ViewModelType);
+                var app = (App)Application.Current;
+                logic.CachedView.DataContext = app.DIBindings.GetDependency(logic.ViewModelType);
             }
             catch (Exception ex)
             {

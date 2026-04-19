@@ -5,7 +5,6 @@ Released under the terms of the GNU General Public License version 3 or later.
 */
 
 using App4di.Dotnet.UserManager.Core.Common;
-using App4di.Dotnet.UserManager.Core.Factory;
 using App4di.Dotnet.UserManager.Model.Entities;
 using App4di.Dotnet.UserManager.ViewModel.Navigation;
 using System.Windows;
@@ -20,6 +19,15 @@ public class LoginViewModel : NotificationObject
 
     private string loginName = string.Empty;
     private string password = string.Empty;
+
+    private readonly MainViewModel mainViewModel;
+    #endregion
+
+    #region Constructor
+    public LoginViewModel(MainViewModel mainViewModel)
+    {
+        this.mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
+    }
     #endregion
 
     #region Properties
@@ -62,7 +70,7 @@ public class LoginViewModel : NotificationObject
             isCanLogin = false;
 
             if (User.IsUserExist(LoginName, Password))
-                Ioc<MainViewModel>.Instance.ViewType = ViewType.UserList;
+                mainViewModel.ViewType = ViewType.UserList;
             else
                 MessageBox.Show("Wrong LoginName or Password!");
         }

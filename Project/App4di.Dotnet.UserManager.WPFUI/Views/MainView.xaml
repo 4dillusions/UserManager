@@ -1,15 +1,11 @@
 <Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:ViewModel="clr-namespace:App4di.Dotnet.UserManager.ViewModel.ViewModels;assembly=App4di.Dotnet.UserManager.ViewModel"
         x:Class="App4di.Dotnet.UserManager.WPFUI.MainView"
         xmlns:converters="clr-namespace:App4di.Dotnet.UserManager.WPFUI.Converters"    
         Title="User manager" Height="600" Width="1000" WindowStartupLocation="CenterScreen" Background="#262626" Icon="/App4di.Dotnet.UserManager.WPFUI;component/Assets/Icojam-Blue-Bits-User-settings.ico"
         MinHeight="600" MinWidth="1000">
     <DockPanel>
-        <DockPanel.DataContext>
-            <ViewModel:MainViewModel/>
-        </DockPanel.DataContext>
         <ContentPresenter Margin="5" Content="{Binding ViewType, Converter={converters:ViewTypeConverter}}"/>
     </DockPanel>
 </Window>

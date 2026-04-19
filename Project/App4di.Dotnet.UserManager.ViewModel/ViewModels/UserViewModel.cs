@@ -5,7 +5,6 @@ Released under the terms of the GNU General Public License version 3 or later.
 */
 
 using App4di.Dotnet.UserManager.Core.Common;
-using App4di.Dotnet.UserManager.Core.Factory;
 using App4di.Dotnet.UserManager.Model.Entities;
 using App4di.Dotnet.UserManager.ViewModel.Navigation;
 using System.Windows;
@@ -17,6 +16,7 @@ public class UserViewModel : NotificationObject
 {
     #region Fields
     private User? user;
+    private MainViewModel mainViewModel;
     #endregion
 
     #region Properties
@@ -33,9 +33,10 @@ public class UserViewModel : NotificationObject
     #endregion
 
     #region Constructor
-    public UserViewModel()
+    public UserViewModel(MainViewModel mainViewModel)
     {
         user = User.CurrentUser;
+        this.mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
     }
     #endregion
 
@@ -55,7 +56,7 @@ public class UserViewModel : NotificationObject
         try
         {
             UserList.SaveCurrentUsers();
-            Ioc<MainViewModel>.Instance.ViewType = ViewType.UserList;
+            mainViewModel.ViewType = ViewType.UserList;
         }
         catch (Exception ex)
         {
@@ -80,7 +81,7 @@ public class UserViewModel : NotificationObject
 
     private void Cancel()
     {
-        Ioc<MainViewModel>.Instance.ViewType = ViewType.UserList;
+        mainViewModel.ViewType = ViewType.UserList;
     }
 
     private bool CanCancel()

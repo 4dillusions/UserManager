@@ -6,7 +6,6 @@ Released under the terms of the GNU General Public License version 3 or later.
 
 using App4di.Dotnet.UserManager.Core.Common;
 using App4di.Dotnet.UserManager.Core.Data;
-using App4di.Dotnet.UserManager.Core.Factory;
 using App4di.Dotnet.UserManager.Model.Entities;
 using App4di.Dotnet.UserManager.ViewModel.Navigation;
 using System.Collections.ObjectModel;
@@ -26,14 +25,19 @@ public class UserListViewModel : NotificationObject
     private ObservableCollection<User> users = [];
 
     private UserFilter filter = new();
+
+    private MainViewModel mainViewModel;
+    #endregion
+
+    #region Constructor
+    public UserListViewModel(MainViewModel mainViewModel)
+    {
+        this.mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
+        Reset();
+    }
     #endregion
 
     #region Methods
-    public UserListViewModel()
-    {
-        Reset();
-    }
-
     private void Reset()
     {
         filter = new UserFilter();
@@ -148,7 +152,7 @@ public class UserListViewModel : NotificationObject
         if (SelectedUser != null)
         {
             UserList.CurrentUsers = new UserList(new UserFilter()).Users;
-            Ioc<MainViewModel>.Instance.ViewType = ViewType.User;
+            mainViewModel.ViewType = ViewType.User;
         }
     }
 
