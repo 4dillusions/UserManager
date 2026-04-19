@@ -143,7 +143,7 @@ namespace App4di.Dotnet.UserManager.Tests.Model
             Assert.HasCount(data.Count, new UserList(new UserFilter()).Users, "User list count default filter");
             Assert.HasCount(1, new UserList(new UserFilter() { AddressCity = data[0].AddressCity }).Users, "User list count 1 city filter");
             Assert.HasCount(1, new UserList(new UserFilter() { TextInAll = data[0].FirstName }).Users, "User list count 1 city in the text filter");
-            Assert.AreNotEqual(1, new UserList(new UserFilter() { TextInAll = "Texas" }).Users.Count, "User list count 0 word in the text filter");
+            Assert.AreEqual(0, new UserList(new UserFilter() { TextInAll = "Texas" }).Users.Count, "User list count 0 word in the text filter");
         }
     }
 }

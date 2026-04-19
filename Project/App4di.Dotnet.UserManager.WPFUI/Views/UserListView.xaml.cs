@@ -9,7 +9,7 @@ using System.Windows.Controls;
 namespace App4di.Dotnet.UserManager.WPFUI;
 
 /// <summary>
-/// Interaction logic for MainWindow.xaml
+/// Interaction logic for UserListView.xaml
 /// </summary>
 public partial class UserListView : UserControl
 {

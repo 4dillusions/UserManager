@@ -14,8 +14,8 @@ public class PasswordRule : ValidationRule
 {
     public override ValidationResult Validate(object value, CultureInfo cultureInfo)
     {
-        if (string.IsNullOrEmpty(value.ToString()) || !Regex.IsMatch(value.ToString()!, "^(?=.{6,20}$)(?=.*[A-Z])(?=.*[0-9])"))
-            return new ValidationResult(false, "Please enter data 6-20 characters, a lower-case letter and a number!");
+        if (value == null || string.IsNullOrEmpty(value.ToString()) || !Regex.IsMatch(value.ToString()!, "^(?=.{6,20}$)(?=.*[A-Z])(?=.*[0-9])"))
+            return new ValidationResult(false, "Please enter data 6-20 characters, an upper-case letter and a number!");
 
         return new ValidationResult(true, null);
     }

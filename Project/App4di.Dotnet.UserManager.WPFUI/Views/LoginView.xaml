@@ -1,12 +1,8 @@
 <UserControl
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:ViewModel="clr-namespace:App4di.Dotnet.UserManager.ViewModel.ViewModels;assembly=App4di.Dotnet.UserManager.ViewModel"
         x:Class="App4di.Dotnet.UserManager.WPFUI.LoginView" Height="328" Width="291"
         Background="#E2E2E2" BorderBrush="#1A1A1A" BorderThickness="1">
-    <UserControl.DataContext>
-        <ViewModel:LoginViewModel/>
-    </UserControl.DataContext>
     <Grid>
         <StackPanel>
             <Label Content="  Please Log In" FontSize="20" FontWeight="Bold" Width="300" VerticalAlignment="Center" Foreground="White" 
@@ -32,8 +28,8 @@
                 <Label Grid.Row="2" Grid.Column="0" Content="Password" HorizontalAlignment="Right"/>
                 <PasswordBox Grid.Row="2" Grid.Column="1" Margin="0, 2, 0, 0" PasswordChar="*" x:Name="Password" MaxWidth="120"/>
 
-                <Button Grid.Row="5" Grid.Column="0" Content="OK" Command="{Binding LoginCommand, Mode=Default}"/>
-                <Button Grid.Row="5" Grid.Column="1" Content="Cancel" Command="{Binding CancelCommand, Mode=Default}"/>            
+                <Button Grid.Row="4" Grid.Column="0" Content="OK" Command="{Binding LoginCommand, Mode=Default}"/>
+                <Button Grid.Row="4" Grid.Column="1" Content="Cancel" Command="{Binding CancelCommand, Mode=Default}"/>            
             </Grid>
 
             <Label Content=" User Manager by Robert Oze" FontSize="13" FontWeight="Bold" Height="40" Width="300" HorizontalAlignment="Center"

@@ -5,6 +5,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 */
 
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace App4di.Dotnet.UserManager.Core.Common;
 
@@ -13,12 +14,12 @@ public abstract class NotificationObject : INotifyPropertyChanging, INotifyPrope
     public event PropertyChangingEventHandler? PropertyChanging;
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    protected void NotifyPropertyChanging(string propertyName)
+    protected void NotifyPropertyChanging([CallerMemberName] string propertyName = "")
     {
         PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
     }
 
-    protected void NotifyPropertyChanged(string propertyName)
+    protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

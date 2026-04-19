@@ -12,15 +12,17 @@ namespace App4di.Dotnet.UserManager.Core.Data;
 public class XmlDataManager<T> : IDataManager<T>
     where T : class
 {
+    private static readonly XmlSerializer serializer = new(typeof(List<T>));
+
     public List<T> Load(string pathAndName)
     {
         using var reader = new StreamReader(pathAndName);
-        return new XmlSerializer(typeof(List<T>)).Deserialize(reader) as List<T> ?? [];
+        return serializer.Deserialize(reader) as List<T> ?? [];
     }
 
     public void Save(List<T> data, string pathAndName)
     {
         using var writer = new StreamWriter(pathAndName);
-        new XmlSerializer(typeof(List<T>)).Serialize(writer, data);
+        serializer.Serialize(writer, data);
     }
 }

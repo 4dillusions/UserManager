@@ -25,10 +25,10 @@ public class AddressCityList
     {
         Cities = new ObservableCollection<AddressCity>();
 
-        if (File.Exists(Constants.DataFilePath + Constants.XmlDataFileName))
+        if (File.Exists(Constants.XmlDataFilePath))
         {
             IDataManager<User> dataManager = new XmlDataManager<User>();
-            var data = dataManager.Load(Constants.DataFilePath + Constants.XmlDataFileName);
+            var data = dataManager.Load(Constants.XmlDataFilePath);
 
             var citiesList = data.Select(u => u.AddressCity).Distinct().ToList();
             cities.Add(new AddressCity());

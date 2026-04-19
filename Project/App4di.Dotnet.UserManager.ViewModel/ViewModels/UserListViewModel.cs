@@ -31,7 +31,6 @@ public class UserListViewModel : NotificationObject
     #region Methods
     public UserListViewModel()
     {
-        filter = new UserFilter();
         Reset();
     }
 
@@ -46,7 +45,7 @@ public class UserListViewModel : NotificationObject
         if (User.CurrentUser == null)
             SelectedUser = Users.FirstOrDefault();
         else
-            SelectedUser = User.CurrentUser;
+            SelectedUser = Users.FirstOrDefault(u => u.UserId == User.CurrentUser.UserId) ?? Users.FirstOrDefault();
     }
     #endregion
 
@@ -58,7 +57,7 @@ public class UserListViewModel : NotificationObject
         {
             selectedAddressCity = value;
             filter.AddressCity = value?.CityName ?? AddressCity.DefaultName;
-            NotifyPropertyChanged("SelectedAddressCity");
+            NotifyPropertyChanged();
         }
     }
 
@@ -68,7 +67,7 @@ public class UserListViewModel : NotificationObject
         set
         {
             addressCities = value;
-            NotifyPropertyChanged("AddressCities");
+            NotifyPropertyChanged();
         }
     }
 
@@ -78,7 +77,7 @@ public class UserListViewModel : NotificationObject
         set
         {
             filter.TextInAll = value;
-            NotifyPropertyChanged("TextInAll");
+            NotifyPropertyChanged();
         }
     }
 
@@ -90,7 +89,7 @@ public class UserListViewModel : NotificationObject
             User.CurrentUser = value;
 
             selectedUser = value;
-            NotifyPropertyChanged("SelectedUser");
+            NotifyPropertyChanged();
         }
     }
 
@@ -100,7 +99,7 @@ public class UserListViewModel : NotificationObject
         set
         {
             users = value;
-            NotifyPropertyChanged("Users");
+            NotifyPropertyChanged();
         }
     }
     #endregion
@@ -118,8 +117,15 @@ public class UserListViewModel : NotificationObject
 
     private void Find()
     {
-        Users = new UserList(filter).Users;
-        SelectedUser = Users.FirstOrDefault();
+        try
+        {
+            Users = new UserList(filter).Users;
+            SelectedUser = Users.FirstOrDefault();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message + "\n " + ex.InnerException, "Find error");
+        }
     }
 
     private bool CanFind()
@@ -141,7 +147,7 @@ public class UserListViewModel : NotificationObject
     {
         if (SelectedUser != null)
         {
-            UserList.CurrentUsers = Users;
+            UserList.CurrentUsers = new UserList(new UserFilter()).Users;
             Ioc<MainViewModel>.Instance.ViewType = ViewType.User;
         }
     }
@@ -163,15 +169,22 @@ public class UserListViewModel : NotificationObject
 
     private void Export()
     {
-        IDataManager<User> dataManager = new JsonDataManager<User>();
+        try
+        {
+            IDataManager<User> dataManager = new JsonDataManager<User>();
 
-        if (File.Exists(Constants.DataFilePath + Constants.JsonDataFileName))
-            File.Delete(Constants.DataFilePath + Constants.JsonDataFileName);
+            if (File.Exists(Constants.JsonDataFilePath))
+                File.Delete(Constants.JsonDataFilePath);
 
-        dataManager.Save(users.ToList(), Constants.DataFilePath + Constants.JsonDataFileName);
+            dataManager.Save(users.ToList(), Constants.JsonDataFilePath);
 
-        if (File.Exists(Constants.DataFilePath + Constants.JsonDataFileName))
-            MessageBox.Show("Data exported to Json file");
+            if (File.Exists(Constants.JsonDataFilePath))
+                MessageBox.Show("Data exported to Json file");
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message + "\n " + ex.InnerException, "Export error");
+        }
     }
 
     private bool CanExport()

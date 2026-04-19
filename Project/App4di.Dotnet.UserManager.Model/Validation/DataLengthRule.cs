@@ -9,12 +9,12 @@ using System.Windows.Controls;
 
 namespace App4di.Dotnet.UserManager.Model.Validation;
 
-public class DataLenghtRule : ValidationRule
+public class DataLengthRule : ValidationRule
 {
     public override ValidationResult Validate(object value, CultureInfo cultureInfo)
     {
-        if (string.IsNullOrEmpty(value.ToString()) || value.ToString()!.Length < 4)
-            return new ValidationResult(false, "Please enter data more than 4 characters!");
+        if (value == null || string.IsNullOrEmpty(value.ToString()) || value.ToString()!.Length < 4)
+            return new ValidationResult(false, "Please enter at least 4 characters!");
 
         return new ValidationResult(true, null);
     }

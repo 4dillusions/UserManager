@@ -8,6 +8,7 @@ using App4di.Dotnet.UserManager.Core.Common;
 using App4di.Dotnet.UserManager.Core.Factory;
 using App4di.Dotnet.UserManager.Model.Entities;
 using App4di.Dotnet.UserManager.ViewModel.Navigation;
+using System.Windows;
 using System.Windows.Input;
 
 namespace App4di.Dotnet.UserManager.ViewModel.ViewModels;
@@ -16,7 +17,6 @@ public class UserViewModel : NotificationObject
 {
     #region Fields
     private User? user;
-    private string? userValidator;
     #endregion
 
     #region Properties
@@ -27,18 +27,7 @@ public class UserViewModel : NotificationObject
         set
         {
             user = value;
-            NotifyPropertyChanged("User");
-        }
-    }
-
-    public string? UserValidator
-    {
-        get { return userValidator; }
-
-        set
-        {
-            userValidator = value;
-            NotifyPropertyChanged("UserValidator");
+            NotifyPropertyChanged();
         }
     }
     #endregion
@@ -46,7 +35,6 @@ public class UserViewModel : NotificationObject
     #region Constructor
     public UserViewModel()
     {
-        UserValidator = null;
         user = User.CurrentUser;
     }
     #endregion
@@ -64,13 +52,20 @@ public class UserViewModel : NotificationObject
 
     private void Save()
     {
-        UserList.SaveCurrentUsers();
-        Ioc<MainViewModel>.Instance.ViewType = ViewType.UserList;
+        try
+        {
+            UserList.SaveCurrentUsers();
+            Ioc<MainViewModel>.Instance.ViewType = ViewType.UserList;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message + "\n " + ex.InnerException, "Save error");
+        }
     }
 
     private bool CanSave()
     {
-        return UserValidator == null;
+        return true;
     }
 
     private RelayCommand? cancelCommand;

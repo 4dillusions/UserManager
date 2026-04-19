@@ -39,7 +39,16 @@ public class ViewTypeConverter : ConverterMarkupExtension<ViewTypeConverter>
         logic.CachedView = (FrameworkElement)Activator.CreateInstance(logic.ViewType)!;
 
         if (logic.ViewModelType != null)
-            logic.CachedView.DataContext = Activator.CreateInstance(logic.ViewModelType);
+        {
+            try
+            {
+                logic.CachedView.DataContext = Activator.CreateInstance(logic.ViewModelType);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException?.Message ?? ex.Message, "Navigation error");
+            }
+        }
 
         return logic.CachedView;
     }

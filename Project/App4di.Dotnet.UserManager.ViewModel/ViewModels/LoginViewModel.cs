@@ -29,7 +29,7 @@ public class LoginViewModel : NotificationObject
         set
         {
             loginName = value;
-            NotifyPropertyChanged("LoginName");
+            NotifyPropertyChanged();
         }
     }
 
@@ -39,7 +39,7 @@ public class LoginViewModel : NotificationObject
         set
         {
             password = value;
-            NotifyPropertyChanged("Password");
+            NotifyPropertyChanged();
         }
     }
     #endregion
@@ -65,12 +65,10 @@ public class LoginViewModel : NotificationObject
                 Ioc<MainViewModel>.Instance.ViewType = ViewType.UserList;
             else
                 MessageBox.Show("Wrong LoginName or Password!");
-
-            isCanLogin = true;
         }
         catch (Exception ex)
         {
-            MessageBox.Show("Refresh error", ex.Message + "\n " + ex.InnerException);
+            MessageBox.Show(ex.Message + "\n " + ex.InnerException, "Refresh error");
         }
         finally
         {

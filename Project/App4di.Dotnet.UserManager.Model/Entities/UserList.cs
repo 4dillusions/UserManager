@@ -66,12 +66,12 @@ public class UserList
     }
 
     /// <summary> Usefilter without mock </summary>
-    public UserList(UserFilter filter) : this()
+    public UserList(UserFilter filter)
     {
-        if (File.Exists(Constants.DataFilePath + Constants.XmlDataFileName))
+        if (File.Exists(Constants.XmlDataFilePath))
         {
             IDataManager<User> dataManager = new XmlDataManager<User>();
-            var userList = new List<User>(dataManager.Load(Constants.DataFilePath + Constants.XmlDataFileName));
+            var userList = new List<User>(dataManager.Load(Constants.XmlDataFilePath));
 
             if (filter.AddressCity == AddressCity.DefaultName)
             {
@@ -92,14 +92,16 @@ public class UserList
     public static void SaveCurrentUsers()
     {
         if (CurrentUsers == null)
-        {
             return;
-        }
 
-        if (File.Exists(Constants.DataFilePath + Constants.XmlDataFileName))
+        if (File.Exists(Constants.XmlDataFilePath))
         {
             IDataManager<User> dataManager = new XmlDataManager<User>();
-            dataManager.Save(CurrentUsers.ToList(), Constants.DataFilePath + Constants.XmlDataFileName);
+            dataManager.Save(CurrentUsers.ToList(), Constants.XmlDataFilePath);
+        }
+        else
+        {
+            throw new FileNotFoundException();
         }
     }
 }

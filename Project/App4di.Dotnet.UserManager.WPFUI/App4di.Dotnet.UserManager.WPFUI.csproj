@@ -17,6 +17,9 @@
 
   <ItemGroup>
     <Resource Include="Assets\Icojam-Blue-Bits-User-settings.ico" />
+    <Resource Include="Contents\login.png" />
+    <Resource Include="Contents\users.png" />
+    <Resource Include="Contents\editUser.png" />
   </ItemGroup>
 
   <ItemGroup>

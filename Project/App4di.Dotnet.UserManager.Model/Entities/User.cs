@@ -31,10 +31,10 @@ public class User : NotificationObject
 
     public static bool IsUserExist(string loginName, string password)
     {
-        if (File.Exists(Constants.DataFilePath + Constants.XmlDataFileName))
+        if (File.Exists(Constants.XmlDataFilePath))
         {
             IDataManager<User> dataManager = new XmlDataManager<User>();
-            var data = dataManager.Load(Constants.DataFilePath + Constants.XmlDataFileName);
+            var data = dataManager.Load(Constants.XmlDataFilePath);
 
             User? user = data.FirstOrDefault(u => u.LoginName == loginName && u.Password == password);
             return user != null;
@@ -57,9 +57,9 @@ public class User : NotificationObject
 
         set
         {
-            NotifyPropertyChanging("UserId");
+            NotifyPropertyChanging();
             data.UserId = value;
-            NotifyPropertyChanged("UserId");
+            NotifyPropertyChanged();
         }
     }
 
@@ -69,9 +69,9 @@ public class User : NotificationObject
 
         set
         {
-            NotifyPropertyChanging("LoginName");
+            NotifyPropertyChanging();
             data.LoginName = value;
-            NotifyPropertyChanged("LoginName");
+            NotifyPropertyChanged();
         }
     }
 
@@ -81,9 +81,9 @@ public class User : NotificationObject
 
         set
         {
-            NotifyPropertyChanging("Password");
+            NotifyPropertyChanging();
             data.Password = value;
-            NotifyPropertyChanged("Password");
+            NotifyPropertyChanged();
         }
     }
 
@@ -93,9 +93,9 @@ public class User : NotificationObject
 
         set
         {
-            NotifyPropertyChanging("FirstName");
+            NotifyPropertyChanging();
             data.FirstName = value;
-            NotifyPropertyChanged("FirstName");
+            NotifyPropertyChanged();
         }
     }
 
@@ -105,9 +105,9 @@ public class User : NotificationObject
 
         set
         {
-            NotifyPropertyChanging("Surname");
+            NotifyPropertyChanging();
             data.Surname = value;
-            NotifyPropertyChanged("Surname");
+            NotifyPropertyChanged();
         }
     }
 
@@ -117,9 +117,9 @@ public class User : NotificationObject
 
         set
         {
-            NotifyPropertyChanging("BirthDate");
+            NotifyPropertyChanging();
             data.BirthDate = value;
-            NotifyPropertyChanged("BirthDate");
+            NotifyPropertyChanged();
         }
     }
 
@@ -129,9 +129,9 @@ public class User : NotificationObject
 
         set
         {
-            NotifyPropertyChanging("BirthPlace");
+            NotifyPropertyChanging();
             data.BirthPlace = value;
-            NotifyPropertyChanged("BirthPlace");
+            NotifyPropertyChanged();
         }
     }
 
@@ -141,9 +141,9 @@ public class User : NotificationObject
 
         set
         {
-            NotifyPropertyChanging("AddressCity");
+            NotifyPropertyChanging();
             data.AddressCity = value;
-            NotifyPropertyChanged("AddressCity");
+            NotifyPropertyChanged();
         }
     }
     #endregion

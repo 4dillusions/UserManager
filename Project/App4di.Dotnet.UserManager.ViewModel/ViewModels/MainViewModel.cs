@@ -21,7 +21,7 @@ public class MainViewModel : NotificationObject
         set
         {
             viewType = value;
-            NotifyPropertyChanged("ViewType");
+            NotifyPropertyChanged();
         }
     }
 

@@ -12,6 +12,8 @@
         <GradientStop Color="#1A1A1A" Offset="1.0"/>
     </LinearGradientBrush>
 
+    <SolidColorBrush x:Key="DetailSettingsBackgroundBrush" Color="Transparent"/>
+
     <Style TargetType="Button">
         <Setter Property="Button.Background">
             <Setter.Value>

@@ -5,6 +5,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 */
 
 using App4di.Dotnet.UserManager.Core.Common;
+using AddressCityEntity = App4di.Dotnet.UserManager.Model.Entities.AddressCity;
 
 namespace App4di.Dotnet.UserManager.Model.Entities;
 
@@ -15,7 +16,7 @@ public class UserFilter : NotificationObject
 
     public UserFilter()
     {
-        AddressCity = new AddressCity().CityName;
+        AddressCity = AddressCityEntity.DefaultName;
         TextInAll = string.Empty;
     }
 
@@ -25,9 +26,9 @@ public class UserFilter : NotificationObject
 
         set
         {
-            NotifyPropertyChanging("AddressCity");
+            NotifyPropertyChanging();
             addressCity = value;
-            NotifyPropertyChanged("AddressCity");
+            NotifyPropertyChanged();
         }
     }
 
@@ -37,9 +38,9 @@ public class UserFilter : NotificationObject
 
         set
         {
-            NotifyPropertyChanging("TextInAll");
+            NotifyPropertyChanging();
             textInAll = value;
-            NotifyPropertyChanged("TextInAll");
+            NotifyPropertyChanged();
         }
     }
 }

@@ -24,9 +24,9 @@ public class AddressCity : NotificationObject
 
         set
         {
-            NotifyPropertyChanging("CityName");
+            NotifyPropertyChanging();
             cityName = value;
-            NotifyPropertyChanged("CityName");
+            NotifyPropertyChanged();
         }
     }
 
