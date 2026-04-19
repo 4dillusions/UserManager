@@ -34,5 +34,3 @@ Bin/
 *.opensdf
 *.tree
 *.suo
-!data.xml
-!Newtonsoft.Json.*
