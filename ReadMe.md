@@ -9,7 +9,7 @@
 </h1>
 
 <p align="center">
-  <img src="Doc/Doxygen/Res/userManager.jpg">
+  <img src="Doc/userManager.jpg">
 </p>
 
 Create a WPF application what can do
@@ -45,7 +45,3 @@ Architecture
 <p align="center">
   <img src="Doc/architecture.svg">
 </p>
-
-Helper libraries
-----------------
-Json.NET: http://www.newtonsoft.com/json
