@@ -7,7 +7,9 @@ Released under the terms of the GNU General Public License version 3 or later.
 using App4di.Dotnet.UserManager.Contracts.DTO;
 using App4di.Dotnet.UserManager.Core.Common;
 using App4di.Dotnet.UserManager.Core.Data;
+using FW4di.Dotnet.MVVM;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace App4di.Dotnet.UserManager.Model.Entities;
 
@@ -48,103 +50,64 @@ public class User : NotificationObject
         return UserId + LoginName + Password + FirstName + Surname + BirthDate + BirthPlace + AddressCity;
     }
 
+    private void SetDataProperty<T>(T value, Func<T> getter, Action<T> setter, [CallerMemberName] string propertyName = null!)
+    {
+        if (EqualityComparer<T>.Default.Equals(getter(), value))
+            return;
+
+        setter(value);
+        RaisePropertyChanged(propertyName);
+    }
+
     #region Properties
     public static User? CurrentUser { get; set; }
 
     public int UserId
     {
         get { return data.UserId; }
-
-        set
-        {
-            NotifyPropertyChanging();
-            data.UserId = value;
-            NotifyPropertyChanged();
-        }
+        set => SetDataProperty(value, () => data.UserId, v => data.UserId = v);
     }
 
     public string LoginName
     {
         get { return data.LoginName; }
-
-        set
-        {
-            NotifyPropertyChanging();
-            data.LoginName = value;
-            NotifyPropertyChanged();
-        }
+        set => SetDataProperty(value, () => data.LoginName, v => data.LoginName = v);
     }
 
     public string Password
     {
         get { return data.Password; }
-
-        set
-        {
-            NotifyPropertyChanging();
-            data.Password = value;
-            NotifyPropertyChanged();
-        }
+        set => SetDataProperty(value, () => data.Password, v => data.Password = v);
     }
 
     public string FirstName
     {
         get { return data.FirstName; }
-
-        set
-        {
-            NotifyPropertyChanging();
-            data.FirstName = value;
-            NotifyPropertyChanged();
-        }
+        set => SetDataProperty(value, () => data.FirstName, v => data.FirstName = v);
     }
 
     public string Surname
     {
         get { return data.Surname; }
-
-        set
-        {
-            NotifyPropertyChanging();
-            data.Surname = value;
-            NotifyPropertyChanged();
-        }
+        set => SetDataProperty(value, () => data.Surname, v => data.Surname = v);
     }
 
     public DateTime BirthDate
     {
         get { return data.BirthDate; }
-
-        set
-        {
-            NotifyPropertyChanging();
-            data.BirthDate = value;
-            NotifyPropertyChanged();
-        }
+        set => SetDataProperty(value, () => data.BirthDate, v => data.BirthDate = v);
     }
 
     public string BirthPlace
     {
         get { return data.BirthPlace; }
-
-        set
-        {
-            NotifyPropertyChanging();
-            data.BirthPlace = value;
-            NotifyPropertyChanged();
-        }
+        set => SetDataProperty(value, () => data.BirthPlace, v => data.BirthPlace = v);
     }
 
     public string AddressCity
     {
         get { return data.AddressCity; }
-
-        set
-        {
-            NotifyPropertyChanging();
-            data.AddressCity = value;
-            NotifyPropertyChanged();
-        }
+        set => SetDataProperty(value, () => data.AddressCity, v => data.AddressCity = v);
     }
     #endregion
 }

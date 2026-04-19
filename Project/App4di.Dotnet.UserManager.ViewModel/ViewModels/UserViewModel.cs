@@ -4,49 +4,42 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
-using App4di.Dotnet.UserManager.Core.Common;
 using App4di.Dotnet.UserManager.Model.Entities;
 using App4di.Dotnet.UserManager.ViewModel.Navigation;
+using FW4di.Dotnet.MVVM;
 using System.Windows;
-using System.Windows.Input;
 
 namespace App4di.Dotnet.UserManager.ViewModel.ViewModels;
 
 public class UserViewModel : NotificationObject
 {
     #region Fields
-    private User? user;
     private MainViewModel mainViewModel;
     #endregion
 
     #region Properties
     public User? User
     {
-        get { return user; }
-
-        set
-        {
-            user = value;
-            NotifyPropertyChanged();
-        }
+        get;
+        set => SetProperty(ref field, value);
     }
     #endregion
 
     #region Constructor
     public UserViewModel(MainViewModel mainViewModel)
     {
-        user = User.CurrentUser;
+        User = User.CurrentUser;
         this.mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
     }
     #endregion
 
     #region Commands
     private RelayCommand? saveCommand;
-    public ICommand SaveCommand
+    public FW4di.Dotnet.MVVM.ICommand SaveCommand
     {
         get
         {
-            saveCommand ??= new RelayCommand(Save, CanSave);
+            saveCommand ??= new RelayCommand(_ => Save(), _ => CanSave());
             return saveCommand;
         }
     }
@@ -70,11 +63,11 @@ public class UserViewModel : NotificationObject
     }
 
     private RelayCommand? cancelCommand;
-    public ICommand CancelCommand
+    public FW4di.Dotnet.MVVM.ICommand CancelCommand
     {
         get
         {
-            cancelCommand ??= new RelayCommand(Cancel, CanCancel);
+            cancelCommand ??= new RelayCommand(_ => Cancel(), _ => CanCancel());
             return cancelCommand;
         }
     }

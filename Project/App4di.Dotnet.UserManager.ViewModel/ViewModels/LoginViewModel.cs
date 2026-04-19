@@ -4,11 +4,10 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
-using App4di.Dotnet.UserManager.Core.Common;
 using App4di.Dotnet.UserManager.Model.Entities;
 using App4di.Dotnet.UserManager.ViewModel.Navigation;
+using FW4di.Dotnet.MVVM;
 using System.Windows;
-using System.Windows.Input;
 
 namespace App4di.Dotnet.UserManager.ViewModel.ViewModels;
 
@@ -16,9 +15,6 @@ public class LoginViewModel : NotificationObject
 {
     #region Fields
     private bool isCanLogin = true;
-
-    private string loginName = string.Empty;
-    private string password = string.Empty;
 
     private readonly MainViewModel mainViewModel;
     #endregion
@@ -33,32 +29,24 @@ public class LoginViewModel : NotificationObject
     #region Properties
     public string LoginName
     {
-        get { return loginName; }
-        set
-        {
-            loginName = value;
-            NotifyPropertyChanged();
-        }
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = string.Empty;
 
     public string Password
     {
-        get { return password; }
-        set
-        {
-            password = value;
-            NotifyPropertyChanged();
-        }
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = string.Empty;
     #endregion
 
     #region Commands
     private RelayCommand? loginCommand;
-    public ICommand LoginCommand
+    public FW4di.Dotnet.MVVM.ICommand LoginCommand
     {
         get
         {
-            loginCommand ??= new RelayCommand(Login, CanLogin);
+            loginCommand ??= new RelayCommand(_ => Login(), _ => CanLogin());
             return loginCommand;
         }
     }
@@ -90,11 +78,11 @@ public class LoginViewModel : NotificationObject
     }
 
     private RelayCommand? cancelCommand;
-    public ICommand CancelCommand
+    public FW4di.Dotnet.MVVM.ICommand CancelCommand
     {
         get
         {
-            cancelCommand ??= new RelayCommand(Cancel, CanCancel);
+            cancelCommand ??= new RelayCommand(_ => Cancel(), _ => CanCancel());
             return cancelCommand;
         }
     }

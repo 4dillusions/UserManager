@@ -1,6 +1,7 @@
 <UserControl
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:App4di.Dotnet.UserManager.WPFUI.Converters"
         x:Class="App4di.Dotnet.UserManager.WPFUI.UserListView" Height="496" Width="910"
         Background="#E2E2E2" BorderBrush="#1A1A1A" BorderThickness="1">
     <StackPanel>
@@ -25,7 +26,7 @@
                 <ComboBox MinWidth="200" Margin="10, 2, 0, 2" ItemsSource="{Binding AddressCities}" SelectedItem="{Binding SelectedAddressCity, Mode=TwoWay}"/>
                 <Label Grid.Row="0" Content="Search"/>
                 <TextBox MinWidth="200" Margin="10, 2, 0, 4" Text="{Binding TextInAll, Mode=TwoWay}"/>
-                <Button MinWidth="120" Margin="50, 2, 0, 2" Content="Find" Command="{Binding FindCommand, Mode=Default}"/>
+                <Button MinWidth="120" Margin="50, 2, 0, 2" Content="Find" Command="{Binding FindCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
             </StackPanel>
 
             <DataGrid Grid.Row="1" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser, Mode=TwoWay}" 
@@ -43,8 +44,8 @@
             </DataGrid>
                   
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
-                <Button Content="Edit User" Command="{Binding EditCommand, Mode=Default}"/>
-                <Button Content="Export data to Json" Command="{Binding ExportCommand, Mode=Default}"/>
+                <Button Content="Edit User" Command="{Binding EditCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
+                <Button Content="Export data to Json" Command="{Binding ExportCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
             </StackPanel>
         </Grid>
 

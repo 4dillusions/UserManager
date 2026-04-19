@@ -8,10 +8,10 @@ using App4di.Dotnet.UserManager.Core.Common;
 using App4di.Dotnet.UserManager.Core.Data;
 using App4di.Dotnet.UserManager.Model.Entities;
 using App4di.Dotnet.UserManager.ViewModel.Navigation;
+using FW4di.Dotnet.MVVM;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
-using System.Windows.Input;
 
 namespace App4di.Dotnet.UserManager.ViewModel.ViewModels;
 
@@ -19,10 +19,8 @@ public class UserListViewModel : NotificationObject
 {
     #region Fields
     private AddressCity? selectedAddressCity;
-    private ObservableCollection<AddressCity> addressCities = [];
 
     private User? selectedUser;
-    private ObservableCollection<User> users = [];
 
     private UserFilter filter = new();
 
@@ -59,21 +57,18 @@ public class UserListViewModel : NotificationObject
         get { return selectedAddressCity; }
         set
         {
-            selectedAddressCity = value;
+            if (!SetProperty(ref selectedAddressCity, value))
+                return;
+
             filter.AddressCity = value?.CityName ?? AddressCity.DefaultName;
-            NotifyPropertyChanged();
         }
     }
 
     public ObservableCollection<AddressCity> AddressCities
     {
-        get { return addressCities; }
-        set
-        {
-            addressCities = value;
-            NotifyPropertyChanged();
-        }
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = [];
 
     public string TextInAll
     {
@@ -81,7 +76,7 @@ public class UserListViewModel : NotificationObject
         set
         {
             filter.TextInAll = value;
-            NotifyPropertyChanged();
+            RaisePropertyChanged();
         }
     }
 
@@ -90,31 +85,29 @@ public class UserListViewModel : NotificationObject
         get { return selectedUser; }
         set
         {
-            User.CurrentUser = value;
+            if (EqualityComparer<User?>.Default.Equals(selectedUser, value))
+                return;
 
+            User.CurrentUser = value;
             selectedUser = value;
-            NotifyPropertyChanged();
+            RaisePropertyChanged();
         }
     }
 
     public ObservableCollection<User> Users
     {
-        get { return users; }
-        set
-        {
-            users = value;
-            NotifyPropertyChanged();
-        }
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = [];
     #endregion
 
     #region Commands
     private RelayCommand? findCommand;
-    public ICommand FindCommand
+    public FW4di.Dotnet.MVVM.ICommand FindCommand
     {
         get
         {
-            findCommand ??= new RelayCommand(Find, CanFind);
+            findCommand ??= new RelayCommand(_ => Find(), _ => CanFind());
             return findCommand;
         }
     }
@@ -138,11 +131,11 @@ public class UserListViewModel : NotificationObject
     }
 
     private RelayCommand? editCommand;
-    public ICommand EditCommand
+    public FW4di.Dotnet.MVVM.ICommand EditCommand
     {
         get
         {
-            editCommand ??= new RelayCommand(Edit, CanEdit);
+            editCommand ??= new RelayCommand(_ => Edit(), _ => CanEdit());
             return editCommand;
         }
     }
@@ -162,11 +155,11 @@ public class UserListViewModel : NotificationObject
     }
 
     private RelayCommand? exportCommand;
-    public ICommand ExportCommand
+    public FW4di.Dotnet.MVVM.ICommand ExportCommand
     {
         get
         {
-            exportCommand ??= new RelayCommand(Export, CanExport);
+            exportCommand ??= new RelayCommand(_ => Export(), _ => CanExport());
             return exportCommand;
         }
     }
@@ -180,7 +173,7 @@ public class UserListViewModel : NotificationObject
             if (File.Exists(Constants.JsonDataFilePath))
                 File.Delete(Constants.JsonDataFilePath);
 
-            dataManager.Save(users.ToList(), Constants.JsonDataFilePath);
+            dataManager.Save(Users.ToList(), Constants.JsonDataFilePath);
 
             if (File.Exists(Constants.JsonDataFilePath))
                 MessageBox.Show("Data exported to Json file");
