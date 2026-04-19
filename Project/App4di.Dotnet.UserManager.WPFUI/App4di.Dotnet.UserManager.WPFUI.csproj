@@ -11,8 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\App4di.Dotnet.UserManager.Model\App4di.Dotnet.UserManager.Model.csproj" />
-    <ProjectReference Include="..\App4di.Dotnet.UserManager.ViewModel\App4di.Dotnet.UserManager.ViewModel.csproj" />
+    <ProjectReference Include="..\App4di.Dotnet.UserManager.Infrastructure\App4di.Dotnet.UserManager.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

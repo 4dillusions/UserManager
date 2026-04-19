@@ -3,10 +3,7 @@
     <Project Path="FirstParty/FW4di.Dotnet.Core/Project/FW4di.Dotnet.Core/FW4di.Dotnet.Core.csproj" />
     <Project Path="FirstParty/FW4di.Dotnet.MVVM/Project/FW4di.Dotnet.MVVM/FW4di.Dotnet.MVVM.csproj" />
   </Folder>
-  <Project Path="App4di.Dotnet.UserManager.Contracts/App4di.Dotnet.UserManager.Contracts.csproj" Id="5c2f3d14-0373-40bc-9e81-bfaa9aa67b7b" />
-  <Project Path="App4di.Dotnet.UserManager.Core/App4di.Dotnet.UserManager.Core.csproj" Id="a59f4788-bf73-46f1-ab2d-e8261ea2492a" />
-  <Project Path="App4di.Dotnet.UserManager.Model/App4di.Dotnet.UserManager.Model.csproj" Id="486a93df-0628-4097-bf74-669605375071" />
+  <Project Path="App4di.Dotnet.UserManager.Infrastructure/App4di.Dotnet.UserManager.Infrastructure.csproj" Id="e54c06b1-f767-4ef8-8c5e-9f5516d7452b" />
   <Project Path="App4di.Dotnet.UserManager.Tests/App4di.Dotnet.UserManager.Tests.csproj" Id="f5dcba0c-2796-4d34-917f-301acb61b97e" />
-  <Project Path="App4di.Dotnet.UserManager.ViewModel/App4di.Dotnet.UserManager.ViewModel.csproj" Id="f04740aa-1217-4f1d-9c98-5496965213d8" />
   <Project Path="App4di.Dotnet.UserManager.WPFUI/App4di.Dotnet.UserManager.WPFUI.csproj" Id="56deef58-a841-4a4c-9774-ec51894c9693" />
 </Solution>

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0-windows</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -19,8 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\App4di.Dotnet.UserManager.Core\App4di.Dotnet.UserManager.Core.csproj" />
-    <ProjectReference Include="..\App4di.Dotnet.UserManager.Model\App4di.Dotnet.UserManager.Model.csproj" />
+    <ProjectReference Include="..\App4di.Dotnet.UserManager.Infrastructure\App4di.Dotnet.UserManager.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

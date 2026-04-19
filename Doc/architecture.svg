@@ -51,37 +51,37 @@
 
   <rect x="450" y="214" width="400" height="224" class="shadow" />
   <rect x="440" y="204" width="400" height="224" class="card" fill="#e4f6e9" stroke="#61b07c" />
-  <text x="468" y="240" class="label">UserManager.ViewModel</text>
-  <text x="468" y="267" class="body">UI state and commands</text>
+  <text x="468" y="240" class="label">UserManager.Infrastructure</text>
+  <text x="468" y="267" class="body">Shared app logic and state</text>
   <text x="468" y="296" class="small">`MainViewModel` holds current `ViewType`</text>
-  <text x="468" y="318" class="small">Login, list, edit viewmodels</text>
-  <text x="468" y="340" class="small">Loads users, filters, export</text>
-  <text x="468" y="362" class="small">Navigates through `Ioc&lt;MainViewModel&gt;`</text>
+  <text x="468" y="318" class="small">Viewmodels, entities, services, DTOs</text>
+  <text x="468" y="340" class="small">Loads users, filters, save/export</text>
+  <text x="468" y="362" class="small">DI bindings and app service contracts</text>
 
   <rect x="898" y="214" width="380" height="224" class="shadow" />
   <rect x="888" y="204" width="380" height="224" class="card" fill="#fff1d9" stroke="#d6a24a" />
-  <text x="912" y="240" class="label">UserManager.Model</text>
-  <text x="912" y="267" class="body">Domain and validation</text>
-  <text x="912" y="296" class="small">`User`, `UserList`, filters, cities</text>
-  <text x="912" y="318" class="small">Shared state: current user and list</text>
-  <text x="912" y="340" class="small">Validation rules used from XAML</text>
-  <text x="912" y="362" class="small">Also reads and saves XML data</text>
+  <text x="912" y="240" class="label">UserManager.WPFUI</text>
+  <text x="912" y="267" class="body">WPF presentation shell</text>
+  <text x="912" y="296" class="small">Views, code-behind, WPF resources</text>
+  <text x="912" y="318" class="small">ViewType converter and command adapters</text>
+  <text x="912" y="340" class="small">WPF validation rules and message services</text>
+  <text x="912" y="362" class="small">Binds infrastructure viewmodels to screens</text>
 
   <rect x="94" y="492" width="396" height="210" class="shadow" />
   <rect x="84" y="482" width="396" height="210" class="card" fill="#efe9fb" stroke="#9a7bc7" />
-  <text x="108" y="518" class="label">UserManager.Core</text>
-  <text x="108" y="545" class="body">Shared infrastructure</text>
-  <text x="108" y="574" class="small">`IDataManager&lt;T&gt;` abstraction</text>
-  <text x="108" y="596" class="small">XML and JSON managers</text>
-  <text x="108" y="618" class="small">Simple IoC for `MainViewModel`</text>
-  <text x="108" y="640" class="small">Commands, notifications, constants</text>
+  <text x="108" y="518" class="label">FirstParty Libraries</text>
+  <text x="108" y="545" class="body">Shared FW4di dependencies</text>
+  <text x="108" y="574" class="small">MVVM notifications and commands</text>
+  <text x="108" y="596" class="small">Core dependency injection helpers</text>
+  <text x="108" y="618" class="small">Referenced by Infrastructure and WPFUI</text>
+  <text x="108" y="640" class="small">No local modifications</text>
 
   <rect x="538" y="492" width="292" height="210" class="shadow" />
   <rect x="528" y="482" width="292" height="210" class="card" fill="#ffe7e7" stroke="#d07b7b" />
-  <text x="552" y="518" class="label">UserManager.Data</text>
-  <text x="552" y="545" class="body">DTO layer</text>
-  <text x="552" y="574" class="small">`UserData` primitive fields</text>
-  <text x="552" y="596" class="small">Wrapped by `Model.User`</text>
+  <text x="552" y="518" class="label">Infrastructure DTOs</text>
+  <text x="552" y="545" class="body">Persistence-facing contracts</text>
+  <text x="552" y="574" class="small">`UserDTO` primitive fields</text>
+  <text x="552" y="596" class="small">Wrapped by `Infrastructure.User`</text>
 
   <rect x="888" y="492" width="390" height="210" class="shadow" />
   <rect x="878" y="482" width="390" height="210" class="card" fill="#e6f4ff" stroke="#6797c8" />
@@ -96,14 +96,14 @@
   <text x="1298" y="240" class="label">UserManager.Test</text>
   <text x="1298" y="267" class="body">MSTest coverage</text>
   <text x="1298" y="296" class="small">IoC tests</text>
-  <text x="1298" y="318" class="small">Data manager tests</text>
-  <text x="1298" y="340" class="small">Model tests</text>
+  <text x="1298" y="318" class="small">Infrastructure data tests</text>
+  <text x="1298" y="340" class="small">Infrastructure entity tests</text>
 
   <rect x="1284" y="422" width="226" height="124" class="shadow" />
   <rect x="1274" y="412" width="226" height="124" class="card" fill="#f7f0ff" stroke="#b696de" />
-  <text x="1298" y="448" class="label">UserManager.Architecture</text>
-  <text x="1298" y="475" class="body">Legacy VS model</text>
-  <text x="1298" y="504" class="small">`.modelproj` + component diagram</text>
+  <text x="1298" y="448" class="label">Architecture Docs</text>
+  <text x="1298" y="475" class="body">Current repo documentation</text>
+  <text x="1298" y="504" class="small">SVG overview and README</text>
 
   <rect x="1284" y="586" width="226" height="116" class="shadow" />
   <rect x="1274" y="576" width="226" height="116" class="card" fill="#eefbf4" stroke="#7abc94" />
@@ -115,16 +115,16 @@
   <text x="322" y="300" class="small">bindings and commands</text>
 
   <path d="M840 316 L888 316" class="edge" marker-end="url(#arrow)" />
-  <text x="864" y="304" class="small" text-anchor="middle">uses models and validators</text>
+  <text x="864" y="304" class="small" text-anchor="middle">uses WPF adapters and validators</text>
 
   <path d="M640 428 L640 482" class="edge" marker-end="url(#arrow)" />
-  <text x="560" y="458" class="small">commands, IoC, notifications</text>
+  <text x="560" y="458" class="small">FW4di MVVM and DI support</text>
 
   <path d="M1080 428 L1080 482" class="edge-warn" marker-end="url(#arrowWarn)" />
-  <text x="1032" y="458" class="small">model directly calls data managers</text>
+  <text x="1032" y="458" class="small">infrastructure directly calls data managers</text>
 
   <path d="M480 612 L528 612" class="edge-soft" marker-end="url(#arrowSoft)" />
-  <text x="430" y="604" class="small">User wraps DTO</text>
+  <text x="430" y="604" class="small">Entity wraps DTO</text>
 
   <path d="M480 560 C620 560, 760 560, 878 560" class="edge" marker-end="url(#arrow)" />
   <text x="642" y="550" class="small">`IDataManager&lt;T&gt;` implementations</text>
@@ -137,17 +137,16 @@
 
   <rect x="86" y="864" width="1410" height="122" class="legend" />
   <text x="110" y="902" class="label">Main runtime flow</text>
-  <text x="110" y="930" class="body"><tspan x="110" dy="0">1. Main window binds to `MainViewModel.ViewType`.</tspan><tspan x="110" dy="1.28em">2. `ViewTypeConverter` creates Login, UserList,</tspan><tspan x="110" dy="1.28em">   or User edit screen and wires its viewmodel.</tspan></text>
+  <text x="110" y="930" class="body"><tspan x="110" dy="0">1. Main window binds to `MainViewModel.ViewType`.</tspan><tspan x="110" dy="1.28em">2. `ViewTypeConverter` creates Login, UserList,</tspan><tspan x="110" dy="1.28em">   or User edit screen and wires its infrastructure viewmodel.</tspan></text>
   
   <text x="560" y="930" class="body"><tspan x="560" dy="0">3. Login reads `data.xml`; user list loads XML,</tspan><tspan x="560" dy="1.28em">   filters in memory, and stores selection in</tspan><tspan x="560" dy="1.28em">   static model state.</tspan></text>
   <text x="560" y="980" class="body"><tspan x="560" dy="0">4. Save writes the current XML list back;</tspan><tspan x="560" dy="1.28em">   Export writes the visible rows to `data.json`.</tspan></text>
-  <text x="1095" y="930" class="body"><tspan x="1095" dy="0">5. Navigation is coordinated by</tspan><tspan x="1095" dy="1.28em">   `Ioc&lt;MainViewModel&gt;` and `ViewType` changes.</tspan></text>
-  <text x="1095" y="980" class="body"><tspan x="1095" dy="0">Dashed amber edge marks a non-layered dependency:</tspan><tspan x="1095" dy="1.28em">`Model` reaches into persistence directly.</tspan></text>
+  <text x="1095" y="930" class="body"><tspan x="1095" dy="0">5. Navigation is coordinated by DI-bound</tspan><tspan x="1095" dy="1.28em">   services and `ViewType` changes.</tspan></text>
+  <text x="1095" y="980" class="body"><tspan x="1095" dy="0">Dashed amber edge marks the direct persistence path:</tspan><tspan x="1095" dy="1.28em">infrastructure reaches file storage itself.</tspan></text>
 
   <rect x="1120" y="760" width="356" height="118" class="note" />
   <text x="1146" y="790" class="label">Architectural note</text>
-  <text x="1146" y="816" class="body"><tspan x="1146" dy="0">The solution follows MVVM at the UI boundary,</tspan><tspan x="1146" dy="1.28em">but data access is split across ViewModel
-and Model.</tspan></text>
+  <text x="1146" y="816" class="body"><tspan x="1146" dy="0">The solution keeps platform-agnostic logic in</tspan><tspan x="1146" dy="1.28em">Infrastructure, while WPF-only concerns stay in</tspan><tspan x="1146" dy="1.28em">the WPFUI project.</tspan></text>
 
   <path d="M250 736 C250 800, 400 790, 530 790" class="edge" marker-end="url(#arrow)" />
   <text x="186" y="750" class="small">UI actions</text>
@@ -163,12 +162,12 @@ and Model.</tspan></text>
   <text x="104" y="786" class="small">Login, search, edit, save, export</text>
 
   <rect x="332" y="728" width="312" height="82" class="card" fill="#eef8ef" stroke="#8fb895" />
-  <text x="354" y="760" class="label">View / ViewModel coordination</text>
-  <text x="354" y="786" class="small">Bindings, commands, `ViewType` navigation</text>
+  <text x="354" y="760" class="label">View / Infrastructure coordination</text>
+  <text x="354" y="786" class="small">Bindings, commands, DI, `ViewType` navigation</text>
 
   <rect x="702" y="728" width="310" height="82" class="card" fill="#fff8eb" stroke="#cfb06c" />
-  <text x="724" y="760" class="label">Model + Core persistence path</text>
-  <text x="724" y="786" class="small">XML load/save, JSON export, validation</text>
+  <text x="724" y="760" class="label">Infrastructure persistence path</text>
+  <text x="724" y="786" class="small">XML load/save, JSON export, entity state</text>
 
   <rect x="1060" y="728" width="238" height="82" class="card" fill="#eef3ff" stroke="#8ba7d4" />
   <text x="1082" y="760" class="label">Files on disk</text>

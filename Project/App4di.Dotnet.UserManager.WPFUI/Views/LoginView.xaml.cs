@@ -4,7 +4,7 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
-using App4di.Dotnet.UserManager.ViewModel.ViewModels;
+using App4di.Dotnet.UserManager.Infrastructure.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 

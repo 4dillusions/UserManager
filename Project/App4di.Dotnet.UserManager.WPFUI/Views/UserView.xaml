@@ -1,7 +1,7 @@
 <UserControl
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:validators="clr-namespace:App4di.Dotnet.UserManager.Model.Validation;assembly=App4di.Dotnet.UserManager.Model"
+        xmlns:validators="clr-namespace:App4di.Dotnet.UserManager.WPFUI.Validation"
         xmlns:converters="clr-namespace:App4di.Dotnet.UserManager.WPFUI.Converters"
         xmlns:res="clr-namespace:App4di.Dotnet.UserManager.WPFUI" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

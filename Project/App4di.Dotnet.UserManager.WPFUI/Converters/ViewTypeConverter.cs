@@ -4,9 +4,9 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
-using App4di.Dotnet.UserManager.Core.ViewManagement;
-using App4di.Dotnet.UserManager.ViewModel.Navigation;
-using App4di.Dotnet.UserManager.ViewModel.ViewModels;
+using App4di.Dotnet.UserManager.Infrastructure.Navigation;
+using App4di.Dotnet.UserManager.Infrastructure.ViewModels;
+using App4di.Dotnet.UserManager.WPFUI.ViewManagement;
 using System.Globalization;
 using System.Windows;
 
