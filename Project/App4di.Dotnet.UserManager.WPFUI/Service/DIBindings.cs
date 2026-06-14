@@ -31,6 +31,7 @@ public class DIBindings
                 di.Bind<IAddressCityRepository, XmlAddressCityRepository>(DILifetimeScopes.Singleton);
                 di.Bind<IAuthenticationService, AuthenticationService>(DILifetimeScopes.Singleton);
                 di.Bind<IUserQueryService, UserQueryService>(DILifetimeScopes.Singleton);
+                di.Bind<ISaveUserUseCase, SaveUserUseCase>(DILifetimeScopes.Singleton);
                 di.Bind<IUserExportService, JsonUserExportService>(DILifetimeScopes.Singleton);
                 di.Bind<ISessionService, SessionService>(DILifetimeScopes.Singleton);
                 di.Bind<IUserEditSessionService, UserEditSessionService>(DILifetimeScopes.Singleton);

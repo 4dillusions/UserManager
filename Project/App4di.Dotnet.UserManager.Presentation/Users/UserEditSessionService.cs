@@ -6,6 +6,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 
 using App4di.Dotnet.UserManager.Presentation.Mapping;
 using App4di.Dotnet.UserManager.Presentation.Models;
+using App4di.Dotnet.UserManager.Domain;
 
 namespace App4di.Dotnet.UserManager.Presentation.Users;
 
@@ -28,7 +29,21 @@ public class UserEditSessionService : IUserEditSessionService
         EditingUser = UserMapper.Copy(user);
     }
 
-    public List<User> Commit()
+    public List<UserData> CreateSaveSnapshot()
+    {
+        if (EditingUser == null || users == null)
+            throw new InvalidOperationException("No user edit session is active.");
+
+        var originalUserIndex = users.FindIndex(user => user.UserId == editingUserId);
+        if (originalUserIndex < 0)
+            throw new InvalidOperationException($"User with ID '{editingUserId}' was not found.");
+
+        var snapshot = users.Select(UserMapper.ToUserData).ToList();
+        snapshot[originalUserIndex] = UserMapper.ToUserData(EditingUser);
+        return snapshot;
+    }
+
+    public void CompleteSave()
     {
         if (EditingUser == null || users == null)
             throw new InvalidOperationException("No user edit session is active.");
@@ -40,9 +55,7 @@ public class UserEditSessionService : IUserEditSessionService
         if (!ReferenceEquals(selectedUser, originalUser) && selectedUser != null)
             UserMapper.Copy(EditingUser, selectedUser);
 
-        var committedUsers = users;
         Clear();
-        return committedUsers;
     }
 
     public void Cancel()

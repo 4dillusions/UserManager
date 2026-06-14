@@ -5,6 +5,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 */
 
 using App4di.Dotnet.UserManager.Application.Repositories;
+using App4di.Dotnet.UserManager.Application.Users;
 using App4di.Dotnet.UserManager.Domain;
 using App4di.Dotnet.UserManager.Presentation.Models;
 using App4di.Dotnet.UserManager.Presentation.Navigation;
@@ -81,15 +82,36 @@ public class UserViewModelTests
         Assert.AreEqual(ViewType.UserList, navigationService.CurrentView);
     }
 
+    [TestMethod]
+    public void FailedSaveKeepsEditSessionAndDoesNotNavigateOrMutateOriginal()
+    {
+        var original = CreateUser(1, "Original");
+        var editSessionService = CreateEditSession(original, [original]);
+        var repository = new UserRepositoryStub { SaveException = new IOException("Save failed") };
+        var navigationService = new NavigationService();
+        navigationService.Navigate(ViewType.User);
+        var messageService = new MessageServiceStub();
+        var viewModel = CreateViewModel(navigationService, repository, editSessionService, messageService);
+        viewModel.User!.Surname = "Changed";
+
+        viewModel.SaveCommand.Execute(null);
+
+        Assert.AreEqual("Original", original.Surname);
+        Assert.AreEqual("Changed", editSessionService.EditingUser?.Surname);
+        Assert.AreEqual(ViewType.User, navigationService.CurrentView);
+        Assert.AreEqual("Save error", messageService.Title);
+    }
+
     private static UserViewModel CreateViewModel(
         INavigationService navigationService,
         IUserRepository repository,
-        IUserEditSessionService editSessionService)
+        IUserEditSessionService editSessionService,
+        IMessageService? messageService = null)
     {
         return new UserViewModel(
             navigationService,
-            new MessageServiceStub(),
-            repository,
+            messageService ?? new MessageServiceStub(),
+            new SaveUserUseCase(repository),
             editSessionService);
     }
 
@@ -118,6 +140,7 @@ public class UserViewModelTests
     private sealed class UserRepositoryStub : IUserRepository
     {
         public List<UserData>? SavedUsers { get; private set; }
+        public Exception? SaveException { get; init; }
 
         public List<UserData> LoadUsers()
         {
@@ -126,14 +149,20 @@ public class UserViewModelTests
 
         public void SaveUsers(List<UserData> users)
         {
+            if (SaveException != null)
+                throw SaveException;
+
             SavedUsers = users;
         }
     }
 
     private sealed class MessageServiceStub : IMessageService
     {
+        public string? Title { get; private set; }
+
         public void ShowMessage(string message, string? title = null)
         {
+            Title = title;
         }
     }
 }

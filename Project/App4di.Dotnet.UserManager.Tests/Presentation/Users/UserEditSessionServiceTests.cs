@@ -40,7 +40,7 @@ public class UserEditSessionServiceTests
     }
 
     [TestMethod]
-    public void CommitUpdatesMatchingUserWhenSelectedUserIsDifferentInstance()
+    public void SaveSnapshotDoesNotMutateOriginalBeforeSaveCompletes()
     {
         var listUser = CreateUser(2, "Original");
         var selectedCopy = CreateUser(2, "Original");
@@ -49,9 +49,15 @@ public class UserEditSessionServiceTests
         service.BeginEdit(selectedCopy, users);
         service.EditingUser!.Surname = "Changed";
 
-        var committedUsers = service.Commit();
+        var snapshot = service.CreateSaveSnapshot();
 
-        Assert.AreSame(users, committedUsers);
+        Assert.AreEqual("Original", listUser.Surname);
+        Assert.AreEqual("Original", selectedCopy.Surname);
+        Assert.AreEqual("Changed", snapshot[1].Surname);
+        Assert.IsNotNull(service.EditingUser);
+
+        service.CompleteSave();
+
         Assert.AreEqual("Changed", listUser.Surname);
         Assert.AreEqual("Changed", selectedCopy.Surname);
         Assert.AreEqual("Other", users[0].Surname);

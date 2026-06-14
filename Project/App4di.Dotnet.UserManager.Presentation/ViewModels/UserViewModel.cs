@@ -4,8 +4,7 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
-using App4di.Dotnet.UserManager.Application.Repositories;
-using App4di.Dotnet.UserManager.Presentation.Mapping;
+using App4di.Dotnet.UserManager.Application.Users;
 using App4di.Dotnet.UserManager.Presentation.Models;
 using App4di.Dotnet.UserManager.Presentation.Navigation;
 using App4di.Dotnet.UserManager.Presentation.Services;
@@ -18,7 +17,7 @@ public class UserViewModel : NotificationObject
 {
     private readonly INavigationService navigationService;
     private readonly IMessageService messageService;
-    private readonly IUserRepository userRepository;
+    private readonly ISaveUserUseCase saveUserUseCase;
     private readonly IUserEditSessionService userEditSessionService;
 
     public User? User => userEditSessionService.EditingUser;
@@ -26,12 +25,12 @@ public class UserViewModel : NotificationObject
     public UserViewModel(
         INavigationService navigationService,
         IMessageService messageService,
-        IUserRepository userRepository,
+        ISaveUserUseCase saveUserUseCase,
         IUserEditSessionService userEditSessionService)
     {
         this.navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
         this.messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
-        this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+        this.saveUserUseCase = saveUserUseCase ?? throw new ArgumentNullException(nameof(saveUserUseCase));
         this.userEditSessionService = userEditSessionService ?? throw new ArgumentNullException(nameof(userEditSessionService));
     }
 
@@ -49,7 +48,7 @@ public class UserViewModel : NotificationObject
     {
         try
         {
-            userRepository.SaveUsers(userEditSessionService.Commit().Select(UserMapper.ToUserData).ToList());
+            saveUserUseCase.Execute(userEditSessionService);
             navigationService.Navigate(ViewType.UserList);
         }
         catch (Exception ex)
