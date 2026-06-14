@@ -4,12 +4,14 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
-using App4di.Dotnet.UserManager.Infrastructure.Application.Export;
-using App4di.Dotnet.UserManager.Infrastructure.Application.Session;
-using App4di.Dotnet.UserManager.Infrastructure.Application.Users;
-using App4di.Dotnet.UserManager.Infrastructure.Entities;
-using App4di.Dotnet.UserManager.Infrastructure.Service;
-using App4di.Dotnet.UserManager.Infrastructure.ViewModels;
+using App4di.Dotnet.UserManager.Application.Export;
+using App4di.Dotnet.UserManager.Application.Users;
+using App4di.Dotnet.UserManager.Domain;
+using App4di.Dotnet.UserManager.Presentation.Models;
+using App4di.Dotnet.UserManager.Presentation.Services;
+using App4di.Dotnet.UserManager.Presentation.Session;
+using App4di.Dotnet.UserManager.Presentation.Users;
+using App4di.Dotnet.UserManager.Presentation.ViewModels;
 
 namespace App4di.Dotnet.UserManager.Tests.Infrastructure.ViewModels;
 
@@ -59,7 +61,9 @@ public class UserListViewModelTests
         viewModel.ExportCommand.Execute(null);
 
         Assert.AreEqual(1, exportService.CallCount);
-        CollectionAssert.AreEqual(visibleUsers, exportService.ExportedUsers);
+        CollectionAssert.AreEqual(
+            visibleUsers.Select(user => user.UserId).ToArray(),
+            exportService.ExportedUsers.Select(user => user.UserId).ToArray());
     }
 
     [TestMethod]
@@ -90,12 +94,12 @@ public class UserListViewModelTests
     {
         public int GetUsersCallCount { get; private set; }
         public int GetAddressCitiesCallCount { get; private set; }
-        public UserFilter? LastFilter { get; private set; }
+        public UserQueryCriteria? LastFilter { get; private set; }
 
-        public List<User> GetUsers(UserFilter filter)
+        public List<UserData> GetUsers(UserQueryCriteria filter)
         {
             GetUsersCallCount++;
-            LastFilter = new UserFilter
+            LastFilter = new UserQueryCriteria
             {
                 AddressCity = filter.AddressCity,
                 TextInAll = filter.TextInAll
@@ -103,17 +107,16 @@ public class UserListViewModelTests
 
             return
             [
-                new User { UserId = GetUsersCallCount, Surname = "Rubik", AddressCity = "Budapest" }
+                new UserData { UserId = GetUsersCallCount, Surname = "Rubik", AddressCity = "Budapest" }
             ];
         }
 
-        public List<AddressCity> GetAddressCities()
+        public List<string> GetAddressCities()
         {
             GetAddressCitiesCallCount++;
             return
             [
-                new AddressCity(),
-                new AddressCity { CityName = "Budapest" }
+                "Budapest"
             ];
         }
     }
@@ -128,9 +131,9 @@ public class UserListViewModelTests
     private sealed class UserExportServiceStub : IUserExportService
     {
         public int CallCount { get; private set; }
-        public List<User> ExportedUsers { get; private set; } = [];
+        public List<UserData> ExportedUsers { get; private set; } = [];
 
-        public bool ExportUsers(List<User> users)
+        public bool ExportUsers(List<UserData> users)
         {
             CallCount++;
             ExportedUsers = users;

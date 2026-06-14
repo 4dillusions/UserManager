@@ -4,9 +4,10 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
-using App4di.Dotnet.UserManager.Infrastructure.Application.Export;
+using App4di.Dotnet.UserManager.Application.Export;
+using App4di.Dotnet.UserManager.Domain;
 using App4di.Dotnet.UserManager.Infrastructure.Common;
-using App4di.Dotnet.UserManager.Infrastructure.Entities;
+using App4di.Dotnet.UserManager.Infrastructure.Export;
 using System.Text.Json;
 
 namespace App4di.Dotnet.UserManager.Tests.Application.Export;
@@ -75,11 +76,11 @@ public class JsonUserExportServiceTests
         Assert.IsFalse(document.RootElement[0].TryGetProperty("HasErrors", out _));
     }
 
-    private static List<User> CreateUsers()
+    private static List<UserData> CreateUsers()
     {
         return
         [
-            new User
+            new UserData
             {
                 UserId = 1,
                 LoginName = "Albert",
@@ -90,7 +91,7 @@ public class JsonUserExportServiceTests
                 BirthPlace = "German",
                 AddressCity = "Württemberg"
             },
-            new User
+            new UserData
             {
                 UserId = 2,
                 LoginName = "Erno",

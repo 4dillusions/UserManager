@@ -4,11 +4,10 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
+using App4di.Dotnet.UserManager.Application.Repositories;
+using App4di.Dotnet.UserManager.Domain;
 using App4di.Dotnet.UserManager.Infrastructure.Common;
 using App4di.Dotnet.UserManager.Infrastructure.Data;
-using App4di.Dotnet.UserManager.Infrastructure.Domain;
-using App4di.Dotnet.UserManager.Infrastructure.Entities;
-using App4di.Dotnet.UserManager.Infrastructure.Mapping;
 
 namespace App4di.Dotnet.UserManager.Infrastructure.Repositories;
 
@@ -26,19 +25,17 @@ public class XmlUserRepository : IUserRepository
         this.dataManager = dataManager ?? throw new ArgumentNullException(nameof(dataManager));
     }
 
-    public List<User> LoadUsers()
+    public List<UserData> LoadUsers()
     {
         EnsureDataFileExists();
-        return dataManager.Load(Constants.XmlDataFilePath)
-            .Select(UserMapper.ToUser)
-            .ToList();
+        return dataManager.Load(Constants.XmlDataFilePath);
     }
 
-    public void SaveUsers(List<User> users)
+    public void SaveUsers(List<UserData> users)
     {
         ArgumentNullException.ThrowIfNull(users);
         EnsureDataFileExists();
-        dataManager.Save(users.Select(UserMapper.ToUserData).ToList(), Constants.XmlDataFilePath);
+        dataManager.Save(users, Constants.XmlDataFilePath);
     }
 
     private static void EnsureDataFileExists()

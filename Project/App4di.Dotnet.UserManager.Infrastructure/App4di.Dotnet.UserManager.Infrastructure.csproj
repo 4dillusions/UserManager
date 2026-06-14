@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FirstParty\FW4di.Dotnet.Core\Project\FW4di.Dotnet.Core\FW4di.Dotnet.Core.csproj" />
-    <ProjectReference Include="..\FirstParty\FW4di.Dotnet.MVVM\Project\FW4di.Dotnet.MVVM\FW4di.Dotnet.MVVM.csproj" />
+    <ProjectReference Include="..\App4di.Dotnet.UserManager.Application\App4di.Dotnet.UserManager.Application.csproj" />
+    <ProjectReference Include="..\App4di.Dotnet.UserManager.Domain\App4di.Dotnet.UserManager.Domain.csproj" />
   </ItemGroup>
 
 </Project>

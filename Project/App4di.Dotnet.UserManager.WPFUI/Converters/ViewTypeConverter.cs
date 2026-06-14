@@ -4,8 +4,8 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
-using App4di.Dotnet.UserManager.Infrastructure.Navigation;
-using App4di.Dotnet.UserManager.Infrastructure.ViewModels;
+using App4di.Dotnet.UserManager.Presentation.Navigation;
+using App4di.Dotnet.UserManager.Presentation.ViewModels;
 using App4di.Dotnet.UserManager.WPFUI.ViewManagement;
 using System.Globalization;
 using System.Windows;
@@ -42,7 +42,7 @@ public class ViewTypeConverter : ConverterMarkupExtension<ViewTypeConverter>
         {
             try
             {
-                var app = (App)Application.Current;
+                var app = (App)System.Windows.Application.Current;
                 logic.CachedView.DataContext = app.DIBindings.GetDependency(logic.ViewModelType);
             }
             catch (Exception ex)

@@ -4,13 +4,14 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
-using App4di.Dotnet.UserManager.Infrastructure.Application.Authentication;
+using App4di.Dotnet.UserManager.Application.Authentication;
+using App4di.Dotnet.UserManager.Application.Users;
+using App4di.Dotnet.UserManager.Domain;
 using App4di.Dotnet.UserManager.Infrastructure.Common;
 using App4di.Dotnet.UserManager.Infrastructure.Data;
-using App4di.Dotnet.UserManager.Infrastructure.Domain;
-using App4di.Dotnet.UserManager.Infrastructure.Entities;
-using App4di.Dotnet.UserManager.Infrastructure.Mapping;
 using App4di.Dotnet.UserManager.Infrastructure.Repositories;
+using App4di.Dotnet.UserManager.Presentation.Mapping;
+using App4di.Dotnet.UserManager.Presentation.Models;
 
 namespace App4di.Dotnet.UserManager.Tests.Infrastructure.Entities
 {
@@ -143,7 +144,10 @@ namespace App4di.Dotnet.UserManager.Tests.Infrastructure.Entities
             dataManager.Save(createData.Select(UserMapper.ToUserData).ToList(), Constants.DataFilePath + Constants.XmlDataFileName);
 
             var data = CreateUsersData();
-            Assert.AreEqual(data.Count, new AddressCityList().Cities.Count - 1, "Address cities");
+            var queryService = new UserQueryService(
+                new XmlUserRepository(),
+                new XmlAddressCityRepository(new XmlUserRepository()));
+            Assert.AreEqual(data.Count, new AddressCityList(queryService).Cities.Count - 1, "Address cities");
 
             if (File.Exists(Constants.DataFilePath + Constants.XmlDataFileName))
                 File.Delete(Constants.DataFilePath + Constants.XmlDataFileName);
@@ -157,10 +161,13 @@ namespace App4di.Dotnet.UserManager.Tests.Infrastructure.Entities
             CreateXmlData();
 
             var data = CreateUsersData();
-            Assert.HasCount(data.Count, new UserList(new UserFilter()).Users, "User list count default filter");
-            Assert.HasCount(1, new UserList(new UserFilter() { AddressCity = data[0].AddressCity }).Users, "User list count 1 city filter");
-            Assert.HasCount(1, new UserList(new UserFilter() { TextInAll = data[0].FirstName }).Users, "User list count 1 city in the text filter");
-            Assert.IsEmpty(new UserList(new UserFilter() { TextInAll = "Texas" }).Users, "User list count 0 word in the text filter");
+            var queryService = new UserQueryService(
+                new XmlUserRepository(),
+                new XmlAddressCityRepository(new XmlUserRepository()));
+            Assert.HasCount(data.Count, new UserList(new UserFilter(), queryService).Users, "User list count default filter");
+            Assert.HasCount(1, new UserList(new UserFilter() { AddressCity = data[0].AddressCity }, queryService).Users, "User list count 1 city filter");
+            Assert.HasCount(1, new UserList(new UserFilter() { TextInAll = data[0].FirstName }, queryService).Users, "User list count 1 city in the text filter");
+            Assert.IsEmpty(new UserList(new UserFilter() { TextInAll = "Texas" }, queryService).Users, "User list count 0 word in the text filter");
         }
     }
 }

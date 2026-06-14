@@ -1,0 +1,78 @@
+/*
+4di .NET UserManager application
+Copyright (c) by 4D Illusions. All rights reserved.
+Released under the terms of the GNU General Public License version 3 or later.
+*/
+
+using App4di.Dotnet.UserManager.Application.Users;
+using App4di.Dotnet.UserManager.Presentation.Mapping;
+using System.Collections.ObjectModel;
+
+namespace App4di.Dotnet.UserManager.Presentation.Models;
+
+public class UserList
+{
+    private ObservableCollection<User> users = [];
+
+    public ObservableCollection<User> Users
+    {
+        get { return users; }
+        set { users = value; }
+    }
+
+    /// <summary> Mocking </summary>
+    public UserList()
+    {
+        Users = new ObservableCollection<User>();
+
+        Users.Add(new User
+        {
+            UserId = 1,
+            LoginName = "Albert",
+            Password = "albert",
+            FirstName = "Albert",
+            Surname = "Einstein",
+            BirthDate = new System.DateTime(2879, 3, 14),
+            BirthPlace = "German",
+            AddressCity = "Württemberg"
+        });
+
+        Users.Add(new User
+        {
+            UserId = 2,
+            LoginName = "Zoltan",
+            Password = "zoltan",
+            FirstName = "Zoltan",
+            Surname = "Kodaly",
+            BirthDate = new System.DateTime(1882, 12, 16),
+            BirthPlace = "Hungary",
+            AddressCity = "Kecskemet"
+        });
+
+        Users.Add(new User
+        {
+            UserId = 3,
+            LoginName = "Erno",
+            Password = "erno",
+            FirstName = "Erno",
+            Surname = "Rubik",
+            BirthDate = new System.DateTime(1944, 7, 13),
+            BirthPlace = "Hungary",
+            AddressCity = "Budapest"
+        });
+    }
+
+    public UserList(UserFilter filter, IUserQueryService userQueryService)
+    {
+        ArgumentNullException.ThrowIfNull(filter);
+        ArgumentNullException.ThrowIfNull(userQueryService);
+
+        users = new ObservableCollection<User>(userQueryService.GetUsers(ToCriteria(filter)).Select(UserMapper.ToUser));
+    }
+
+    private static UserQueryCriteria ToCriteria(UserFilter filter) => new()
+    {
+        AddressCity = filter.AddressCity,
+        TextInAll = filter.TextInAll
+    };
+}

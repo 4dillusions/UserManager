@@ -4,12 +4,13 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
-using App4di.Dotnet.UserManager.Infrastructure.Application.Users;
-using App4di.Dotnet.UserManager.Infrastructure.Entities;
-using App4di.Dotnet.UserManager.Infrastructure.Navigation;
-using App4di.Dotnet.UserManager.Infrastructure.Repositories;
-using App4di.Dotnet.UserManager.Infrastructure.Service;
-using App4di.Dotnet.UserManager.Infrastructure.ViewModels;
+using App4di.Dotnet.UserManager.Application.Repositories;
+using App4di.Dotnet.UserManager.Domain;
+using App4di.Dotnet.UserManager.Presentation.Models;
+using App4di.Dotnet.UserManager.Presentation.Navigation;
+using App4di.Dotnet.UserManager.Presentation.Services;
+using App4di.Dotnet.UserManager.Presentation.Users;
+using App4di.Dotnet.UserManager.Presentation.ViewModels;
 
 namespace App4di.Dotnet.UserManager.Tests.Infrastructure.ViewModels;
 
@@ -72,7 +73,8 @@ public class UserViewModelTests
         Assert.AreEqual("Szeged", targetUser.AddressCity);
         Assert.AreEqual("Changed", selectedDifferentInstance.Surname);
         Assert.AreEqual("Szeged", selectedDifferentInstance.AddressCity);
-        Assert.AreSame(users, repository.SavedUsers);
+        Assert.HasCount(2, repository.SavedUsers!);
+        Assert.AreEqual("Changed", repository.SavedUsers![1].Surname);
         Assert.IsNull(editSessionService.EditingUser);
         Assert.AreEqual(ViewType.UserList, mainViewModel.ViewType);
     }
@@ -113,14 +115,14 @@ public class UserViewModelTests
 
     private sealed class UserRepositoryStub : IUserRepository
     {
-        public List<User>? SavedUsers { get; private set; }
+        public List<UserData>? SavedUsers { get; private set; }
 
-        public List<User> LoadUsers()
+        public List<UserData> LoadUsers()
         {
             throw new NotSupportedException();
         }
 
-        public void SaveUsers(List<User> users)
+        public void SaveUsers(List<UserData> users)
         {
             SavedUsers = users;
         }

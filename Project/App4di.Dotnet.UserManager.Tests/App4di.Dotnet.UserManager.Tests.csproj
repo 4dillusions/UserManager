@@ -19,7 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\App4di.Dotnet.UserManager.Application\App4di.Dotnet.UserManager.Application.csproj" />
+    <ProjectReference Include="..\App4di.Dotnet.UserManager.Domain\App4di.Dotnet.UserManager.Domain.csproj" />
     <ProjectReference Include="..\App4di.Dotnet.UserManager.Infrastructure\App4di.Dotnet.UserManager.Infrastructure.csproj" />
+    <ProjectReference Include="..\App4di.Dotnet.UserManager.Presentation\App4di.Dotnet.UserManager.Presentation.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,8 +4,8 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
-using App4di.Dotnet.UserManager.Infrastructure.Application.Session;
-using App4di.Dotnet.UserManager.Infrastructure.Entities;
+using App4di.Dotnet.UserManager.Presentation.Models;
+using App4di.Dotnet.UserManager.Presentation.Session;
 
 namespace App4di.Dotnet.UserManager.Tests.Application.Session;
 

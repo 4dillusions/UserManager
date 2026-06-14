@@ -4,11 +4,10 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
+using App4di.Dotnet.UserManager.Application.Repositories;
+using App4di.Dotnet.UserManager.Domain;
 using App4di.Dotnet.UserManager.Infrastructure.Common;
 using App4di.Dotnet.UserManager.Infrastructure.Data;
-using App4di.Dotnet.UserManager.Infrastructure.Domain;
-using App4di.Dotnet.UserManager.Infrastructure.Entities;
-using App4di.Dotnet.UserManager.Infrastructure.Mapping;
 using App4di.Dotnet.UserManager.Infrastructure.Repositories;
 using System.Xml.Linq;
 
@@ -66,8 +65,8 @@ public class XmlRepositoryTests
         var cities = addressCityRepository.LoadAddressCities();
 
         Assert.HasCount(2, cities);
-        Assert.AreEqual("Württemberg", cities[0].CityName);
-        Assert.AreEqual("Budapest", cities[1].CityName);
+        Assert.AreEqual("Württemberg", cities[0]);
+        Assert.AreEqual("Budapest", cities[1]);
     }
 
     [TestMethod]
@@ -97,16 +96,16 @@ public class XmlRepositoryTests
             userElement.Elements().Select(element => element.Name.LocalName).ToArray());
     }
 
-    private static void WriteUsers(List<User> users)
+    private static void WriteUsers(List<UserData> users)
     {
-        new XmlDataManager<UserData>().Save(users.Select(UserMapper.ToUserData).ToList(), Constants.XmlDataFilePath);
+        new XmlDataManager<UserData>().Save(users, Constants.XmlDataFilePath);
     }
 
-    private static List<User> CreateUsers()
+    private static List<UserData> CreateUsers()
     {
         return
         [
-            new User
+            new UserData
             {
                 UserId = 1,
                 LoginName = "Albert",
@@ -117,7 +116,7 @@ public class XmlRepositoryTests
                 BirthPlace = "German",
                 AddressCity = "Württemberg"
             },
-            new User
+            new UserData
             {
                 UserId = 2,
                 LoginName = "Erno",
