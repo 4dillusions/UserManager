@@ -4,7 +4,7 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
-using App4di.Dotnet.UserManager.Infrastructure.Application.Session;
+using App4di.Dotnet.UserManager.Infrastructure.Application.Users;
 using App4di.Dotnet.UserManager.Infrastructure.Entities;
 using App4di.Dotnet.UserManager.Infrastructure.Navigation;
 using App4di.Dotnet.UserManager.Infrastructure.Repositories;
@@ -18,25 +18,20 @@ public class UserViewModel : NotificationObject
     private MainViewModel mainViewModel;
     private readonly IMessageService messageService;
     private readonly IUserRepository userRepository;
-    private readonly ISessionService sessionService;
+    private readonly IUserEditSessionService userEditSessionService;
 
-    public User? User
-    {
-        get;
-        set => SetProperty(ref field, value);
-    }
+    public User? User => userEditSessionService.EditingUser;
 
     public UserViewModel(
         MainViewModel mainViewModel,
         IMessageService messageService,
         IUserRepository userRepository,
-        ISessionService sessionService)
+        IUserEditSessionService userEditSessionService)
     {
         this.mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
         this.messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
         this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-        this.sessionService = sessionService ?? throw new ArgumentNullException(nameof(sessionService));
-        User = sessionService.CurrentUser;
+        this.userEditSessionService = userEditSessionService ?? throw new ArgumentNullException(nameof(userEditSessionService));
     }
 
     private RelayCommand? saveCommand;
@@ -53,8 +48,7 @@ public class UserViewModel : NotificationObject
     {
         try
         {
-            if (sessionService.CurrentUsers != null)
-                userRepository.SaveUsers(sessionService.CurrentUsers);
+            userRepository.SaveUsers(userEditSessionService.Commit());
             mainViewModel.ViewType = ViewType.UserList;
         }
         catch (Exception ex)
@@ -80,6 +74,7 @@ public class UserViewModel : NotificationObject
 
     private void Cancel()
     {
+        userEditSessionService.Cancel();
         mainViewModel.ViewType = ViewType.UserList;
     }
 

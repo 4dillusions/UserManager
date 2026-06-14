@@ -25,7 +25,8 @@ public class UserListViewModelTests
             new MessageServiceStub(),
             queryService,
             new UserExportServiceStub(),
-            new SessionService());
+            new SessionService(),
+            new UserEditSessionService());
 
         viewModel.TextInAll = "Rubik";
         viewModel.SelectedAddressCity = viewModel.AddressCities[1];
@@ -48,7 +49,8 @@ public class UserListViewModelTests
             new MessageServiceStub(),
             queryService,
             exportService,
-            new SessionService());
+            new SessionService(),
+            new UserEditSessionService());
 
         viewModel.TextInAll = "Rubik";
         viewModel.FindCommand.Execute(null);
@@ -65,20 +67,23 @@ public class UserListViewModelTests
     {
         var queryService = new UserQueryServiceStub();
         var sessionService = new SessionService();
+        var editSessionService = new UserEditSessionService();
         var viewModel = new UserListViewModel(
             new MainViewModel(),
             new MessageServiceStub(),
             queryService,
             new UserExportServiceStub(),
-            sessionService);
+            sessionService,
+            editSessionService);
 
         var selectedUser = viewModel.Users[0];
         viewModel.SelectedUser = selectedUser;
         viewModel.EditCommand.Execute(null);
 
         Assert.AreSame(selectedUser, sessionService.CurrentUser);
-        Assert.IsNotNull(sessionService.CurrentUsers);
-        Assert.HasCount(1, sessionService.CurrentUsers);
+        Assert.IsNotNull(editSessionService.EditingUser);
+        Assert.AreNotSame(selectedUser, editSessionService.EditingUser);
+        Assert.AreEqual(selectedUser.UserId, editSessionService.EditingUser.UserId);
     }
 
     private sealed class UserQueryServiceStub : IUserQueryService

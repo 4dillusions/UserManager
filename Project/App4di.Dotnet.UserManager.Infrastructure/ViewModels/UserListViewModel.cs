@@ -25,19 +25,22 @@ public class UserListViewModel : NotificationObject
     private readonly IUserQueryService userQueryService;
     private readonly IUserExportService userExportService;
     private readonly ISessionService sessionService;
+    private readonly IUserEditSessionService userEditSessionService;
 
     public UserListViewModel(
         MainViewModel mainViewModel,
         IMessageService messageService,
         IUserQueryService userQueryService,
         IUserExportService userExportService,
-        ISessionService sessionService)
+        ISessionService sessionService,
+        IUserEditSessionService userEditSessionService)
     {
         this.mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
         this.messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
         this.userQueryService = userQueryService ?? throw new ArgumentNullException(nameof(userQueryService));
         this.userExportService = userExportService ?? throw new ArgumentNullException(nameof(userExportService));
         this.sessionService = sessionService ?? throw new ArgumentNullException(nameof(sessionService));
+        this.userEditSessionService = userEditSessionService ?? throw new ArgumentNullException(nameof(userEditSessionService));
         Reset();
     }
 
@@ -145,7 +148,7 @@ public class UserListViewModel : NotificationObject
     {
         if (SelectedUser != null)
         {
-            sessionService.CurrentUsers = userQueryService.GetUsers(new UserFilter());
+            userEditSessionService.BeginEdit(SelectedUser, userQueryService.GetUsers(new UserFilter()));
             mainViewModel.ViewType = ViewType.User;
         }
     }

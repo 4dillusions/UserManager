@@ -28,8 +28,7 @@ public class SessionServiceTests
     {
         var sessionService = new SessionService
         {
-            CurrentUser = new User { UserId = 1 },
-            CurrentUsers = [new User { UserId = 1 }]
+            CurrentUser = new User { UserId = 1 }
         };
         var replacement = new User { UserId = 2 };
 
@@ -39,6 +38,5 @@ public class SessionServiceTests
         sessionService.Clear();
 
         Assert.IsNull(sessionService.CurrentUser);
-        Assert.IsNull(sessionService.CurrentUsers);
     }
 }

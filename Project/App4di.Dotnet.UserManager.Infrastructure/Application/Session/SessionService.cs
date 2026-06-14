@@ -11,11 +11,9 @@ namespace App4di.Dotnet.UserManager.Infrastructure.Application.Session;
 public class SessionService : ISessionService
 {
     public User? CurrentUser { get; set; }
-    public List<User>? CurrentUsers { get; set; }
 
     public void Clear()
     {
         CurrentUser = null;
-        CurrentUsers = null;
     }
 }

@@ -30,6 +30,7 @@ public class DIBindings
                 di.Bind<IUserQueryService, UserQueryService>(DILifetimeScopes.Singleton);
                 di.Bind<IUserExportService, JsonUserExportService>(DILifetimeScopes.Singleton);
                 di.Bind<ISessionService, SessionService>(DILifetimeScopes.Singleton);
+                di.Bind<IUserEditSessionService, UserEditSessionService>(DILifetimeScopes.Singleton);
                 di.Bind<MainViewModel, MainViewModel>(DILifetimeScopes.Singleton);
                 di.Bind<LoginViewModel, LoginViewModel>(DILifetimeScopes.Singleton);
                 di.Bind<UserViewModel, UserViewModel>(DILifetimeScopes.Singleton);

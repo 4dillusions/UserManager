@@ -4,7 +4,7 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
-using App4di.Dotnet.UserManager.Infrastructure.Application.Session;
+using App4di.Dotnet.UserManager.Infrastructure.Application.Users;
 using App4di.Dotnet.UserManager.Infrastructure.Entities;
 using App4di.Dotnet.UserManager.Infrastructure.Navigation;
 using App4di.Dotnet.UserManager.Infrastructure.Repositories;
@@ -17,41 +17,98 @@ namespace App4di.Dotnet.UserManager.Tests.Infrastructure.ViewModels;
 public class UserViewModelTests
 {
     [TestMethod]
-    public void UserViewModelLoadsEditingUserFromSession()
+    public void UserViewModelLoadsEditableCopyFromEditSession()
     {
-        var editingUser = new User { UserId = 1 };
-        var sessionService = new SessionService { CurrentUser = editingUser };
+        var original = CreateUser(1, "Original");
+        var editSessionService = CreateEditSession(original, [original]);
 
-        var viewModel = new UserViewModel(
+        var viewModel = CreateViewModel(
             new MainViewModel(),
-            new MessageServiceStub(),
             new UserRepositoryStub(),
-            sessionService);
+            editSessionService);
 
-        Assert.AreSame(editingUser, viewModel.User);
+        Assert.AreSame(editSessionService.EditingUser, viewModel.User);
+        Assert.AreNotSame(original, viewModel.User);
     }
 
     [TestMethod]
-    public void SaveCommandPersistsSessionUserListAndNavigatesBack()
+    public void CancelDiscardsChangesAndNavigatesBackWithoutPersisting()
     {
-        var users = new List<User> { new() { UserId = 1 } };
-        var sessionService = new SessionService
-        {
-            CurrentUser = users[0],
-            CurrentUsers = users
-        };
+        var original = CreateUser(1, "Original");
+        var editSessionService = CreateEditSession(original, [original]);
         var repository = new UserRepositoryStub();
         var mainViewModel = new MainViewModel { ViewType = ViewType.User };
-        var viewModel = new UserViewModel(
-            mainViewModel,
-            new MessageServiceStub(),
-            repository,
-            sessionService);
+        var viewModel = CreateViewModel(mainViewModel, repository, editSessionService);
+        viewModel.User!.Surname = "Changed";
+
+        viewModel.CancelCommand.Execute(null);
+
+        Assert.AreEqual("Original", original.Surname);
+        Assert.IsNull(repository.SavedUsers);
+        Assert.IsNull(editSessionService.EditingUser);
+        Assert.AreEqual(ViewType.UserList, mainViewModel.ViewType);
+    }
+
+    [TestMethod]
+    public void SaveUpdatesCorrectUserPersistsListAndNavigatesBack()
+    {
+        var firstUser = CreateUser(1, "First");
+        var targetUser = CreateUser(2, "Original");
+        var users = new List<User> { firstUser, targetUser };
+        var selectedDifferentInstance = CreateUser(2, "Original");
+        var editSessionService = CreateEditSession(selectedDifferentInstance, users);
+        var repository = new UserRepositoryStub();
+        var mainViewModel = new MainViewModel { ViewType = ViewType.User };
+        var viewModel = CreateViewModel(mainViewModel, repository, editSessionService);
+        viewModel.User!.Surname = "Changed";
+        viewModel.User.AddressCity = "Szeged";
+
+        Assert.AreEqual("Original", targetUser.Surname);
 
         viewModel.SaveCommand.Execute(null);
 
+        Assert.AreEqual("First", firstUser.Surname);
+        Assert.AreEqual("Changed", targetUser.Surname);
+        Assert.AreEqual("Szeged", targetUser.AddressCity);
+        Assert.AreEqual("Changed", selectedDifferentInstance.Surname);
+        Assert.AreEqual("Szeged", selectedDifferentInstance.AddressCity);
         Assert.AreSame(users, repository.SavedUsers);
+        Assert.IsNull(editSessionService.EditingUser);
         Assert.AreEqual(ViewType.UserList, mainViewModel.ViewType);
+    }
+
+    private static UserViewModel CreateViewModel(
+        MainViewModel mainViewModel,
+        IUserRepository repository,
+        IUserEditSessionService editSessionService)
+    {
+        return new UserViewModel(
+            mainViewModel,
+            new MessageServiceStub(),
+            repository,
+            editSessionService);
+    }
+
+    private static UserEditSessionService CreateEditSession(User selectedUser, List<User> users)
+    {
+        var editSessionService = new UserEditSessionService();
+        editSessionService.BeginEdit(selectedUser, users);
+        return editSessionService;
+    }
+
+    private static User CreateUser(int userId, string surname)
+    {
+        return new User
+        {
+            UserId = userId,
+            LoginName = $"User{userId}",
+            Password = $"Password{userId}",
+            FirstName = $"First{userId}",
+            Surname = surname,
+            BirthDate = new DateTime(2000, 1, userId),
+            BirthPlace = "Budapest",
+            AddressCity = "Budapest"
+        };
     }
 
     private sealed class UserRepositoryStub : IUserRepository
