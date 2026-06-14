@@ -4,11 +4,11 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
+using App4di.Dotnet.UserManager.Infrastructure.Application.Users;
 using App4di.Dotnet.UserManager.Infrastructure.Common;
 using App4di.Dotnet.UserManager.Infrastructure.Data;
 using App4di.Dotnet.UserManager.Infrastructure.Entities;
 using App4di.Dotnet.UserManager.Infrastructure.Navigation;
-using App4di.Dotnet.UserManager.Infrastructure.Repositories;
 using App4di.Dotnet.UserManager.Infrastructure.Service;
 using FW4di.Dotnet.MVVM;
 using System.Collections.ObjectModel;
@@ -23,19 +23,16 @@ public class UserListViewModel : NotificationObject
     private UserFilter filter = new();
     private MainViewModel mainViewModel;
     private readonly IMessageService messageService;
-    private readonly IUserRepository userRepository;
-    private readonly IAddressCityRepository addressCityRepository;
+    private readonly IUserQueryService userQueryService;
 
     public UserListViewModel(
         MainViewModel mainViewModel,
         IMessageService messageService,
-        IUserRepository userRepository,
-        IAddressCityRepository addressCityRepository)
+        IUserQueryService userQueryService)
     {
         this.mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
         this.messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
-        this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-        this.addressCityRepository = addressCityRepository ?? throw new ArgumentNullException(nameof(addressCityRepository));
+        this.userQueryService = userQueryService ?? throw new ArgumentNullException(nameof(userQueryService));
         Reset();
     }
 
@@ -43,10 +40,10 @@ public class UserListViewModel : NotificationObject
     {
         filter = new UserFilter();
 
-        AddressCities = new AddressCityList(addressCityRepository).Cities;
+        AddressCities = new ObservableCollection<AddressCity>(userQueryService.GetAddressCities());
         SelectedAddressCity = AddressCities.FirstOrDefault();
 
-        Users = new UserList(filter, userRepository).Users;
+        Users = new ObservableCollection<User>(userQueryService.GetUsers(filter));
         if (User.CurrentUser == null)
             SelectedUser = Users.FirstOrDefault();
         else
@@ -115,7 +112,7 @@ public class UserListViewModel : NotificationObject
     {
         try
         {
-            Users = new UserList(filter, userRepository).Users;
+            Users = new ObservableCollection<User>(userQueryService.GetUsers(filter));
             SelectedUser = Users.FirstOrDefault();
         }
         catch (Exception ex)
@@ -143,7 +140,7 @@ public class UserListViewModel : NotificationObject
     {
         if (SelectedUser != null)
         {
-            UserList.CurrentUsers = new UserList(new UserFilter(), userRepository).Users;
+            UserList.CurrentUsers = new ObservableCollection<User>(userQueryService.GetUsers(new UserFilter()));
             mainViewModel.ViewType = ViewType.User;
         }
     }

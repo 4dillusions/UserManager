@@ -4,6 +4,7 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
+using App4di.Dotnet.UserManager.Infrastructure.Application.Users;
 using App4di.Dotnet.UserManager.Infrastructure.Repositories;
 using System.Collections.ObjectModel;
 
@@ -65,22 +66,21 @@ public class UserList
 
     /// <summary> Usefilter without mock </summary>
     public UserList(UserFilter filter)
-        : this(filter, new XmlUserRepository())
+        : this(filter, CreateQueryService())
     {
     }
 
     public UserList(UserFilter filter, IUserRepository userRepository)
+        : this(filter, new UserQueryService(userRepository, new XmlAddressCityRepository(userRepository)))
+    {
+    }
+
+    public UserList(UserFilter filter, IUserQueryService userQueryService)
     {
         ArgumentNullException.ThrowIfNull(filter);
-        ArgumentNullException.ThrowIfNull(userRepository);
+        ArgumentNullException.ThrowIfNull(userQueryService);
 
-        var userList = userRepository.LoadUsers();
-
-        if (filter.AddressCity == AddressCity.DefaultName)
-            users = new ObservableCollection<User>(userList.Where(u => u.ToString().Contains(filter.TextInAll)));
-        else
-            users = new ObservableCollection<User>(userList.Where(u => u.AddressCity == filter.AddressCity &&
-                u.ToString().Contains(filter.TextInAll)));
+        users = new ObservableCollection<User>(userQueryService.GetUsers(filter));
     }
 
     public static void SaveCurrentUsers()
@@ -95,5 +95,11 @@ public class UserList
 
         ArgumentNullException.ThrowIfNull(userRepository);
         userRepository.SaveUsers(CurrentUsers.ToList());
+    }
+
+    private static IUserQueryService CreateQueryService()
+    {
+        IUserRepository userRepository = new XmlUserRepository();
+        return new UserQueryService(userRepository, new XmlAddressCityRepository(userRepository));
     }
 }

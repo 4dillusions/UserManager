@@ -4,6 +4,7 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
+using App4di.Dotnet.UserManager.Infrastructure.Application.Users;
 using App4di.Dotnet.UserManager.Infrastructure.Repositories;
 using System.Collections.ObjectModel;
 
@@ -20,17 +21,25 @@ public class AddressCityList
     }
 
     public AddressCityList()
-        : this(new XmlAddressCityRepository(new XmlUserRepository()))
+        : this(CreateQueryService())
     {
     }
 
     public AddressCityList(IAddressCityRepository addressCityRepository)
+        : this(new UserQueryService(new XmlUserRepository(), addressCityRepository))
     {
-        ArgumentNullException.ThrowIfNull(addressCityRepository);
+    }
 
-        Cities = new ObservableCollection<AddressCity>();
-        cities.Add(new AddressCity());
-        foreach (var city in addressCityRepository.LoadAddressCities())
-            cities.Add(city);
+    public AddressCityList(IUserQueryService userQueryService)
+    {
+        ArgumentNullException.ThrowIfNull(userQueryService);
+
+        Cities = new ObservableCollection<AddressCity>(userQueryService.GetAddressCities());
+    }
+
+    private static IUserQueryService CreateQueryService()
+    {
+        IUserRepository userRepository = new XmlUserRepository();
+        return new UserQueryService(userRepository, new XmlAddressCityRepository(userRepository));
     }
 }
