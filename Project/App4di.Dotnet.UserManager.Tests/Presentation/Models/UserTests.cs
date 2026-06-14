@@ -22,4 +22,40 @@ public class UserTests
 
         Assert.AreEqual(nameof(User.Surname), changedProperty);
     }
+
+    [TestMethod]
+    public void ToStringDoesNotContainPassword()
+    {
+        var user = new User
+        {
+            UserId = 42,
+            LoginName = "albert",
+            Password = "UniqueSecretPassword",
+            FirstName = "Albert",
+            Surname = "Einstein"
+        };
+
+        var result = user.ToString();
+
+        Assert.DoesNotContain("UniqueSecretPassword", result);
+    }
+
+    [TestMethod]
+    public void ToStringContainsUsefulIdentityInformation()
+    {
+        var user = new User
+        {
+            UserId = 42,
+            LoginName = "albert",
+            FirstName = "Albert",
+            Surname = "Einstein"
+        };
+
+        var result = user.ToString();
+
+        Assert.Contains("42", result);
+        Assert.Contains("albert", result);
+        Assert.Contains("Albert", result);
+        Assert.Contains("Einstein", result);
+    }
 }

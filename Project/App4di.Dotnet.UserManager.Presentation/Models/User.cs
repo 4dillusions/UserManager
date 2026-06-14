@@ -21,7 +21,7 @@ public class User : NotificationObject
 
     public override string ToString()
     {
-        return UserId + LoginName + Password + FirstName + Surname + BirthDate + BirthPlace + AddressCity;
+        return $"{UserId}: {LoginName} ({FirstName} {Surname})";
     }
 
     private void SetDataProperty<T>(T value, Func<T> getter, Action<T> setter, [CallerMemberName] string propertyName = null!)
