@@ -4,6 +4,7 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
+using App4di.Dotnet.UserManager.Infrastructure.Application.Authentication;
 using App4di.Dotnet.UserManager.Infrastructure.DTO;
 using App4di.Dotnet.UserManager.Infrastructure.Repositories;
 using FW4di.Dotnet.MVVM;
@@ -29,18 +30,16 @@ public class User : NotificationObject
         };
     }
 
+    [Obsolete("Use IAuthenticationService.Authenticate instead.")]
     public static bool IsUserExist(string loginName, string password)
     {
-        return IsUserExist(loginName, password, new XmlUserRepository());
+        return new AuthenticationService(new XmlUserRepository()).Authenticate(loginName, password);
     }
 
+    [Obsolete("Use IAuthenticationService.Authenticate instead.")]
     public static bool IsUserExist(string loginName, string password, IUserRepository userRepository)
     {
-        ArgumentNullException.ThrowIfNull(userRepository);
-
-        User? user = userRepository.LoadUsers()
-            .FirstOrDefault(u => u.LoginName == loginName && u.Password == password);
-        return user != null;
+        return new AuthenticationService(userRepository).Authenticate(loginName, password);
     }
 
     public override string ToString()

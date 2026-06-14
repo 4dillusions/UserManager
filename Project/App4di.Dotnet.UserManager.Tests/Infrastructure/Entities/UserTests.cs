@@ -4,9 +4,11 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
+using App4di.Dotnet.UserManager.Infrastructure.Application.Authentication;
 using App4di.Dotnet.UserManager.Infrastructure.Common;
 using App4di.Dotnet.UserManager.Infrastructure.Data;
 using App4di.Dotnet.UserManager.Infrastructure.Entities;
+using App4di.Dotnet.UserManager.Infrastructure.Repositories;
 
 namespace App4di.Dotnet.UserManager.Tests.Infrastructure.Entities
 {
@@ -109,7 +111,8 @@ namespace App4di.Dotnet.UserManager.Tests.Infrastructure.Entities
             CreateXmlData();
 
             var data = CreateUsersData();
-            Assert.IsTrue(User.IsUserExist(data[2].LoginName, data[2].Password), "User exist");
+            var authenticationService = new AuthenticationService(new XmlUserRepository());
+            Assert.IsTrue(authenticationService.Authenticate(data[2].LoginName, data[2].Password), "User exist");
         }
 
         [TestMethod]
