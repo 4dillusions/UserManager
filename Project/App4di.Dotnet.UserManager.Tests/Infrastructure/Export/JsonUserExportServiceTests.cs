@@ -10,7 +10,7 @@ using App4di.Dotnet.UserManager.Infrastructure.Common;
 using App4di.Dotnet.UserManager.Infrastructure.Export;
 using System.Text.Json;
 
-namespace App4di.Dotnet.UserManager.Tests.Application.Export;
+namespace App4di.Dotnet.UserManager.Tests.Infrastructure.Export;
 
 [TestClass]
 [DoNotParallelize]

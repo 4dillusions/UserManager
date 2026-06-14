@@ -9,7 +9,7 @@ using App4di.Dotnet.UserManager.Presentation.Navigation;
 using App4di.Dotnet.UserManager.Presentation.Services;
 using App4di.Dotnet.UserManager.Presentation.ViewModels;
 
-namespace App4di.Dotnet.UserManager.Tests.Infrastructure.ViewModels;
+namespace App4di.Dotnet.UserManager.Tests.Presentation.ViewModels;
 
 [TestClass]
 public class LoginViewModelTests

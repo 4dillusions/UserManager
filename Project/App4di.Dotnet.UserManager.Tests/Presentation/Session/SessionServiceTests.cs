@@ -7,7 +7,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 using App4di.Dotnet.UserManager.Presentation.Models;
 using App4di.Dotnet.UserManager.Presentation.Session;
 
-namespace App4di.Dotnet.UserManager.Tests.Application.Session;
+namespace App4di.Dotnet.UserManager.Tests.Presentation.Session;
 
 [TestClass]
 public class SessionServiceTests

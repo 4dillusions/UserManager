@@ -7,7 +7,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 using App4di.Dotnet.UserManager.Presentation.Models;
 using App4di.Dotnet.UserManager.Presentation.Users;
 
-namespace App4di.Dotnet.UserManager.Tests.Application.Users;
+namespace App4di.Dotnet.UserManager.Tests.Presentation.Users;
 
 [TestClass]
 public class UserEditSessionServiceTests
