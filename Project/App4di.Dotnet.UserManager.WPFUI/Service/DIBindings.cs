@@ -11,6 +11,7 @@ using App4di.Dotnet.UserManager.Application.Users;
 using App4di.Dotnet.UserManager.Infrastructure.Export;
 using App4di.Dotnet.UserManager.Infrastructure.Repositories;
 using App4di.Dotnet.UserManager.Presentation.Session;
+using App4di.Dotnet.UserManager.Presentation.Navigation;
 using App4di.Dotnet.UserManager.Presentation.Users;
 using App4di.Dotnet.UserManager.Presentation.ViewModels;
 using FW4di.Dotnet.Core.DependencyInjection;
@@ -33,6 +34,7 @@ public class DIBindings
                 di.Bind<IUserExportService, JsonUserExportService>(DILifetimeScopes.Singleton);
                 di.Bind<ISessionService, SessionService>(DILifetimeScopes.Singleton);
                 di.Bind<IUserEditSessionService, UserEditSessionService>(DILifetimeScopes.Singleton);
+                di.Bind<INavigationService, NavigationService>(DILifetimeScopes.Singleton);
                 di.Bind<MainViewModel, MainViewModel>(DILifetimeScopes.Singleton);
                 di.Bind<LoginViewModel, LoginViewModel>(DILifetimeScopes.Singleton);
                 di.Bind<UserViewModel, UserViewModel>(DILifetimeScopes.Singleton);
@@ -48,15 +50,4 @@ public class DIBindings
 
     public T GetDependency<T>() => di.GetDependency<T>();
 
-    public object GetDependency(Type type)
-    {
-        var method = GetType()
-            .GetMethods()
-            .Single(m => m.Name == nameof(GetDependency)
-                && m.IsGenericMethodDefinition
-                && m.GetParameters().Length == 0);
-
-        return method.MakeGenericMethod(type).Invoke(this, null)
-            ?? throw new InvalidOperationException($"Unable to resolve dependency for type '{type.FullName}'.");
-    }
 }

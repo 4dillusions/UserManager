@@ -24,7 +24,7 @@ public class UserViewModelTests
         var editSessionService = CreateEditSession(original, [original]);
 
         var viewModel = CreateViewModel(
-            new MainViewModel(),
+            new NavigationService(),
             new UserRepositoryStub(),
             editSessionService);
 
@@ -38,8 +38,9 @@ public class UserViewModelTests
         var original = CreateUser(1, "Original");
         var editSessionService = CreateEditSession(original, [original]);
         var repository = new UserRepositoryStub();
-        var mainViewModel = new MainViewModel { ViewType = ViewType.User };
-        var viewModel = CreateViewModel(mainViewModel, repository, editSessionService);
+        var navigationService = new NavigationService();
+        navigationService.Navigate(ViewType.User);
+        var viewModel = CreateViewModel(navigationService, repository, editSessionService);
         viewModel.User!.Surname = "Changed";
 
         viewModel.CancelCommand.Execute(null);
@@ -47,7 +48,7 @@ public class UserViewModelTests
         Assert.AreEqual("Original", original.Surname);
         Assert.IsNull(repository.SavedUsers);
         Assert.IsNull(editSessionService.EditingUser);
-        Assert.AreEqual(ViewType.UserList, mainViewModel.ViewType);
+        Assert.AreEqual(ViewType.UserList, navigationService.CurrentView);
     }
 
     [TestMethod]
@@ -59,8 +60,9 @@ public class UserViewModelTests
         var selectedDifferentInstance = CreateUser(2, "Original");
         var editSessionService = CreateEditSession(selectedDifferentInstance, users);
         var repository = new UserRepositoryStub();
-        var mainViewModel = new MainViewModel { ViewType = ViewType.User };
-        var viewModel = CreateViewModel(mainViewModel, repository, editSessionService);
+        var navigationService = new NavigationService();
+        navigationService.Navigate(ViewType.User);
+        var viewModel = CreateViewModel(navigationService, repository, editSessionService);
         viewModel.User!.Surname = "Changed";
         viewModel.User.AddressCity = "Szeged";
 
@@ -76,16 +78,16 @@ public class UserViewModelTests
         Assert.HasCount(2, repository.SavedUsers!);
         Assert.AreEqual("Changed", repository.SavedUsers![1].Surname);
         Assert.IsNull(editSessionService.EditingUser);
-        Assert.AreEqual(ViewType.UserList, mainViewModel.ViewType);
+        Assert.AreEqual(ViewType.UserList, navigationService.CurrentView);
     }
 
     private static UserViewModel CreateViewModel(
-        MainViewModel mainViewModel,
+        INavigationService navigationService,
         IUserRepository repository,
         IUserEditSessionService editSessionService)
     {
         return new UserViewModel(
-            mainViewModel,
+            navigationService,
             new MessageServiceStub(),
             repository,
             editSessionService);

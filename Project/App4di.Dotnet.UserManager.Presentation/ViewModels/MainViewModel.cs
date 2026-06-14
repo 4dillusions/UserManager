@@ -11,9 +11,13 @@ namespace App4di.Dotnet.UserManager.Presentation.ViewModels;
 
 public class MainViewModel : NotificationObject
 {
-    public ViewType ViewType
+    private readonly INavigationService navigationService;
+
+    public MainViewModel(INavigationService navigationService)
     {
-        get;
-        set => SetProperty(ref field, value);
+        this.navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
+        navigationService.CurrentViewChanged += (_, _) => RaisePropertyChanged(nameof(ViewType));
     }
+
+    public ViewType ViewType => navigationService.CurrentView;
 }

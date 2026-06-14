@@ -22,7 +22,7 @@ public class UserListViewModel : NotificationObject
     private AddressCity? selectedAddressCity;
     private User? selectedUser;
     private UserFilter filter = new();
-    private MainViewModel mainViewModel;
+    private readonly INavigationService navigationService;
     private readonly IMessageService messageService;
     private readonly IUserQueryService userQueryService;
     private readonly IUserExportService userExportService;
@@ -30,14 +30,14 @@ public class UserListViewModel : NotificationObject
     private readonly IUserEditSessionService userEditSessionService;
 
     public UserListViewModel(
-        MainViewModel mainViewModel,
+        INavigationService navigationService,
         IMessageService messageService,
         IUserQueryService userQueryService,
         IUserExportService userExportService,
         ISessionService sessionService,
         IUserEditSessionService userEditSessionService)
     {
-        this.mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
+        this.navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
         this.messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
         this.userQueryService = userQueryService ?? throw new ArgumentNullException(nameof(userQueryService));
         this.userExportService = userExportService ?? throw new ArgumentNullException(nameof(userExportService));
@@ -153,7 +153,7 @@ public class UserListViewModel : NotificationObject
         if (SelectedUser != null)
         {
             userEditSessionService.BeginEdit(SelectedUser, LoadUsers(new UserFilter()).ToList());
-            mainViewModel.ViewType = ViewType.User;
+            navigationService.Navigate(ViewType.User);
         }
     }
 

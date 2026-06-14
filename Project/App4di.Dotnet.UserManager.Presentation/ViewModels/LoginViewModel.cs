@@ -14,18 +14,18 @@ namespace App4di.Dotnet.UserManager.Presentation.ViewModels;
 public class LoginViewModel : NotificationObject
 {
     private bool isCanLogin = true;
-    private readonly MainViewModel mainViewModel;
+    private readonly INavigationService navigationService;
     private readonly IMessageService messageService;
     private readonly IApplicationService applicationService;
     private readonly IAuthenticationService authenticationService;
 
     public LoginViewModel(
-        MainViewModel mainViewModel,
+        INavigationService navigationService,
         IMessageService messageService,
         IApplicationService applicationService,
         IAuthenticationService authenticationService)
     {
-        this.mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
+        this.navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
         this.messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
         this.applicationService = applicationService ?? throw new ArgumentNullException(nameof(applicationService));
         this.authenticationService = authenticationService ?? throw new ArgumentNullException(nameof(authenticationService));
@@ -60,7 +60,7 @@ public class LoginViewModel : NotificationObject
             isCanLogin = false;
 
             if (authenticationService.Authenticate(LoginName, Password))
-                mainViewModel.ViewType = ViewType.UserList;
+                navigationService.Navigate(ViewType.UserList);
             else
                 messageService.ShowMessage("Wrong LoginName or Password!");
         }

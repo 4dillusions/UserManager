@@ -18,9 +18,9 @@ public class LoginViewModelTests
     public void LoginCommandCallsAuthenticationService()
     {
         var authenticationService = new AuthenticationServiceStub(true);
-        var mainViewModel = new MainViewModel();
+        var navigationService = new NavigationService();
         var viewModel = new LoginViewModel(
-            mainViewModel,
+            navigationService,
             new MessageServiceStub(),
             new ApplicationServiceStub(),
             authenticationService)
@@ -34,7 +34,26 @@ public class LoginViewModelTests
         Assert.AreEqual(1, authenticationService.CallCount);
         Assert.AreEqual("Albert", authenticationService.LoginName);
         Assert.AreEqual("Albert1", authenticationService.Password);
-        Assert.AreEqual(ViewType.UserList, mainViewModel.ViewType);
+        Assert.AreEqual(ViewType.UserList, navigationService.CurrentView);
+    }
+
+    [TestMethod]
+    public void FailedLoginDoesNotNavigate()
+    {
+        var navigationService = new NavigationService();
+        var viewModel = new LoginViewModel(
+            navigationService,
+            new MessageServiceStub(),
+            new ApplicationServiceStub(),
+            new AuthenticationServiceStub(false))
+        {
+            LoginName = "Albert",
+            Password = "WrongPassword"
+        };
+
+        viewModel.LoginCommand.Execute(null);
+
+        Assert.AreEqual(ViewType.Login, navigationService.CurrentView);
     }
 
     private sealed class AuthenticationServiceStub(bool result) : IAuthenticationService

@@ -16,7 +16,7 @@ namespace App4di.Dotnet.UserManager.Presentation.ViewModels;
 
 public class UserViewModel : NotificationObject
 {
-    private MainViewModel mainViewModel;
+    private readonly INavigationService navigationService;
     private readonly IMessageService messageService;
     private readonly IUserRepository userRepository;
     private readonly IUserEditSessionService userEditSessionService;
@@ -24,12 +24,12 @@ public class UserViewModel : NotificationObject
     public User? User => userEditSessionService.EditingUser;
 
     public UserViewModel(
-        MainViewModel mainViewModel,
+        INavigationService navigationService,
         IMessageService messageService,
         IUserRepository userRepository,
         IUserEditSessionService userEditSessionService)
     {
-        this.mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
+        this.navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
         this.messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
         this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         this.userEditSessionService = userEditSessionService ?? throw new ArgumentNullException(nameof(userEditSessionService));
@@ -50,7 +50,7 @@ public class UserViewModel : NotificationObject
         try
         {
             userRepository.SaveUsers(userEditSessionService.Commit().Select(UserMapper.ToUserData).ToList());
-            mainViewModel.ViewType = ViewType.UserList;
+            navigationService.Navigate(ViewType.UserList);
         }
         catch (Exception ex)
         {
@@ -76,7 +76,7 @@ public class UserViewModel : NotificationObject
     private void Cancel()
     {
         userEditSessionService.Cancel();
-        mainViewModel.ViewType = ViewType.UserList;
+        navigationService.Navigate(ViewType.UserList);
     }
 
     private bool CanCancel()

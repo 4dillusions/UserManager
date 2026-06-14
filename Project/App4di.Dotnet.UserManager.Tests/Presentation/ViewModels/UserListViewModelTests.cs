@@ -8,6 +8,7 @@ using App4di.Dotnet.UserManager.Application.Export;
 using App4di.Dotnet.UserManager.Application.Users;
 using App4di.Dotnet.UserManager.Domain;
 using App4di.Dotnet.UserManager.Presentation.Models;
+using App4di.Dotnet.UserManager.Presentation.Navigation;
 using App4di.Dotnet.UserManager.Presentation.Services;
 using App4di.Dotnet.UserManager.Presentation.Session;
 using App4di.Dotnet.UserManager.Presentation.Users;
@@ -23,7 +24,7 @@ public class UserListViewModelTests
     {
         var queryService = new UserQueryServiceStub();
         var viewModel = new UserListViewModel(
-            new MainViewModel(),
+            new NavigationService(),
             new MessageServiceStub(),
             queryService,
             new UserExportServiceStub(),
@@ -47,7 +48,7 @@ public class UserListViewModelTests
         var queryService = new UserQueryServiceStub();
         var exportService = new UserExportServiceStub();
         var viewModel = new UserListViewModel(
-            new MainViewModel(),
+            new NavigationService(),
             new MessageServiceStub(),
             queryService,
             exportService,
@@ -72,8 +73,9 @@ public class UserListViewModelTests
         var queryService = new UserQueryServiceStub();
         var sessionService = new SessionService();
         var editSessionService = new UserEditSessionService();
+        var navigationService = new NavigationService();
         var viewModel = new UserListViewModel(
-            new MainViewModel(),
+            navigationService,
             new MessageServiceStub(),
             queryService,
             new UserExportServiceStub(),
@@ -88,6 +90,7 @@ public class UserListViewModelTests
         Assert.IsNotNull(editSessionService.EditingUser);
         Assert.AreNotSame(selectedUser, editSessionService.EditingUser);
         Assert.AreEqual(selectedUser.UserId, editSessionService.EditingUser.UserId);
+        Assert.AreEqual(ViewType.User, navigationService.CurrentView);
     }
 
     private sealed class UserQueryServiceStub : IUserQueryService
