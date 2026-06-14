@@ -4,6 +4,7 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
+using App4di.Dotnet.UserManager.Infrastructure.Application.Export;
 using App4di.Dotnet.UserManager.Infrastructure.Application.Users;
 using App4di.Dotnet.UserManager.Infrastructure.Entities;
 using App4di.Dotnet.UserManager.Infrastructure.Service;
@@ -29,7 +30,8 @@ public class UserListViewModelTests
         var viewModel = new UserListViewModel(
             new MainViewModel(),
             new MessageServiceStub(),
-            queryService);
+            queryService,
+            new UserExportServiceStub());
 
         viewModel.TextInAll = "Rubik";
         viewModel.SelectedAddressCity = viewModel.AddressCities[1];
@@ -40,6 +42,27 @@ public class UserListViewModelTests
         Assert.AreEqual("Rubik", queryService.LastFilter?.TextInAll);
         Assert.AreEqual("Budapest", queryService.LastFilter?.AddressCity);
         Assert.HasCount(1, viewModel.Users);
+    }
+
+    [TestMethod]
+    public void ExportCommandPassesCurrentlyVisibleUsersToExportService()
+    {
+        var queryService = new UserQueryServiceStub();
+        var exportService = new UserExportServiceStub();
+        var viewModel = new UserListViewModel(
+            new MainViewModel(),
+            new MessageServiceStub(),
+            queryService,
+            exportService);
+
+        viewModel.TextInAll = "Rubik";
+        viewModel.FindCommand.Execute(null);
+        var visibleUsers = viewModel.Users.ToList();
+
+        viewModel.ExportCommand.Execute(null);
+
+        Assert.AreEqual(1, exportService.CallCount);
+        CollectionAssert.AreEqual(visibleUsers, exportService.ExportedUsers);
     }
 
     private sealed class UserQueryServiceStub : IUserQueryService
@@ -78,6 +101,19 @@ public class UserListViewModelTests
     {
         public void ShowMessage(string message, string? title = null)
         {
+        }
+    }
+
+    private sealed class UserExportServiceStub : IUserExportService
+    {
+        public int CallCount { get; private set; }
+        public List<User> ExportedUsers { get; private set; } = [];
+
+        public bool ExportUsers(List<User> users)
+        {
+            CallCount++;
+            ExportedUsers = users;
+            return true;
         }
     }
 }

@@ -4,15 +4,13 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
+using App4di.Dotnet.UserManager.Infrastructure.Application.Export;
 using App4di.Dotnet.UserManager.Infrastructure.Application.Users;
-using App4di.Dotnet.UserManager.Infrastructure.Common;
-using App4di.Dotnet.UserManager.Infrastructure.Data;
 using App4di.Dotnet.UserManager.Infrastructure.Entities;
 using App4di.Dotnet.UserManager.Infrastructure.Navigation;
 using App4di.Dotnet.UserManager.Infrastructure.Service;
 using FW4di.Dotnet.MVVM;
 using System.Collections.ObjectModel;
-using System.IO;
 
 namespace App4di.Dotnet.UserManager.Infrastructure.ViewModels;
 
@@ -24,15 +22,18 @@ public class UserListViewModel : NotificationObject
     private MainViewModel mainViewModel;
     private readonly IMessageService messageService;
     private readonly IUserQueryService userQueryService;
+    private readonly IUserExportService userExportService;
 
     public UserListViewModel(
         MainViewModel mainViewModel,
         IMessageService messageService,
-        IUserQueryService userQueryService)
+        IUserQueryService userQueryService,
+        IUserExportService userExportService)
     {
         this.mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
         this.messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
         this.userQueryService = userQueryService ?? throw new ArgumentNullException(nameof(userQueryService));
+        this.userExportService = userExportService ?? throw new ArgumentNullException(nameof(userExportService));
         Reset();
     }
 
@@ -164,14 +165,7 @@ public class UserListViewModel : NotificationObject
     {
         try
         {
-            IDataManager<User> dataManager = new JsonDataManager<User>();
-
-            if (File.Exists(Constants.JsonDataFilePath))
-                File.Delete(Constants.JsonDataFilePath);
-
-            dataManager.Save(Users.ToList(), Constants.JsonDataFilePath);
-
-            if (File.Exists(Constants.JsonDataFilePath))
+            if (userExportService.ExportUsers(Users.ToList()))
                 messageService.ShowMessage("Data exported to Json file");
         }
         catch (Exception ex)

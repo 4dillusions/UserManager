@@ -5,6 +5,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 */
 
 using App4di.Dotnet.UserManager.Infrastructure.Application.Authentication;
+using App4di.Dotnet.UserManager.Infrastructure.Application.Export;
 using App4di.Dotnet.UserManager.Infrastructure.Application.Users;
 using App4di.Dotnet.UserManager.Infrastructure.Repositories;
 using App4di.Dotnet.UserManager.Infrastructure.ViewModels;
@@ -26,6 +27,7 @@ public class DIBindings
                 di.Bind<IAddressCityRepository, XmlAddressCityRepository>(DILifetimeScopes.Singleton);
                 di.Bind<IAuthenticationService, AuthenticationService>(DILifetimeScopes.Singleton);
                 di.Bind<IUserQueryService, UserQueryService>(DILifetimeScopes.Singleton);
+                di.Bind<IUserExportService, JsonUserExportService>(DILifetimeScopes.Singleton);
                 di.Bind<MainViewModel, MainViewModel>(DILifetimeScopes.Singleton);
                 di.Bind<LoginViewModel, LoginViewModel>(DILifetimeScopes.Singleton);
                 di.Bind<UserViewModel, UserViewModel>(DILifetimeScopes.Singleton);
