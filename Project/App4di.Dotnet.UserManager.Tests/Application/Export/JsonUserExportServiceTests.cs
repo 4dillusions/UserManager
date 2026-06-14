@@ -68,10 +68,11 @@ public class JsonUserExportServiceTests
                 "Surname",
                 "BirthDate",
                 "BirthPlace",
-                "AddressCity",
-                "HasErrors"
+                "AddressCity"
             },
             propertyNames);
+
+        Assert.IsFalse(document.RootElement[0].TryGetProperty("HasErrors", out _));
     }
 
     private static List<User> CreateUsers()

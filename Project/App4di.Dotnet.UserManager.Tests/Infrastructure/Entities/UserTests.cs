@@ -7,7 +7,9 @@ Released under the terms of the GNU General Public License version 3 or later.
 using App4di.Dotnet.UserManager.Infrastructure.Application.Authentication;
 using App4di.Dotnet.UserManager.Infrastructure.Common;
 using App4di.Dotnet.UserManager.Infrastructure.Data;
+using App4di.Dotnet.UserManager.Infrastructure.Domain;
 using App4di.Dotnet.UserManager.Infrastructure.Entities;
+using App4di.Dotnet.UserManager.Infrastructure.Mapping;
 using App4di.Dotnet.UserManager.Infrastructure.Repositories;
 
 namespace App4di.Dotnet.UserManager.Tests.Infrastructure.Entities
@@ -97,12 +99,12 @@ namespace App4di.Dotnet.UserManager.Tests.Infrastructure.Entities
 
         void CreateXmlData()
         {
-            IDataManager<User> dataManager = new XmlDataManager<User>();
+            IDataManager<UserData> dataManager = new XmlDataManager<UserData>();
 
             if (File.Exists(Constants.DataFilePath + Constants.XmlDataFileName))
                 File.Delete(Constants.DataFilePath + Constants.XmlDataFileName);
 
-            dataManager.Save(CreateUsersData(), Constants.DataFilePath + Constants.XmlDataFileName);
+            dataManager.Save(CreateUsersData().Select(UserMapper.ToUserData).ToList(), Constants.DataFilePath + Constants.XmlDataFileName);
         }
 
         [TestMethod]
@@ -116,9 +118,21 @@ namespace App4di.Dotnet.UserManager.Tests.Infrastructure.Entities
         }
 
         [TestMethod]
+        public void UserRaisesPropertyChangedForUiBinding()
+        {
+            var user = new User();
+            string? changedProperty = null;
+            user.PropertyChanged += (_, args) => changedProperty = args.PropertyName;
+
+            user.Surname = "Updated";
+
+            Assert.AreEqual(nameof(User.Surname), changedProperty);
+        }
+
+        [TestMethod]
         public void AddressCityListTest()
         {
-            IDataManager<User> dataManager = new XmlDataManager<User>();
+            IDataManager<UserData> dataManager = new XmlDataManager<UserData>();
 
             if (File.Exists(Constants.DataFilePath + Constants.XmlDataFileName))
                 File.Delete(Constants.DataFilePath + Constants.XmlDataFileName);
@@ -126,7 +140,7 @@ namespace App4di.Dotnet.UserManager.Tests.Infrastructure.Entities
             var createData = CreateUsersData();
             createData.Add(new User { AddressCity = createData[1].AddressCity });
             createData.Add(new User { AddressCity = createData[2].AddressCity });
-            dataManager.Save(createData, Constants.DataFilePath + Constants.XmlDataFileName);
+            dataManager.Save(createData.Select(UserMapper.ToUserData).ToList(), Constants.DataFilePath + Constants.XmlDataFileName);
 
             var data = CreateUsersData();
             Assert.AreEqual(data.Count, new AddressCityList().Cities.Count - 1, "Address cities");
@@ -134,7 +148,7 @@ namespace App4di.Dotnet.UserManager.Tests.Infrastructure.Entities
             if (File.Exists(Constants.DataFilePath + Constants.XmlDataFileName))
                 File.Delete(Constants.DataFilePath + Constants.XmlDataFileName);
 
-            dataManager.Save(CreateUsersData(), Constants.DataFilePath + Constants.XmlDataFileName);
+            dataManager.Save(CreateUsersData().Select(UserMapper.ToUserData).ToList(), Constants.DataFilePath + Constants.XmlDataFileName);
         }
 
         [TestMethod]

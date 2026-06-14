@@ -6,7 +6,9 @@ Released under the terms of the GNU General Public License version 3 or later.
 
 using App4di.Dotnet.UserManager.Infrastructure.Common;
 using App4di.Dotnet.UserManager.Infrastructure.Data;
+using App4di.Dotnet.UserManager.Infrastructure.Domain;
 using App4di.Dotnet.UserManager.Infrastructure.Entities;
+using App4di.Dotnet.UserManager.Infrastructure.Mapping;
 using App4di.Dotnet.UserManager.Infrastructure.Repositories;
 using System.Xml.Linq;
 
@@ -51,7 +53,7 @@ public class XmlRepositoryTests
 
         userRepository.SaveUsers(users);
 
-        var loadedUsers = new XmlDataManager<User>().Load(Constants.XmlDataFilePath);
+        var loadedUsers = new XmlDataManager<UserData>().Load(Constants.XmlDataFilePath);
         Assert.HasCount(2, loadedUsers);
         Assert.AreEqual("Updated", loadedUsers[0].Surname);
     }
@@ -97,7 +99,7 @@ public class XmlRepositoryTests
 
     private static void WriteUsers(List<User> users)
     {
-        new XmlDataManager<User>().Save(users, Constants.XmlDataFilePath);
+        new XmlDataManager<UserData>().Save(users.Select(UserMapper.ToUserData).ToList(), Constants.XmlDataFilePath);
     }
 
     private static List<User> CreateUsers()

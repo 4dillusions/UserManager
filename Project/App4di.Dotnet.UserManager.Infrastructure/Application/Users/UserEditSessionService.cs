@@ -5,6 +5,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 */
 
 using App4di.Dotnet.UserManager.Infrastructure.Entities;
+using App4di.Dotnet.UserManager.Infrastructure.Mapping;
 
 namespace App4di.Dotnet.UserManager.Infrastructure.Application.Users;
 
@@ -24,7 +25,7 @@ public class UserEditSessionService : IUserEditSessionService
         this.users = users;
         selectedUser = user;
         editingUserId = user.UserId;
-        EditingUser = CopyUser(user);
+        EditingUser = UserMapper.Copy(user);
     }
 
     public List<User> Commit()
@@ -35,9 +36,9 @@ public class UserEditSessionService : IUserEditSessionService
         var originalUser = users.FirstOrDefault(user => user.UserId == editingUserId)
             ?? throw new InvalidOperationException($"User with ID '{editingUserId}' was not found.");
 
-        CopyValues(EditingUser, originalUser);
+        UserMapper.Copy(EditingUser, originalUser);
         if (!ReferenceEquals(selectedUser, originalUser) && selectedUser != null)
-            CopyValues(EditingUser, selectedUser);
+            UserMapper.Copy(EditingUser, selectedUser);
 
         var committedUsers = users;
         Clear();
@@ -57,22 +58,4 @@ public class UserEditSessionService : IUserEditSessionService
         editingUserId = default;
     }
 
-    private static User CopyUser(User source)
-    {
-        var copy = new User();
-        CopyValues(source, copy);
-        return copy;
-    }
-
-    private static void CopyValues(User source, User destination)
-    {
-        destination.UserId = source.UserId;
-        destination.LoginName = source.LoginName;
-        destination.Password = source.Password;
-        destination.FirstName = source.FirstName;
-        destination.Surname = source.Surname;
-        destination.BirthDate = source.BirthDate;
-        destination.BirthPlace = source.BirthPlace;
-        destination.AddressCity = source.AddressCity;
-    }
 }

@@ -5,29 +5,20 @@ Released under the terms of the GNU General Public License version 3 or later.
 */
 
 using App4di.Dotnet.UserManager.Infrastructure.Application.Authentication;
-using App4di.Dotnet.UserManager.Infrastructure.DTO;
+using App4di.Dotnet.UserManager.Infrastructure.Domain;
 using App4di.Dotnet.UserManager.Infrastructure.Repositories;
 using FW4di.Dotnet.MVVM;
 using System.Runtime.CompilerServices;
 
 namespace App4di.Dotnet.UserManager.Infrastructure.Entities;
 
-[Serializable]
 public class User : NotificationObject
 {
-    private UserDTO data;
+    private readonly UserData data;
 
     public User()
     {
-        data = new UserDTO
-        {
-            LoginName = string.Empty,
-            Password = string.Empty,
-            FirstName = string.Empty,
-            Surname = string.Empty,
-            BirthPlace = string.Empty,
-            AddressCity = string.Empty
-        };
+        data = new UserData();
     }
 
     [Obsolete("Use IAuthenticationService.Authenticate instead.")]

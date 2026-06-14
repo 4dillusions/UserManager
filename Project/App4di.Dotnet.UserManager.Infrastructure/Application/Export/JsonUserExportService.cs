@@ -6,20 +6,22 @@ Released under the terms of the GNU General Public License version 3 or later.
 
 using App4di.Dotnet.UserManager.Infrastructure.Common;
 using App4di.Dotnet.UserManager.Infrastructure.Data;
+using App4di.Dotnet.UserManager.Infrastructure.Domain;
 using App4di.Dotnet.UserManager.Infrastructure.Entities;
+using App4di.Dotnet.UserManager.Infrastructure.Mapping;
 
 namespace App4di.Dotnet.UserManager.Infrastructure.Application.Export;
 
 public class JsonUserExportService : IUserExportService
 {
-    private readonly IDataManager<User> dataManager;
+    private readonly IDataManager<UserData> dataManager;
 
     public JsonUserExportService()
-        : this(new JsonDataManager<User>())
+        : this(new JsonDataManager<UserData>())
     {
     }
 
-    internal JsonUserExportService(IDataManager<User> dataManager)
+    internal JsonUserExportService(IDataManager<UserData> dataManager)
     {
         this.dataManager = dataManager ?? throw new ArgumentNullException(nameof(dataManager));
     }
@@ -31,7 +33,7 @@ public class JsonUserExportService : IUserExportService
         if (File.Exists(Constants.JsonDataFilePath))
             File.Delete(Constants.JsonDataFilePath);
 
-        dataManager.Save(users, Constants.JsonDataFilePath);
+        dataManager.Save(users.Select(UserMapper.ToUserData).ToList(), Constants.JsonDataFilePath);
         return File.Exists(Constants.JsonDataFilePath);
     }
 }
