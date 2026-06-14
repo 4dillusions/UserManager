@@ -27,10 +27,10 @@ public class UserQueryService : IUserQueryService
         var users = userRepository.LoadUsers();
 
         if (filter.AddressCity == UserQueryCriteria.AllAddressCities)
-            return users.Where(user => ToSearchText(user).Contains(filter.TextInAll)).ToList();
+            return users.Where(user => MatchesSearch(user, filter.TextInAll)).ToList();
 
         return users.Where(user => user.AddressCity == filter.AddressCity &&
-            ToSearchText(user).Contains(filter.TextInAll)).ToList();
+            MatchesSearch(user, filter.TextInAll)).ToList();
     }
 
     public List<string> GetAddressCities()
@@ -38,9 +38,19 @@ public class UserQueryService : IUserQueryService
         return addressCityRepository.LoadAddressCities();
     }
 
-    private static string ToSearchText(UserData user)
+    private static bool MatchesSearch(UserData user, string searchText)
     {
-        return user.UserId + user.LoginName + user.Password + user.FirstName + user.Surname +
-            user.BirthDate + user.BirthPlace + user.AddressCity;
+        return GetSearchableFields(user).Any(field => field.Contains(searchText));
+    }
+
+    private static IEnumerable<string> GetSearchableFields(UserData user)
+    {
+        yield return user.UserId.ToString();
+        yield return user.LoginName ?? string.Empty;
+        yield return user.FirstName ?? string.Empty;
+        yield return user.Surname ?? string.Empty;
+        yield return user.BirthDate.ToString();
+        yield return user.BirthPlace ?? string.Empty;
+        yield return user.AddressCity ?? string.Empty;
     }
 }

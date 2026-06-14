@@ -36,14 +36,77 @@ public class UserQueryServiceTests
     }
 
     [TestMethod]
-    public void TextSearchMatchesConcatenatedUserDataCaseSensitively()
+    [DataRow("Albert", 1)]
+    [DataRow("Einstein", 1)]
+    [DataRow("Ulm", 1)]
+    [DataRow("Kecskemet", 1)]
+    [DataRow("Rubik", 2)]
+    public void TextSearchMatchesVisibleFields(string searchText, int expectedUserId)
     {
-        var matchingUsers = userQueryService.GetUsers(new UserQueryCriteria { TextInAll = "Albert" });
-        var differentCaseUsers = userQueryService.GetUsers(new UserQueryCriteria { TextInAll = "albert" });
+        var users = userQueryService.GetUsers(new UserQueryCriteria { TextInAll = searchText });
 
-        Assert.HasCount(1, matchingUsers);
-        Assert.AreEqual(1, matchingUsers[0].UserId);
-        Assert.IsEmpty(differentCaseUsers);
+        Assert.HasCount(1, users);
+        Assert.AreEqual(expectedUserId, users[0].UserId);
+    }
+
+    [TestMethod]
+    public void TextSearchRemainsCaseSensitive()
+    {
+        var users = userQueryService.GetUsers(new UserQueryCriteria { TextInAll = "albert" });
+
+        Assert.IsEmpty(users);
+    }
+
+    [TestMethod]
+    public void TextSearchMatchesUserId()
+    {
+        var service = new UserQueryService(
+            new UserRepositoryStub(
+            [
+                new UserData
+                {
+                    UserId = 42,
+                    LoginName = "User",
+                    BirthDate = new DateTime(2000, 1, 1)
+                }
+            ]),
+            new AddressCityRepositoryStub([]));
+
+        var users = service.GetUsers(new UserQueryCriteria { TextInAll = "42" });
+
+        Assert.HasCount(1, users);
+        Assert.AreEqual(42, users[0].UserId);
+    }
+
+    [TestMethod]
+    public void TextSearchMatchesVisibleBirthDate()
+    {
+        var birthDateText = new DateTime(1879, 3, 14).ToString();
+
+        var users = userQueryService.GetUsers(new UserQueryCriteria { TextInAll = birthDateText });
+
+        Assert.HasCount(1, users);
+        Assert.AreEqual(1, users[0].UserId);
+    }
+
+    [TestMethod]
+    public void TextSearchDoesNotMatchPassword()
+    {
+        var users = userQueryService.GetUsers(new UserQueryCriteria { TextInAll = "SecretPassword" });
+
+        Assert.IsEmpty(users);
+    }
+
+    [TestMethod]
+    public void TextSearchDoesNotUseUserToString()
+    {
+        var service = new UserQueryService(
+            new UserRepositoryStub([new UserDataWithMisleadingToString()]),
+            new AddressCityRepositoryStub([]));
+
+        var users = service.GetUsers(new UserQueryCriteria { TextInAll = "ToStringOnlyValue" });
+
+        Assert.IsEmpty(users);
     }
 
     [TestMethod]
@@ -82,10 +145,25 @@ public class UserQueryServiceTests
     {
         return
         [
-            new UserData { UserId = 1, LoginName = "Albert", FirstName = "Albert", Surname = "Einstein", AddressCity = "Kecskemet" },
+            new UserData
+            {
+                UserId = 1,
+                LoginName = "Albert",
+                Password = "SecretPassword",
+                FirstName = "Albert",
+                Surname = "Einstein",
+                BirthDate = new DateTime(1879, 3, 14),
+                BirthPlace = "Ulm",
+                AddressCity = "Kecskemet"
+            },
             new UserData { UserId = 2, LoginName = "Erno", FirstName = "Erno", Surname = "Rubik", AddressCity = "Budapest" },
             new UserData { UserId = 3, LoginName = "Zoltan", FirstName = "Zoltan", Surname = "Kodaly", AddressCity = "Budapest" }
         ];
+    }
+
+    private sealed class UserDataWithMisleadingToString : UserData
+    {
+        public override string ToString() => "ToStringOnlyValue";
     }
 
     private sealed class UserRepositoryStub(List<UserData> users) : IUserRepository
