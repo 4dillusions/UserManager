@@ -5,6 +5,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 */
 
 using App4di.Dotnet.UserManager.Infrastructure.Application.Export;
+using App4di.Dotnet.UserManager.Infrastructure.Application.Session;
 using App4di.Dotnet.UserManager.Infrastructure.Application.Users;
 using App4di.Dotnet.UserManager.Infrastructure.Entities;
 using App4di.Dotnet.UserManager.Infrastructure.Navigation;
@@ -23,17 +24,20 @@ public class UserListViewModel : NotificationObject
     private readonly IMessageService messageService;
     private readonly IUserQueryService userQueryService;
     private readonly IUserExportService userExportService;
+    private readonly ISessionService sessionService;
 
     public UserListViewModel(
         MainViewModel mainViewModel,
         IMessageService messageService,
         IUserQueryService userQueryService,
-        IUserExportService userExportService)
+        IUserExportService userExportService,
+        ISessionService sessionService)
     {
         this.mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
         this.messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
         this.userQueryService = userQueryService ?? throw new ArgumentNullException(nameof(userQueryService));
         this.userExportService = userExportService ?? throw new ArgumentNullException(nameof(userExportService));
+        this.sessionService = sessionService ?? throw new ArgumentNullException(nameof(sessionService));
         Reset();
     }
 
@@ -45,10 +49,10 @@ public class UserListViewModel : NotificationObject
         SelectedAddressCity = AddressCities.FirstOrDefault();
 
         Users = new ObservableCollection<User>(userQueryService.GetUsers(filter));
-        if (User.CurrentUser == null)
+        if (sessionService.CurrentUser == null)
             SelectedUser = Users.FirstOrDefault();
         else
-            SelectedUser = Users.FirstOrDefault(u => u.UserId == User.CurrentUser.UserId) ?? Users.FirstOrDefault();
+            SelectedUser = Users.FirstOrDefault(u => u.UserId == sessionService.CurrentUser.UserId) ?? Users.FirstOrDefault();
     }
 
     public AddressCity? SelectedAddressCity
@@ -87,7 +91,7 @@ public class UserListViewModel : NotificationObject
             if (EqualityComparer<User?>.Default.Equals(selectedUser, value))
                 return;
 
-            User.CurrentUser = value;
+            sessionService.CurrentUser = value;
             selectedUser = value;
             RaisePropertyChanged();
         }
@@ -141,7 +145,7 @@ public class UserListViewModel : NotificationObject
     {
         if (SelectedUser != null)
         {
-            UserList.CurrentUsers = new ObservableCollection<User>(userQueryService.GetUsers(new UserFilter()));
+            sessionService.CurrentUsers = userQueryService.GetUsers(new UserFilter());
             mainViewModel.ViewType = ViewType.User;
         }
     }

@@ -57,8 +57,6 @@ public class User : NotificationObject
     }
 
     #region Properties
-    public static User? CurrentUser { get; set; }
-
     public int UserId
     {
         get { return data.UserId; }

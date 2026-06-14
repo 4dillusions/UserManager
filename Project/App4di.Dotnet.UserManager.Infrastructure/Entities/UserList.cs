@@ -20,8 +20,6 @@ public class UserList
         set { users = value; }
     }
 
-    public static ObservableCollection<User>? CurrentUsers { get; set; }
-
     /// <summary> Mocking </summary>
     public UserList()
     {
@@ -81,20 +79,6 @@ public class UserList
         ArgumentNullException.ThrowIfNull(userQueryService);
 
         users = new ObservableCollection<User>(userQueryService.GetUsers(filter));
-    }
-
-    public static void SaveCurrentUsers()
-    {
-        SaveCurrentUsers(new XmlUserRepository());
-    }
-
-    public static void SaveCurrentUsers(IUserRepository userRepository)
-    {
-        if (CurrentUsers == null)
-            return;
-
-        ArgumentNullException.ThrowIfNull(userRepository);
-        userRepository.SaveUsers(CurrentUsers.ToList());
     }
 
     private static IUserQueryService CreateQueryService()

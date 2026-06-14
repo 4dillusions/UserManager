@@ -5,6 +5,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 */
 
 using App4di.Dotnet.UserManager.Infrastructure.Application.Export;
+using App4di.Dotnet.UserManager.Infrastructure.Application.Session;
 using App4di.Dotnet.UserManager.Infrastructure.Application.Users;
 using App4di.Dotnet.UserManager.Infrastructure.Entities;
 using App4di.Dotnet.UserManager.Infrastructure.Service;
@@ -13,16 +14,8 @@ using App4di.Dotnet.UserManager.Infrastructure.ViewModels;
 namespace App4di.Dotnet.UserManager.Tests.Infrastructure.ViewModels;
 
 [TestClass]
-[DoNotParallelize]
 public class UserListViewModelTests
 {
-    [TestCleanup]
-    public void TestCleanup()
-    {
-        User.CurrentUser = null;
-        UserList.CurrentUsers = null;
-    }
-
     [TestMethod]
     public void UserListViewModelUsesUserQueryService()
     {
@@ -31,7 +24,8 @@ public class UserListViewModelTests
             new MainViewModel(),
             new MessageServiceStub(),
             queryService,
-            new UserExportServiceStub());
+            new UserExportServiceStub(),
+            new SessionService());
 
         viewModel.TextInAll = "Rubik";
         viewModel.SelectedAddressCity = viewModel.AddressCities[1];
@@ -53,7 +47,8 @@ public class UserListViewModelTests
             new MainViewModel(),
             new MessageServiceStub(),
             queryService,
-            exportService);
+            exportService,
+            new SessionService());
 
         viewModel.TextInAll = "Rubik";
         viewModel.FindCommand.Execute(null);
@@ -63,6 +58,27 @@ public class UserListViewModelTests
 
         Assert.AreEqual(1, exportService.CallCount);
         CollectionAssert.AreEqual(visibleUsers, exportService.ExportedUsers);
+    }
+
+    [TestMethod]
+    public void SelectionAndEditStateAreStoredInSessionService()
+    {
+        var queryService = new UserQueryServiceStub();
+        var sessionService = new SessionService();
+        var viewModel = new UserListViewModel(
+            new MainViewModel(),
+            new MessageServiceStub(),
+            queryService,
+            new UserExportServiceStub(),
+            sessionService);
+
+        var selectedUser = viewModel.Users[0];
+        viewModel.SelectedUser = selectedUser;
+        viewModel.EditCommand.Execute(null);
+
+        Assert.AreSame(selectedUser, sessionService.CurrentUser);
+        Assert.IsNotNull(sessionService.CurrentUsers);
+        Assert.HasCount(1, sessionService.CurrentUsers);
     }
 
     private sealed class UserQueryServiceStub : IUserQueryService
