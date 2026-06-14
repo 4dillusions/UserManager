@@ -4,9 +4,8 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
-using App4di.Dotnet.UserManager.Infrastructure.Common;
-using App4di.Dotnet.UserManager.Infrastructure.Data;
 using App4di.Dotnet.UserManager.Infrastructure.DTO;
+using App4di.Dotnet.UserManager.Infrastructure.Repositories;
 using FW4di.Dotnet.MVVM;
 using System.Runtime.CompilerServices;
 
@@ -32,16 +31,16 @@ public class User : NotificationObject
 
     public static bool IsUserExist(string loginName, string password)
     {
-        if (File.Exists(Constants.XmlDataFilePath))
-        {
-            IDataManager<User> dataManager = new XmlDataManager<User>();
-            var data = dataManager.Load(Constants.XmlDataFilePath);
+        return IsUserExist(loginName, password, new XmlUserRepository());
+    }
 
-            User? user = data.FirstOrDefault(u => u.LoginName == loginName && u.Password == password);
-            return user != null;
-        }
+    public static bool IsUserExist(string loginName, string password, IUserRepository userRepository)
+    {
+        ArgumentNullException.ThrowIfNull(userRepository);
 
-        throw new FileNotFoundException();
+        User? user = userRepository.LoadUsers()
+            .FirstOrDefault(u => u.LoginName == loginName && u.Password == password);
+        return user != null;
     }
 
     public override string ToString()

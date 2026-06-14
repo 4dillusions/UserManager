@@ -6,6 +6,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 
 using App4di.Dotnet.UserManager.Infrastructure.Entities;
 using App4di.Dotnet.UserManager.Infrastructure.Navigation;
+using App4di.Dotnet.UserManager.Infrastructure.Repositories;
 using App4di.Dotnet.UserManager.Infrastructure.Service;
 using FW4di.Dotnet.MVVM;
 
@@ -15,6 +16,7 @@ public class UserViewModel : NotificationObject
 {
     private MainViewModel mainViewModel;
     private readonly IMessageService messageService;
+    private readonly IUserRepository userRepository;
 
     public User? User
     {
@@ -22,11 +24,12 @@ public class UserViewModel : NotificationObject
         set => SetProperty(ref field, value);
     }
 
-    public UserViewModel(MainViewModel mainViewModel, IMessageService messageService)
+    public UserViewModel(MainViewModel mainViewModel, IMessageService messageService, IUserRepository userRepository)
     {
         User = User.CurrentUser;
         this.mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
         this.messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
+        this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
     }
 
     private RelayCommand? saveCommand;
@@ -43,7 +46,7 @@ public class UserViewModel : NotificationObject
     {
         try
         {
-            UserList.SaveCurrentUsers();
+            UserList.SaveCurrentUsers(userRepository);
             mainViewModel.ViewType = ViewType.UserList;
         }
         catch (Exception ex)

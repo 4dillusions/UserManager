@@ -8,6 +8,7 @@ using App4di.Dotnet.UserManager.Infrastructure.Common;
 using App4di.Dotnet.UserManager.Infrastructure.Data;
 using App4di.Dotnet.UserManager.Infrastructure.Entities;
 using App4di.Dotnet.UserManager.Infrastructure.Navigation;
+using App4di.Dotnet.UserManager.Infrastructure.Repositories;
 using App4di.Dotnet.UserManager.Infrastructure.Service;
 using FW4di.Dotnet.MVVM;
 using System.Collections.ObjectModel;
@@ -22,11 +23,19 @@ public class UserListViewModel : NotificationObject
     private UserFilter filter = new();
     private MainViewModel mainViewModel;
     private readonly IMessageService messageService;
+    private readonly IUserRepository userRepository;
+    private readonly IAddressCityRepository addressCityRepository;
 
-    public UserListViewModel(MainViewModel mainViewModel, IMessageService messageService)
+    public UserListViewModel(
+        MainViewModel mainViewModel,
+        IMessageService messageService,
+        IUserRepository userRepository,
+        IAddressCityRepository addressCityRepository)
     {
         this.mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
         this.messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
+        this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+        this.addressCityRepository = addressCityRepository ?? throw new ArgumentNullException(nameof(addressCityRepository));
         Reset();
     }
 
@@ -34,10 +43,10 @@ public class UserListViewModel : NotificationObject
     {
         filter = new UserFilter();
 
-        AddressCities = new AddressCityList().Cities;
+        AddressCities = new AddressCityList(addressCityRepository).Cities;
         SelectedAddressCity = AddressCities.FirstOrDefault();
 
-        Users = new UserList(filter).Users;
+        Users = new UserList(filter, userRepository).Users;
         if (User.CurrentUser == null)
             SelectedUser = Users.FirstOrDefault();
         else
@@ -106,7 +115,7 @@ public class UserListViewModel : NotificationObject
     {
         try
         {
-            Users = new UserList(filter).Users;
+            Users = new UserList(filter, userRepository).Users;
             SelectedUser = Users.FirstOrDefault();
         }
         catch (Exception ex)
@@ -134,7 +143,7 @@ public class UserListViewModel : NotificationObject
     {
         if (SelectedUser != null)
         {
-            UserList.CurrentUsers = new UserList(new UserFilter()).Users;
+            UserList.CurrentUsers = new UserList(new UserFilter(), userRepository).Users;
             mainViewModel.ViewType = ViewType.User;
         }
     }

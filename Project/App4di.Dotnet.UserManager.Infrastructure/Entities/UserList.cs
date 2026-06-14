@@ -4,8 +4,7 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
-using App4di.Dotnet.UserManager.Infrastructure.Common;
-using App4di.Dotnet.UserManager.Infrastructure.Data;
+using App4di.Dotnet.UserManager.Infrastructure.Repositories;
 using System.Collections.ObjectModel;
 
 namespace App4di.Dotnet.UserManager.Infrastructure.Entities;
@@ -66,41 +65,35 @@ public class UserList
 
     /// <summary> Usefilter without mock </summary>
     public UserList(UserFilter filter)
+        : this(filter, new XmlUserRepository())
     {
-        if (File.Exists(Constants.XmlDataFilePath))
-        {
-            IDataManager<User> dataManager = new XmlDataManager<User>();
-            var userList = new List<User>(dataManager.Load(Constants.XmlDataFilePath));
+    }
 
-            if (filter.AddressCity == AddressCity.DefaultName)
-            {
-                users = new ObservableCollection<User>(userList.Where(u => u.ToString().Contains(filter.TextInAll)));
-            }
-            else
-            {
-                users = new ObservableCollection<User>(userList.Where(u => u.AddressCity == filter.AddressCity &&
-                    u.ToString().Contains(filter.TextInAll)));
-            }
-        }
+    public UserList(UserFilter filter, IUserRepository userRepository)
+    {
+        ArgumentNullException.ThrowIfNull(filter);
+        ArgumentNullException.ThrowIfNull(userRepository);
+
+        var userList = userRepository.LoadUsers();
+
+        if (filter.AddressCity == AddressCity.DefaultName)
+            users = new ObservableCollection<User>(userList.Where(u => u.ToString().Contains(filter.TextInAll)));
         else
-        {
-            throw new FileNotFoundException();
-        }
+            users = new ObservableCollection<User>(userList.Where(u => u.AddressCity == filter.AddressCity &&
+                u.ToString().Contains(filter.TextInAll)));
     }
 
     public static void SaveCurrentUsers()
     {
+        SaveCurrentUsers(new XmlUserRepository());
+    }
+
+    public static void SaveCurrentUsers(IUserRepository userRepository)
+    {
         if (CurrentUsers == null)
             return;
 
-        if (File.Exists(Constants.XmlDataFilePath))
-        {
-            IDataManager<User> dataManager = new XmlDataManager<User>();
-            dataManager.Save(CurrentUsers.ToList(), Constants.XmlDataFilePath);
-        }
-        else
-        {
-            throw new FileNotFoundException();
-        }
+        ArgumentNullException.ThrowIfNull(userRepository);
+        userRepository.SaveUsers(CurrentUsers.ToList());
     }
 }

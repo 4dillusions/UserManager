@@ -4,8 +4,7 @@ Copyright (c) by 4D Illusions. All rights reserved.
 Released under the terms of the GNU General Public License version 3 or later.
 */
 
-using App4di.Dotnet.UserManager.Infrastructure.Common;
-using App4di.Dotnet.UserManager.Infrastructure.Data;
+using App4di.Dotnet.UserManager.Infrastructure.Repositories;
 using System.Collections.ObjectModel;
 
 namespace App4di.Dotnet.UserManager.Infrastructure.Entities;
@@ -21,27 +20,17 @@ public class AddressCityList
     }
 
     public AddressCityList()
+        : this(new XmlAddressCityRepository(new XmlUserRepository()))
     {
+    }
+
+    public AddressCityList(IAddressCityRepository addressCityRepository)
+    {
+        ArgumentNullException.ThrowIfNull(addressCityRepository);
+
         Cities = new ObservableCollection<AddressCity>();
-
-        if (File.Exists(Constants.XmlDataFilePath))
-        {
-            IDataManager<User> dataManager = new XmlDataManager<User>();
-            var data = dataManager.Load(Constants.XmlDataFilePath);
-
-            var citiesList = data.Select(u => u.AddressCity).Distinct().ToList();
-            cities.Add(new AddressCity());
-            foreach (var item in citiesList)
-            {
-                cities.Add(new AddressCity
-                {
-                    CityName = item,
-                });
-            }
-        }
-        else
-        {
-            throw new FileNotFoundException();
-        }
+        cities.Add(new AddressCity());
+        foreach (var city in addressCityRepository.LoadAddressCities())
+            cities.Add(city);
     }
 }

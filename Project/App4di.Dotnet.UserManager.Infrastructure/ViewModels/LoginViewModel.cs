@@ -6,6 +6,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 
 using App4di.Dotnet.UserManager.Infrastructure.Entities;
 using App4di.Dotnet.UserManager.Infrastructure.Navigation;
+using App4di.Dotnet.UserManager.Infrastructure.Repositories;
 using App4di.Dotnet.UserManager.Infrastructure.Service;
 using FW4di.Dotnet.MVVM;
 
@@ -17,12 +18,18 @@ public class LoginViewModel : NotificationObject
     private readonly MainViewModel mainViewModel;
     private readonly IMessageService messageService;
     private readonly IApplicationService applicationService;
+    private readonly IUserRepository userRepository;
 
-    public LoginViewModel(MainViewModel mainViewModel, IMessageService messageService, IApplicationService applicationService)
+    public LoginViewModel(
+        MainViewModel mainViewModel,
+        IMessageService messageService,
+        IApplicationService applicationService,
+        IUserRepository userRepository)
     {
         this.mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
         this.messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
         this.applicationService = applicationService ?? throw new ArgumentNullException(nameof(applicationService));
+        this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
     }
 
     public string LoginName
@@ -53,7 +60,7 @@ public class LoginViewModel : NotificationObject
         {
             isCanLogin = false;
 
-            if (User.IsUserExist(LoginName, Password))
+            if (User.IsUserExist(LoginName, Password, userRepository))
                 mainViewModel.ViewType = ViewType.UserList;
             else
                 messageService.ShowMessage("Wrong LoginName or Password!");
