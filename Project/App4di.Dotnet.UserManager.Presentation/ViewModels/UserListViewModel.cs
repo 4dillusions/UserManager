@@ -176,7 +176,7 @@ public class UserListViewModel : NotificationObject
     {
         try
         {
-            if (userExportService.ExportUsers(Users.Select(UserMapper.ToUserData).ToList()))
+            if (userExportService.ExportUsers(Users.Select(UserMapper.ToUserData)))
                 messageService.ShowMessage("Data exported to Json file");
         }
         catch (Exception ex)

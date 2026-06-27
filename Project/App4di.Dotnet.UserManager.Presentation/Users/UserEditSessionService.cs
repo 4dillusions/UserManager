@@ -29,7 +29,7 @@ public class UserEditSessionService : IUserEditSessionService
         EditingUser = UserMapper.Copy(user);
     }
 
-    public List<UserData> CreateSaveSnapshot()
+    public IReadOnlyList<UserData> CreateSaveSnapshot()
     {
         if (EditingUser == null || users == null)
             throw new InvalidOperationException("No user edit session is active.");

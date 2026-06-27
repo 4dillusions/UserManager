@@ -70,16 +70,16 @@ public class XmlRepositoryTests
     }
 
     [TestMethod]
-    public void SaveUsersPreservesExistingXmlStructure()
+    public void SaveUsersUsesConventionBasedXmlStructure()
     {
         userRepository.SaveUsers(CreateUsers());
 
         var document = XDocument.Load(Constants.XmlDataFilePath);
         var root = document.Root;
-        var userElement = root?.Elements("User").FirstOrDefault();
+        var userElement = root?.Elements(nameof(UserData)).FirstOrDefault();
 
         Assert.IsNotNull(root);
-        Assert.AreEqual("ArrayOfUser", root.Name.LocalName);
+        Assert.AreEqual("ArrayOfUserData", root.Name.LocalName);
         Assert.IsNotNull(userElement);
         CollectionAssert.AreEqual(
             new[]

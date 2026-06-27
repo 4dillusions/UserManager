@@ -7,6 +7,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 using App4di.Dotnet.UserManager.Application.Repositories;
 using App4di.Dotnet.UserManager.Application.Users;
 using App4di.Dotnet.UserManager.Domain;
+using System.Globalization;
 
 namespace App4di.Dotnet.UserManager.Tests.Application.Users;
 
@@ -79,14 +80,22 @@ public class UserQueryServiceTests
     }
 
     [TestMethod]
-    public void TextSearchMatchesVisibleBirthDate()
+    public void TextSearchMatchesInvariantBirthDateRegardlessOfCurrentCulture()
     {
-        var birthDateText = new DateTime(1879, 3, 14).ToString();
+        var originalCulture = CultureInfo.CurrentCulture;
 
-        var users = userQueryService.GetUsers(new UserQueryCriteria { TextInAll = birthDateText });
+        try
+        {
+            CultureInfo.CurrentCulture = new CultureInfo("hu-HU");
+            var users = userQueryService.GetUsers(new UserQueryCriteria { TextInAll = "1879-03-14" });
 
-        Assert.HasCount(1, users);
-        Assert.AreEqual(1, users[0].UserId);
+            Assert.HasCount(1, users);
+            Assert.AreEqual(1, users[0].UserId);
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = originalCulture;
+        }
     }
 
     [TestMethod]
@@ -168,9 +177,9 @@ public class UserQueryServiceTests
 
     private sealed class UserRepositoryStub(List<UserData> users) : IUserRepository
     {
-        public List<UserData> LoadUsers() => users;
+        public IReadOnlyList<UserData> LoadUsers() => users;
 
-        public void SaveUsers(List<UserData> users)
+        public void SaveUsers(IEnumerable<UserData> users)
         {
             throw new NotSupportedException();
         }
@@ -178,6 +187,6 @@ public class UserQueryServiceTests
 
     private sealed class AddressCityRepositoryStub(List<string> cities) : IAddressCityRepository
     {
-        public List<string> LoadAddressCities() => cities;
+        public IReadOnlyList<string> LoadAddressCities() => cities;
     }
 }

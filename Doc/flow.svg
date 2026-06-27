@@ -1,136 +1,218 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1280" viewBox="0 0 1600 1280" role="img" aria-labelledby="title desc">
-  <title id="title">UserManager flow</title>
-  <desc id="desc">Runtime flow diagram for the UserManager application, showing startup, login, list, filtering, edit, save, cancel, and export behavior.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1650" viewBox="0 0 1800 1650" role="img" aria-labelledby="title desc">
+  <title id="title">UserManager runtime flow</title>
+  <desc id="desc">Current application flow from startup and authentication through user queries, filtering, editing, saving, cancellation, and JSON export.</desc>
   <defs>
     <style>
       text { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; fill: #16313d; }
-      .title { font-size: 34px; font-weight: 700; }
+      .title { font-size: 36px; font-weight: 700; }
       .subtitle { font-size: 17px; fill: #4d6571; }
-      .label { font-size: 22px; font-weight: 700; }
+      .layer { font-size: 14px; font-weight: 700; letter-spacing: 1.2px; }
+      .label { font-size: 21px; font-weight: 700; }
       .body { font-size: 16px; fill: #284550; }
-      .small { font-size: 15px; fill: #4d6571; }
-      .card { stroke-width: 2.5; rx: 24; ry: 24; }
+      .small { font-size: 14px; fill: #536c77; }
+      .card { stroke-width: 2.5; }
       .decision { stroke-width: 2.5; }
-      .edge { stroke: #456877; stroke-width: 3; fill: none; }
-      .edge-soft { stroke: #6c8592; stroke-width: 2.5; fill: none; stroke-dasharray: 9 7; }
-      .edge-label { font-size: 15px; fill: #4d6571; }
-      .shadow { opacity: 0.14; }
+      .edge { stroke: #456877; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .data-edge { stroke: #66818d; stroke-width: 2.7; stroke-dasharray: 9 7; fill: none; marker-end: url(#data-arrow); }
+      .return-edge { stroke: #8296a0; stroke-width: 2.5; stroke-dasharray: 6 6; fill: none; marker-end: url(#return-arrow); }
+      .edge-label { font-size: 14px; font-weight: 600; fill: #4d6571; }
+      .legend { font-size: 14px; fill: #526b77; }
     </style>
+    <filter id="shadow" x="-15%" y="-15%" width="140%" height="145%">
+      <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#244653" flood-opacity="0.13" />
+    </filter>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
       <path d="M0,0 L12,6 L0,12 z" fill="#456877" />
     </marker>
-    <marker id="arrowSoft" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
-      <path d="M0,0 L12,6 L0,12 z" fill="#6c8592" />
+    <marker id="data-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#66818d" />
+    </marker>
+    <marker id="return-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#8296a0" />
     </marker>
   </defs>
 
-  <rect width="1600" height="1280" fill="#f3f7f9" />
-  <rect x="40" y="40" width="1520" height="1200" fill="#ffffff" stroke="#d7e1e7" stroke-width="2" rx="30" ry="30" />
+  <rect width="1800" height="1650" fill="#f3f7f9" />
+  <rect x="35" y="35" width="1730" height="1580" fill="#ffffff" stroke="#d7e1e7" stroke-width="2" rx="30" />
 
-  <text x="90" y="110" class="title">UserManager Runtime Flow</text>
-  <text x="90" y="145" class="subtitle">Separate flow view for application behavior, navigation, and file operations.</text>
+  <text x="85" y="103" class="title">UserManager Runtime Flow</text>
+  <text x="85" y="139" class="subtitle">Current command, use-case, repository, navigation, and file-operation flow</text>
 
-  <rect x="590" y="180" width="420" height="120" class="shadow" fill="#cddae0" />
-  <rect x="578" y="168" width="420" height="120" class="card" fill="#eef5f8" stroke="#90a9b7" />
-  <text x="614" y="214" class="label">Application startup</text>
-  <text x="614" y="248" class="body">DI bindings and WPF services are registered</text>
-  <text x="614" y="274" class="small">Main window opens with MainViewModel as DataContext</text>
+  <!-- Startup -->
+  <g filter="url(#shadow)">
+    <rect x="610" y="180" width="580" height="125" rx="22" class="card" fill="#eef5f8" stroke="#90a9b7" />
+  </g>
+  <text x="650" y="216" class="layer" fill="#607c89">WPF HOST</text>
+  <text x="650" y="253" class="label">Application startup</text>
+  <text x="650" y="280" class="body">Register DI services, configure view mapping, show MainView</text>
 
-  <rect x="590" y="360" width="420" height="140" class="shadow" fill="#c8dbe5" />
-  <rect x="578" y="348" width="420" height="140" class="card" fill="#dff2fb" stroke="#5d9fc2" />
-  <text x="614" y="394" class="label">Login view</text>
-  <text x="614" y="428" class="body">ViewType = Login</text>
-  <text x="614" y="454" class="small">User enters login name and password</text>
+  <!-- Login -->
+  <g filter="url(#shadow)">
+    <rect x="610" y="365" width="580" height="130" rx="22" class="card" fill="#e8f1ff" stroke="#668fc4" />
+  </g>
+  <text x="650" y="401" class="layer" fill="#436d9e">PRESENTATION</text>
+  <text x="650" y="438" class="label">Login view · LoginViewModel</text>
+  <text x="650" y="466" class="body">User enters login name and password</text>
 
-  <polygon points="788,548 928,648 788,748 648,648" class="decision" fill="#fff3dc" stroke="#d2a24a" />
-  <text x="788" y="632" class="label" text-anchor="middle">Credentials valid?</text>
-  <text x="788" y="662" class="small" text-anchor="middle">User.IsUserExist reads data.xml</text>
+  <!-- Shutdown -->
+  <g filter="url(#shadow)">
+    <rect x="95" y="375" width="360" height="110" rx="22" class="card" fill="#f3f6f8" stroke="#91a5af" />
+  </g>
+  <text x="130" y="411" class="layer" fill="#647b86">WPF SERVICE</text>
+  <text x="130" y="448" class="label">Application shutdown</text>
+  <text x="130" y="474" class="small">Login Cancel command</text>
 
-  <rect x="1092" y="594" width="304" height="108" class="shadow" fill="#ddd6c2" />
-  <rect x="1080" y="582" width="304" height="108" class="card" fill="#fff3dc" stroke="#d2a24a" />
-  <text x="1112" y="626" class="label">Login error</text>
-  <text x="1112" y="660" class="body">Message dialog shown</text>
+  <!-- Authentication -->
+  <g filter="url(#shadow)">
+    <rect x="610" y="555" width="580" height="130" rx="22" class="card" fill="#e4f6ea" stroke="#63a77a" />
+  </g>
+  <text x="650" y="591" class="layer" fill="#438359">APPLICATION</text>
+  <text x="650" y="628" class="label">AuthenticationService.Authenticate</text>
+  <text x="650" y="656" class="body">Loads users through IUserRepository and matches credentials</text>
 
-  <rect x="550" y="820" width="500" height="164" class="shadow" fill="#c9dbe5" />
-  <rect x="538" y="808" width="500" height="164" class="card" fill="#dff2fb" stroke="#5d9fc2" />
-  <text x="576" y="854" class="label">User list view</text>
-  <text x="576" y="888" class="body">ViewType = UserList</text>
-  <text x="576" y="914" class="small">Loads users from data.xml, builds city list, selects current user</text>
-  <text x="576" y="940" class="small">Find refreshes the filtered list in memory</text>
+  <!-- XML repository / store -->
+  <g filter="url(#shadow)">
+    <rect x="1290" y="555" width="410" height="130" rx="22" class="card" fill="#dff2fb" stroke="#5d9fc2" />
+  </g>
+  <text x="1325" y="591" class="layer" fill="#397fa4">INFRASTRUCTURE</text>
+  <text x="1325" y="628" class="label">XmlUserRepository</text>
+  <text x="1325" y="656" class="body">Reads and writes Data/data.xml</text>
 
-  <rect x="120" y="840" width="304" height="120" class="shadow" fill="#d7d0e5" />
-  <rect x="108" y="828" width="304" height="120" class="card" fill="#efe8fb" stroke="#9c82c9" />
-  <text x="140" y="872" class="label">Export JSON</text>
-  <text x="140" y="906" class="body">Exports current visible list</text>
-  <text x="140" y="932" class="small">Writes data.json and shows result message</text>
+  <!-- Login decision -->
+  <polygon points="900,750 1070,850 900,950 730,850" class="decision" fill="#fff3dc" stroke="#d2a24a" />
+  <text x="900" y="840" class="label" text-anchor="middle">Credentials valid?</text>
+  <text x="900" y="868" class="small" text-anchor="middle">Exact login name + password match</text>
 
-  <rect x="1180" y="840" width="304" height="120" class="shadow" fill="#ddd6c2" />
-  <rect x="1168" y="828" width="304" height="120" class="card" fill="#fff3dc" stroke="#d2a24a" />
-  <text x="1200" y="872" class="label">Edit selected user</text>
-  <text x="1200" y="906" class="body">Stores CurrentUsers snapshot</text>
-  <text x="1200" y="932" class="small">Navigates to user editor</text>
+  <!-- Login error -->
+  <g filter="url(#shadow)">
+    <rect x="1265" y="795" width="390" height="115" rx="22" class="card" fill="#fff3dc" stroke="#d2a24a" />
+  </g>
+  <text x="1300" y="831" class="layer" fill="#9b6d19">PRESENTATION</text>
+  <text x="1300" y="868" class="label">Show login error</text>
+  <text x="1300" y="894" class="small">Remain on Login view and allow retry</text>
 
-  <rect x="1092" y="1040" width="380" height="152" class="shadow" fill="#d8e5d0" />
-  <rect x="1080" y="1028" width="380" height="152" class="card" fill="#e7f4e5" stroke="#79b06d" />
-  <text x="1116" y="1074" class="label">User edit view</text>
-  <text x="1116" y="1108" class="body">ViewType = User</text>
-  <text x="1116" y="1134" class="small">User fields are edited with WPF validation rules</text>
-  <text x="1116" y="1160" class="small">Save or Cancel returns to the list</text>
+  <!-- User list -->
+  <g filter="url(#shadow)">
+    <rect x="610" y="1020" width="500" height="155" rx="22" class="card" fill="#e8f1ff" stroke="#668fc4" />
+  </g>
+  <text x="650" y="1056" class="layer" fill="#436d9e">PRESENTATION</text>
+  <text x="650" y="1093" class="label">User list · UserListViewModel</text>
+  <text x="650" y="1121" class="body">Load cities and users; restore the current selection</text>
+  <text x="650" y="1147" class="small">Available commands: Find, Export JSON, Edit selected user</text>
 
-  <rect x="460" y="1060" width="320" height="112" class="shadow" fill="#d7d0e5" />
-  <rect x="448" y="1048" width="320" height="112" class="card" fill="#efe8fb" stroke="#9c82c9" />
-  <text x="480" y="1092" class="label">Save</text>
-  <text x="480" y="1126" class="body">UserList.SaveCurrentUsers writes data.xml</text>
+  <!-- Query service -->
+  <g filter="url(#shadow)">
+    <rect x="95" y="1020" width="400" height="155" rx="22" class="card" fill="#e4f6ea" stroke="#63a77a" />
+  </g>
+  <text x="130" y="1056" class="layer" fill="#438359">APPLICATION</text>
+  <text x="130" y="1093" class="label">UserQueryService</text>
+  <text x="130" y="1121" class="body">Reload XML, then filter by city</text>
+  <text x="130" y="1147" class="small">Searches all supported user fields</text>
 
-  <rect x="96" y="560" width="330" height="132" class="shadow" fill="#d8e5d0" />
-  <rect x="84" y="548" width="330" height="132" class="card" fill="#e7f4e5" stroke="#79b06d" />
-  <text x="116" y="594" class="label">Persistent data</text>
-  <text x="116" y="628" class="body">data.xml is the primary store</text>
-  <text x="116" y="654" class="small">Login, list loading, and save use the XML file</text>
+  <!-- Find -->
+  <g filter="url(#shadow)">
+    <rect x="95" y="1260" width="400" height="125" rx="22" class="card" fill="#e8f1ff" stroke="#668fc4" />
+  </g>
+  <text x="130" y="1296" class="layer" fill="#436d9e">FIND COMMAND</text>
+  <text x="130" y="1333" class="label">Refresh filtered users</text>
+  <text x="130" y="1360" class="small">Query XML again and select the first result</text>
 
-  <rect x="96" y="980" width="330" height="112" class="shadow" fill="#cddae0" />
-  <rect x="84" y="968" width="330" height="112" class="card" fill="#eef5f8" stroke="#90a9b7" />
-  <text x="116" y="1012" class="label">Export file</text>
-  <text x="116" y="1046" class="body">data.json receives the exported list</text>
+  <!-- Export -->
+  <g filter="url(#shadow)">
+    <rect x="610" y="1260" width="400" height="125" rx="22" class="card" fill="#dff2fb" stroke="#5d9fc2" />
+  </g>
+  <text x="645" y="1296" class="layer" fill="#397fa4">EXPORT COMMAND / INFRASTRUCTURE</text>
+  <text x="645" y="1333" class="label">JsonUserExportService</text>
+  <text x="645" y="1360" class="small">Exports the currently visible Users collection</text>
 
-  <path d="M788 288 L788 348" class="edge" marker-end="url(#arrow)" />
-  <path d="M788 488 L788 548" class="edge" marker-end="url(#arrow)" />
+  <!-- JSON file -->
+  <g filter="url(#shadow)">
+    <rect x="610" y="1460" width="400" height="105" rx="22" class="card" fill="#fff8e9" stroke="#caaa67" />
+  </g>
+  <text x="645" y="1496" class="layer" fill="#98752e">RUNTIME DATA</text>
+  <text x="645" y="1533" class="label">Data/data.json</text>
+  <text x="645" y="1558" class="small">Success or error message is displayed</text>
 
-  <path d="M648 648 L414 648" class="edge-soft" marker-end="url(#arrowSoft)" />
-  <text x="498" y="630" class="edge-label">reads XML</text>
+  <!-- Begin edit -->
+  <g filter="url(#shadow)">
+    <rect x="1125" y="1020" width="575" height="155" rx="22" class="card" fill="#e8f1ff" stroke="#668fc4" />
+  </g>
+  <text x="1160" y="1056" class="layer" fill="#436d9e">EDIT COMMAND / PRESENTATION</text>
+  <text x="1160" y="1093" class="label">Begin edit session</text>
+  <text x="1160" y="1121" class="body">Reload full user list and copy selected user</text>
+  <text x="1160" y="1147" class="small">Navigate to User view; original list remains unchanged</text>
 
-  <path d="M928 648 L1080 648" class="edge" marker-end="url(#arrow)" />
-  <text x="992" y="630" class="edge-label">No</text>
+  <!-- User editor -->
+  <g filter="url(#shadow)">
+    <rect x="1125" y="1260" width="575" height="125" rx="22" class="card" fill="#e8f1ff" stroke="#668fc4" />
+  </g>
+  <text x="1160" y="1296" class="layer" fill="#436d9e">PRESENTATION</text>
+  <text x="1160" y="1333" class="label">User editor · UserViewModel</text>
+  <text x="1160" y="1360" class="small">Edit the copied user with WPF validation</text>
 
-  <path d="M1232 690 L1232 724 L788 724 L788 748" class="edge-soft" marker-end="url(#arrowSoft)" />
-  <text x="990" y="708" class="edge-label">retry login</text>
+  <!-- Save use case -->
+  <g filter="url(#shadow)">
+    <rect x="1125" y="1460" width="575" height="105" rx="22" class="card" fill="#e4f6ea" stroke="#63a77a" />
+  </g>
+  <text x="1160" y="1496" class="layer" fill="#438359">SAVE COMMAND / APPLICATION</text>
+  <text x="1160" y="1533" class="label">SaveUserUseCase</text>
+  <text x="1160" y="1558" class="small">Create snapshot → save XML → complete edit session</text>
 
-  <path d="M788 748 L788 808" class="edge" marker-end="url(#arrow)" />
-  <text x="812" y="784" class="edge-label">Yes</text>
+  <!-- Main flow edges -->
+  <path d="M900 305 L900 365" class="edge" />
+  <path d="M610 430 L455 430" class="return-edge" />
+  <text x="505" y="413" class="edge-label">Cancel</text>
+  <path d="M900 495 L900 555" class="edge" />
+  <text x="920" y="532" class="edge-label">Login</text>
+  <path d="M1190 620 L1290 620" class="data-edge" />
+  <text x="1213" y="602" class="edge-label">load users</text>
+  <path d="M1495 685 L1495 720 L1070 720 L1070 800" class="return-edge" />
+  <text x="1245" y="706" class="edge-label">user records</text>
+  <path d="M900 685 L900 750" class="edge" />
 
-  <path d="M538 892 L412 892" class="edge" marker-end="url(#arrow)" />
-  <text x="438" y="874" class="edge-label">Export command</text>
+  <path d="M1070 850 L1265 850" class="edge" />
+  <text x="1150" y="832" class="edge-label">No</text>
+  <path d="M1460 910 L1460 965 L1190 965 L1190 430" class="return-edge" />
+  <text x="1330" y="949" class="edge-label">retry</text>
+  <path d="M900 950 L900 1020" class="edge" />
+  <text x="922" y="990" class="edge-label">Yes · navigate</text>
 
-  <path d="M272 948 L272 968" class="edge-soft" marker-end="url(#arrowSoft)" />
-  <text x="294" y="962" class="edge-label">writes</text>
+  <!-- User list loading and filtering -->
+  <path d="M610 1080 L495 1080" class="data-edge" />
+  <text x="518" y="1079" class="edge-label">initial load</text>
+  <path d="M295 1020 L295 945 L1290 945 L1290 685" class="data-edge" />
+  <text x="520" y="927" class="edge-label">IUserRepository / IAddressCityRepository</text>
+  <path d="M495 1140 L610 1140" class="return-edge" />
+  <text x="518" y="1124" class="edge-label">query result</text>
+  <path d="M700 1175 L700 1215 L295 1215 L295 1260" class="edge" />
+  <text x="465" y="1198" class="edge-label">Find</text>
+  <path d="M295 1260 L295 1175" class="edge" />
+  <text x="315" y="1222" class="edge-label">run query</text>
 
-  <path d="M1038 892 L1168 892" class="edge" marker-end="url(#arrow)" />
-  <text x="1086" y="874" class="edge-label">Edit command</text>
+  <!-- Export branch -->
+  <path d="M810 1175 L810 1260" class="edge" />
+  <text x="830" y="1222" class="edge-label">Export</text>
+  <path d="M810 1385 L810 1460" class="data-edge" />
+  <text x="830" y="1427" class="edge-label">write JSON</text>
 
-  <path d="M1270 960 L1270 1028" class="edge" marker-end="url(#arrow)" />
+  <!-- Edit, cancel and save branches -->
+  <path d="M1110 1097 L1125 1097" class="edge" />
+  <path d="M1412 1175 L1412 1260" class="edge" />
+  <text x="1432" y="1222" class="edge-label">navigate</text>
+  <path d="M1412 1385 L1412 1460" class="edge" />
+  <text x="1432" y="1427" class="edge-label">Save</text>
+  <path d="M1125 1322 L1060 1322 L1060 1198 L900 1198 L900 1175" class="return-edge" />
+  <text x="940" y="1220" class="edge-label">Cancel · clear session</text>
+  <path d="M1700 1512 L1735 1512 L1735 620 L1700 620" class="data-edge" />
+  <text x="1717" y="1080" class="edge-label" transform="rotate(-90 1717 1080)">save via XmlUserRepository</text>
+  <path d="M1125 1512 L1065 1512 L1065 1585 L900 1585 L900 1175" class="return-edge" />
+  <text x="916" y="1578" class="edge-label">success · complete session and return to list</text>
 
-  <path d="M1080 1104 L768 1104" class="edge" marker-end="url(#arrow)" />
-  <text x="908" y="1086" class="edge-label">Save</text>
-
-  <path d="M608 1048 L608 984" class="edge" marker-end="url(#arrow)" />
-  <text x="632" y="1018" class="edge-label">back to list</text>
-
-  <path d="M1270 1028 L1270 984 L1038 984" class="edge-soft" marker-end="url(#arrowSoft)" />
-  <text x="1156" y="1000" class="edge-label">Cancel</text>
-
-  <path d="M538 860 L414 860 L414 680" class="edge-soft" marker-end="url(#arrowSoft)" />
-  <text x="430" y="778" class="edge-label">initial load / refresh source</text>
-
-  <path d="M448 1104 L414 1104 L414 680" class="edge-soft" marker-end="url(#arrowSoft)" />
-  <text x="182" y="886" class="edge-label">save writes XML</text>
+  <!-- Legend -->
+  <line x1="95" y1="1595" x2="145" y2="1595" class="edge" />
+  <text x="160" y="1601" class="legend">command / navigation</text>
+  <line x1="365" y1="1595" x2="415" y2="1595" class="data-edge" />
+  <text x="430" y="1601" class="legend">repository / file I/O</text>
+  <line x1="630" y1="1595" x2="680" y2="1595" class="return-edge" />
+  <text x="695" y="1601" class="legend">return / retry</text>
 </svg>

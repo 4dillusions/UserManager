@@ -8,5 +8,5 @@ namespace App4di.Dotnet.UserManager.Application.Repositories;
 
 public interface IAddressCityRepository
 {
-    List<string> LoadAddressCities();
+    IReadOnlyList<string> LoadAddressCities();
 }

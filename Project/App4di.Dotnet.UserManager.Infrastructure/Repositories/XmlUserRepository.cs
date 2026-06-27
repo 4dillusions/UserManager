@@ -25,17 +25,17 @@ public class XmlUserRepository : IUserRepository
         this.dataManager = dataManager ?? throw new ArgumentNullException(nameof(dataManager));
     }
 
-    public List<UserData> LoadUsers()
+    public IReadOnlyList<UserData> LoadUsers()
     {
         EnsureDataFileExists();
         return dataManager.Load(Constants.XmlDataFilePath);
     }
 
-    public void SaveUsers(List<UserData> users)
+    public void SaveUsers(IEnumerable<UserData> users)
     {
         ArgumentNullException.ThrowIfNull(users);
         EnsureDataFileExists();
-        dataManager.Save(users, Constants.XmlDataFilePath);
+        dataManager.Save(users.ToList(), Constants.XmlDataFilePath);
     }
 
     private static void EnsureDataFileExists()

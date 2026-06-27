@@ -10,6 +10,6 @@ namespace App4di.Dotnet.UserManager.Application.Users;
 
 public interface IUserQueryService
 {
-    List<UserData> GetUsers(UserQueryCriteria filter);
-    List<string> GetAddressCities();
+    IReadOnlyList<UserData> GetUsers(UserQueryCriteria filter);
+    IReadOnlyList<string> GetAddressCities();
 }

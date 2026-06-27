@@ -39,9 +39,9 @@ public class AuthenticationServiceTests
 
     private sealed class UserRepositoryStub(List<UserData> users) : IUserRepository
     {
-        public List<UserData> LoadUsers() => users;
+        public IReadOnlyList<UserData> LoadUsers() => users;
 
-        public void SaveUsers(List<UserData> users)
+        public void SaveUsers(IEnumerable<UserData> users)
         {
             throw new NotSupportedException();
         }

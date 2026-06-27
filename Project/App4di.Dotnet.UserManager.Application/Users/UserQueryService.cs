@@ -6,6 +6,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 
 using App4di.Dotnet.UserManager.Application.Repositories;
 using App4di.Dotnet.UserManager.Domain;
+using System.Globalization;
 
 namespace App4di.Dotnet.UserManager.Application.Users;
 
@@ -20,7 +21,7 @@ public class UserQueryService : IUserQueryService
         this.addressCityRepository = addressCityRepository ?? throw new ArgumentNullException(nameof(addressCityRepository));
     }
 
-    public List<UserData> GetUsers(UserQueryCriteria filter)
+    public IReadOnlyList<UserData> GetUsers(UserQueryCriteria filter)
     {
         ArgumentNullException.ThrowIfNull(filter);
 
@@ -33,14 +34,14 @@ public class UserQueryService : IUserQueryService
             MatchesSearch(user, filter.TextInAll)).ToList();
     }
 
-    public List<string> GetAddressCities()
+    public IReadOnlyList<string> GetAddressCities()
     {
         return addressCityRepository.LoadAddressCities();
     }
 
     private static bool MatchesSearch(UserData user, string searchText)
     {
-        return GetSearchableFields(user).Any(field => field.Contains(searchText));
+        return GetSearchableFields(user).Any(field => field.Contains(searchText, StringComparison.Ordinal));
     }
 
     private static IEnumerable<string> GetSearchableFields(UserData user)
@@ -49,7 +50,7 @@ public class UserQueryService : IUserQueryService
         yield return user.LoginName ?? string.Empty;
         yield return user.FirstName ?? string.Empty;
         yield return user.Surname ?? string.Empty;
-        yield return user.BirthDate.ToString();
+        yield return user.BirthDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
         yield return user.BirthPlace ?? string.Empty;
         yield return user.AddressCity ?? string.Empty;
     }

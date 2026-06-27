@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <User>
+<ArrayOfUserData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <UserData>
     <UserId>1</UserId>
     <LoginName>Albert</LoginName>
-    <Password>Albert1</Password>
+    <Password>albert</Password>
     <FirstName>Albert</FirstName>
     <Surname>Einstein</Surname>
     <BirthDate>2879-03-14T00:00:00</BirthDate>
     <BirthPlace>German</BirthPlace>
     <AddressCity>Württemberg</AddressCity>
-  </User>
-  <User>
+  </UserData>
+  <UserData>
     <UserId>2</UserId>
     <LoginName>Zoltan</LoginName>
-    <Password>Zoltan1</Password>
+    <Password>zoltan</Password>
     <FirstName>Zoltan</FirstName>
     <Surname>Kodaly</Surname>
     <BirthDate>1882-12-16T00:00:00</BirthDate>
     <BirthPlace>Hungary</BirthPlace>
     <AddressCity>Kecskemet</AddressCity>
-  </User>
-  <User>
+  </UserData>
+  <UserData>
     <UserId>3</UserId>
     <LoginName>Erno</LoginName>
-    <Password>Erno1234</Password>
+    <Password>erno</Password>
     <FirstName>Erno</FirstName>
     <Surname>Rubik</Surname>
     <BirthDate>1944-07-13T00:00:00</BirthDate>
     <BirthPlace>Hungary</BirthPlace>
     <AddressCity>Budapest</AddressCity>
-  </User>
-  <User>
+  </UserData>
+  <UserData>
     <UserId>4</UserId>
     <LoginName>Nikola</LoginName>
-    <Password>Nikola1</Password>
+    <Password>nikola</Password>
     <FirstName>Nikola</FirstName>
     <Surname>Tesla</Surname>
     <BirthDate>1856-07-10T00:00:00</BirthDate>
     <BirthPlace>Hungary Kingdom</BirthPlace>
     <AddressCity>Smiljan</AddressCity>
-  </User>
-  <User>
+  </UserData>
+  <UserData>
     <UserId>5</UserId>
     <LoginName>Charles</LoginName>
-    <Password>Charles1</Password>
+    <Password>charles</Password>
     <FirstName>Charles</FirstName>
     <Surname>Simonyi</Surname>
     <BirthDate>1948-09-10T00:00:00</BirthDate>
     <BirthPlace>Hungary</BirthPlace>
     <AddressCity>Washington</AddressCity>
-  </User>
-</ArrayOfUser>
+  </UserData>
+</ArrayOfUserData>

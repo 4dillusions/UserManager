@@ -10,6 +10,6 @@ namespace App4di.Dotnet.UserManager.Application.Repositories;
 
 public interface IUserRepository
 {
-    List<UserData> LoadUsers();
-    void SaveUsers(List<UserData> users);
+    IReadOnlyList<UserData> LoadUsers();
+    void SaveUsers(IEnumerable<UserData> users);
 }

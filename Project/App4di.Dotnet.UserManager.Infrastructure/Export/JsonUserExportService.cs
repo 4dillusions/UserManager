@@ -25,14 +25,14 @@ public class JsonUserExportService : IUserExportService
         this.dataManager = dataManager ?? throw new ArgumentNullException(nameof(dataManager));
     }
 
-    public bool ExportUsers(List<UserData> users)
+    public bool ExportUsers(IEnumerable<UserData> users)
     {
         ArgumentNullException.ThrowIfNull(users);
 
         if (File.Exists(Constants.JsonDataFilePath))
             File.Delete(Constants.JsonDataFilePath);
 
-        dataManager.Save(users, Constants.JsonDataFilePath);
+        dataManager.Save(users.ToList(), Constants.JsonDataFilePath);
         return File.Exists(Constants.JsonDataFilePath);
     }
 }

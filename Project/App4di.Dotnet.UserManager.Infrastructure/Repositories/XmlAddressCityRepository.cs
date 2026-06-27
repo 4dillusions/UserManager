@@ -17,7 +17,7 @@ public class XmlAddressCityRepository : IAddressCityRepository
         this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
     }
 
-    public List<string> LoadAddressCities()
+    public IReadOnlyList<string> LoadAddressCities()
     {
         return userRepository.LoadUsers()
             .Select(user => user.AddressCity)

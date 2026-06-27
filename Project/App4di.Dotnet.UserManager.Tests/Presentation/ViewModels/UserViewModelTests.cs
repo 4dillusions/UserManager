@@ -142,17 +142,17 @@ public class UserViewModelTests
         public List<UserData>? SavedUsers { get; private set; }
         public Exception? SaveException { get; init; }
 
-        public List<UserData> LoadUsers()
+        public IReadOnlyList<UserData> LoadUsers()
         {
             throw new NotSupportedException();
         }
 
-        public void SaveUsers(List<UserData> users)
+        public void SaveUsers(IEnumerable<UserData> users)
         {
             if (SaveException != null)
                 throw SaveException;
 
-            SavedUsers = users;
+            SavedUsers = users.ToList();
         }
     }
 

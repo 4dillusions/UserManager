@@ -99,7 +99,7 @@ public class UserListViewModelTests
         public int GetAddressCitiesCallCount { get; private set; }
         public UserQueryCriteria? LastFilter { get; private set; }
 
-        public List<UserData> GetUsers(UserQueryCriteria filter)
+        public IReadOnlyList<UserData> GetUsers(UserQueryCriteria filter)
         {
             GetUsersCallCount++;
             LastFilter = new UserQueryCriteria
@@ -114,7 +114,7 @@ public class UserListViewModelTests
             ];
         }
 
-        public List<string> GetAddressCities()
+        public IReadOnlyList<string> GetAddressCities()
         {
             GetAddressCitiesCallCount++;
             return
@@ -136,10 +136,10 @@ public class UserListViewModelTests
         public int CallCount { get; private set; }
         public List<UserData> ExportedUsers { get; private set; } = [];
 
-        public bool ExportUsers(List<UserData> users)
+        public bool ExportUsers(IEnumerable<UserData> users)
         {
             CallCount++;
-            ExportedUsers = users;
+            ExportedUsers = users.ToList();
             return true;
         }
     }

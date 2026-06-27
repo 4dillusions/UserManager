@@ -43,7 +43,7 @@ public class SaveUserUseCaseTests
 
     private sealed class UserSaveSessionStub(List<UserData> users, List<string> calls) : IUserSaveSession
     {
-        public List<UserData> CreateSaveSnapshot()
+        public IReadOnlyList<UserData> CreateSaveSnapshot()
         {
             calls.Add("snapshot");
             return users;
@@ -57,15 +57,15 @@ public class SaveUserUseCaseTests
 
     private sealed class UserRepositoryStub(List<string> calls) : IUserRepository
     {
-        public List<UserData>? SavedUsers { get; private set; }
+        public IEnumerable<UserData>? SavedUsers { get; private set; }
         public Exception? SaveException { get; init; }
 
-        public List<UserData> LoadUsers()
+        public IReadOnlyList<UserData> LoadUsers()
         {
             throw new NotSupportedException();
         }
 
-        public void SaveUsers(List<UserData> users)
+        public void SaveUsers(IEnumerable<UserData> users)
         {
             calls.Add("save");
             if (SaveException != null)
