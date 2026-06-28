@@ -25,12 +25,12 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Row="1" Grid.Column="0" Content="Login Name" HorizontalAlignment="Right"/>
-                <TextBox Grid.Row="1" Grid.Column="1" MaxWidth="120" Margin="0, 2, 0, 0" Text="{Binding LoginName, Mode=TwoWay}"/>
+                <TextBox x:Name="LoginNameText" Grid.Row="1" Grid.Column="1" MaxWidth="120" Margin="0, 2, 0, 0" Text="{Binding LoginName, Mode=TwoWay}"/>
                 <Label Grid.Row="2" Grid.Column="0" Content="Password" HorizontalAlignment="Right"/>
                 <PasswordBox Grid.Row="2" Grid.Column="1" Margin="0, 2, 0, 0" PasswordChar="*" x:Name="Password" MaxWidth="120"/>
 
-                <Button Grid.Row="4" Grid.Column="0" Content="OK" Command="{Binding LoginCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
-                <Button Grid.Row="4" Grid.Column="1" Content="Cancel" Command="{Binding CancelCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
+                <Button Grid.Row="4" Grid.Column="0" Content="🔐 Log In" IsDefault="True" Command="{Binding LoginCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
+                <Button Grid.Row="4" Grid.Column="1" Content="❌ Cancel" Command="{Binding CancelCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
             </Grid>
 
             <Label Content=" User Manager by Robert Oze" FontSize="13" FontWeight="Bold" Height="40" Width="300" HorizontalAlignment="Center"

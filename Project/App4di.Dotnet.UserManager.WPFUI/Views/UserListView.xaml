@@ -26,11 +26,17 @@
                 <ComboBox MinWidth="200" Margin="10, 2, 0, 2" ItemsSource="{Binding AddressCities}" SelectedItem="{Binding SelectedAddressCity, Mode=TwoWay}"/>
                 <Label Grid.Row="0" Content="Search"/>
                 <TextBox MinWidth="200" Margin="10, 2, 0, 4" Text="{Binding TextInAll, Mode=TwoWay}"/>
-                <Button MinWidth="120" Margin="50, 2, 0, 2" Content="Find" Command="{Binding FindCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
+                <Button MinWidth="30" MaxWidth="30" Margin="2, 2, 0, 2" Content="X" ToolTip="Clear search"
+                        Command="{Binding ClearSearchCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
+                <Button MinWidth="120" Margin="10, 2, 0, 2" Content="🔍 Search" Command="{Binding FindCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
             </StackPanel>
 
             <DataGrid Grid.Row="1" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser, Mode=TwoWay}" 
                  HeadersVisibility="Column" AutoGenerateColumns="False" IsReadOnly="True" Grid.ColumnSpan="2" SelectionMode="Single" SelectionUnit="FullRow">
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#A8DDE6"/>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="#16313D"/>
+                </DataGrid.Resources>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="User ID" Binding="{Binding UserId}" Width="*" />
                     <DataGridTextColumn Header="Login Name" Binding="{Binding LoginName}" Width="*" />
@@ -43,10 +49,13 @@
                 </DataGrid.Columns>
             </DataGrid>
                   
-            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
-                <Button Content="Edit User" Command="{Binding EditCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
-                <Button Content="Export data to Json" Command="{Binding ExportCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
-            </StackPanel>
+            <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button MinWidth="140" MaxWidth="140" Margin="5,0,0,0" Content="✏️ Edit User" Command="{Binding EditCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
+                </StackPanel>
+                <Button MinWidth="180" MaxWidth="180" HorizontalAlignment="Right" Margin="0,0,5,0" Content="📤 Export to JSON"
+                        Command="{Binding ExportCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
+            </Grid>
         </Grid>
 
         <Label Content=" User Manager by Robert Oze - www.4dillusions.com" FontSize="13" FontWeight="Bold" Height="40" Width="910" HorizontalAlignment="Center"

@@ -38,7 +38,7 @@
 			    Style="{StaticResource textBoxInError}">
                 <Binding Path="User.LoginName" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <validators:DataLengthRule/>
+                        <validators:DataLengthRule ValidatesOnTargetUpdated="True"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox>
@@ -56,7 +56,7 @@
 			    Style="{StaticResource textBoxInError}">
                 <Binding Path="User.Password" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <validators:PasswordRule/>
+                        <validators:PasswordRule ValidatesOnTargetUpdated="True"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox>
@@ -74,7 +74,7 @@
 			    Style="{StaticResource textBoxInError}">
                 <Binding Path="User.FirstName" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <validators:DataLengthRule/>
+                        <validators:DataLengthRule ValidatesOnTargetUpdated="True"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox>
@@ -92,7 +92,7 @@
 			    Style="{StaticResource textBoxInError}">
                 <Binding Path="User.Surname" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <validators:DataLengthRule/>
+                        <validators:DataLengthRule ValidatesOnTargetUpdated="True"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox>
@@ -105,7 +105,7 @@
             </TextBlock>
 
             <Label Grid.Row="5" Grid.Column="0" Content="Birth Date" HorizontalAlignment="Left"/>
-            <DatePicker Grid.Row="5" Grid.Column="1" MinWidth="250" HorizontalAlignment="Left" Margin="2, 2, 0, 2" SelectedDate="{Binding User.BirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <DatePicker x:Name="BirthDatePicker" Grid.Row="5" Grid.Column="1" MinWidth="250" HorizontalAlignment="Left" Margin="2, 2, 0, 2" SelectedDate="{Binding User.BirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Grid.Row="6" Grid.Column="0" Content="Birth Place" HorizontalAlignment="Left"/>
             <TextBox x:Name="BirthPlaceText" Grid.Row="6" Grid.Column="1" MinWidth="200" HorizontalAlignment="Left" Margin="2, 2, 0, 2" 
@@ -113,7 +113,7 @@
 			    Style="{StaticResource textBoxInError}">
                 <Binding Path="User.BirthPlace" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <validators:DataLengthRule/>
+                        <validators:DataLengthRule ValidatesOnTargetUpdated="True"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox>
@@ -131,7 +131,7 @@
 			    Style="{StaticResource textBoxInError}">
                 <Binding Path="User.AddressCity" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <validators:DataLengthRule/>
+                        <validators:DataLengthRule ValidatesOnTargetUpdated="True"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox>
@@ -143,7 +143,7 @@
                 </TextBlock.Text>
             </TextBlock>
 
-            <Button Grid.Row="9" Grid.Column="0" Content="Save" Command="{Binding SaveCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}">
+            <Button Grid.Row="9" Grid.Column="0" Content="💾 Save" Command="{Binding SaveCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
                         <Setter Property="IsEnabled" Value="false" />
@@ -154,6 +154,7 @@
                                     <Condition Binding="{Binding (Validation.HasError), ElementName=PasswordText}" Value="false" />
                                     <Condition Binding="{Binding (Validation.HasError), ElementName=FirstNameText}" Value="false" />
                                     <Condition Binding="{Binding (Validation.HasError), ElementName=SurnameText}" Value="false" />
+                                    <Condition Binding="{Binding (Validation.HasError), ElementName=BirthDatePicker}" Value="false" />
                                     <Condition Binding="{Binding (Validation.HasError), ElementName=BirthPlaceText}" Value="false" />
                                     <Condition Binding="{Binding (Validation.HasError), ElementName=AddressCityText}" Value="false" />
                                 </MultiDataTrigger.Conditions>
@@ -164,8 +165,8 @@
                 </Button.Style>
             </Button>
 
-            <Button Grid.Row="9" Grid.Column="1" Content="Cancel" HorizontalAlignment="Left" 
-			    Command="{Binding CancelCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
+            <Button Grid.Row="9" Grid.Column="1" Content="❌ Cancel" HorizontalAlignment="Left"
+                    Command="{Binding CancelCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
         </Grid>
 
         <Label Content=" User Manager by Robert Oze - www.4dillusions.com" FontSize="13" FontWeight="Bold" Height="40" Width="746" HorizontalAlignment="Center"

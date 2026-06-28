@@ -39,9 +39,9 @@ public class JsonUserExportServiceTests
     {
         File.WriteAllText(DataFilePaths.JsonDataFilePath, "existing content");
 
-        var exported = exportService.ExportUsers(CreateUsers());
+        var exportedFilePath = exportService.ExportUsers(CreateUsers());
 
-        Assert.IsTrue(exported);
+        Assert.AreEqual(Path.GetFullPath(DataFilePaths.JsonDataFilePath), exportedFilePath);
         Assert.IsTrue(File.Exists(DataFilePaths.JsonDataFilePath));
 
         using var document = JsonDocument.Parse(File.ReadAllText(DataFilePaths.JsonDataFilePath));

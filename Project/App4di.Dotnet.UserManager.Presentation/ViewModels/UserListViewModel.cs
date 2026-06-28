@@ -87,6 +87,7 @@ public class UserListViewModel : NotificationObject
         {
             filter.TextInAll = value;
             RaisePropertyChanged();
+            clearSearchCommand?.RaiseCanExecuteChanged();
         }
     }
 
@@ -101,6 +102,7 @@ public class UserListViewModel : NotificationObject
             sessionService.SelectedUser = value;
             selectedUser = value;
             RaisePropertyChanged();
+            editCommand?.RaiseCanExecuteChanged();
         }
     }
 
@@ -138,6 +140,27 @@ public class UserListViewModel : NotificationObject
         return true;
     }
 
+    private RelayCommand? clearSearchCommand;
+    public FW4di.Dotnet.MVVM.ICommand ClearSearchCommand
+    {
+        get
+        {
+            clearSearchCommand ??= new RelayCommand(_ => ClearSearch(), _ => CanClearSearch());
+            return clearSearchCommand;
+        }
+    }
+
+    private void ClearSearch()
+    {
+        TextInAll = string.Empty;
+        Find();
+    }
+
+    private bool CanClearSearch()
+    {
+        return !string.IsNullOrEmpty(TextInAll);
+    }
+
     private RelayCommand? editCommand;
     public FW4di.Dotnet.MVVM.ICommand EditCommand
     {
@@ -159,7 +182,7 @@ public class UserListViewModel : NotificationObject
 
     private bool CanEdit()
     {
-        return true;
+        return SelectedUser != null;
     }
 
     private RelayCommand? exportCommand;
@@ -176,8 +199,8 @@ public class UserListViewModel : NotificationObject
     {
         try
         {
-            if (userExportService.ExportUsers(Users.Select(UserMapper.ToUserData)))
-                messageService.ShowMessage("Data exported to Json file");
+            var exportFilePath = userExportService.ExportUsers(Users.Select(UserMapper.ToUserData));
+            messageService.ShowMessage($"Data exported to JSON file:{Environment.NewLine}{exportFilePath}");
         }
         catch (Exception ex)
         {

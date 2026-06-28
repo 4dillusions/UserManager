@@ -34,6 +34,31 @@ public class UserViewModelTests
     }
 
     [TestMethod]
+    public void SaveCommandRequiresChangesAndNotifiesWhenEditStateChanges()
+    {
+        var original = CreateUser(1, "Original");
+        var editSessionService = CreateEditSession(original, [original]);
+        var viewModel = CreateViewModel(
+            new NavigationService(),
+            new UserRepositoryStub(),
+            editSessionService);
+        var saveCommand = viewModel.SaveCommand;
+        var canExecuteChangedCount = 0;
+        saveCommand.CanExecuteChanged += (_, _) => canExecuteChangedCount++;
+
+        Assert.IsFalse(saveCommand.CanExecute(null));
+
+        viewModel.User!.Surname = "Changed";
+
+        Assert.IsTrue(saveCommand.CanExecute(null));
+
+        viewModel.User.Surname = "Original";
+
+        Assert.IsFalse(saveCommand.CanExecute(null));
+        Assert.AreEqual(2, canExecuteChangedCount);
+    }
+
+    [TestMethod]
     public void CancelDiscardsChangesAndNavigatesBackWithoutPersisting()
     {
         var original = CreateUser(1, "Original");

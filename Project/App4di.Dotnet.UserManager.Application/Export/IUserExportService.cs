@@ -10,5 +10,5 @@ namespace App4di.Dotnet.UserManager.Application.Export;
 
 public interface IUserExportService
 {
-    bool ExportUsers(IEnumerable<UserData> users);
+    string ExportUsers(IEnumerable<UserData> users);
 }

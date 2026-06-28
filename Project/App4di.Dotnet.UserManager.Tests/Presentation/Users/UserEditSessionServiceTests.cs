@@ -26,6 +26,24 @@ public class UserEditSessionServiceTests
     }
 
     [TestMethod]
+    public void HasChangesTracksEditsAgainstOriginalValues()
+    {
+        var original = CreateUser(1, "Original");
+        var service = new UserEditSessionService();
+        service.BeginEdit(original, [original]);
+
+        Assert.IsFalse(service.HasChanges);
+
+        service.EditingUser!.Surname = "Changed";
+
+        Assert.IsTrue(service.HasChanges);
+
+        service.EditingUser.Surname = "Original";
+
+        Assert.IsFalse(service.HasChanges);
+    }
+
+    [TestMethod]
     public void CancelDiscardsEditableCopy()
     {
         var original = CreateUser(1, "Original");

@@ -32,6 +32,7 @@ public class UserViewModel : NotificationObject
         this.messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
         this.saveUserUseCase = saveUserUseCase ?? throw new ArgumentNullException(nameof(saveUserUseCase));
         this.userEditSessionService = userEditSessionService ?? throw new ArgumentNullException(nameof(userEditSessionService));
+        this.userEditSessionService.EditStateChanged += EditStateChanged;
     }
 
     private RelayCommand? saveCommand;
@@ -59,7 +60,7 @@ public class UserViewModel : NotificationObject
 
     private bool CanSave()
     {
-        return true;
+        return userEditSessionService.HasChanges;
     }
 
     private RelayCommand? cancelCommand;
@@ -81,5 +82,11 @@ public class UserViewModel : NotificationObject
     private bool CanCancel()
     {
         return true;
+    }
+
+    private void EditStateChanged(object? sender, EventArgs e)
+    {
+        RaisePropertyChanged(nameof(User));
+        saveCommand?.RaiseCanExecuteChanged();
     }
 }
