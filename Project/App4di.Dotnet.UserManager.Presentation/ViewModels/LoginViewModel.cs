@@ -5,6 +5,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 */
 
 using App4di.Dotnet.UserManager.Application.Authentication;
+using App4di.Dotnet.UserManager.Presentation.Common;
 using App4di.Dotnet.UserManager.Presentation.Navigation;
 using App4di.Dotnet.UserManager.Presentation.Services;
 using FW4di.Dotnet.MVVM;
@@ -66,7 +67,7 @@ public class LoginViewModel : NotificationObject
         }
         catch (Exception ex)
         {
-            messageService.ShowMessage(ex.Message + "\n " + ex.InnerException, "Refresh error");
+            messageService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Refresh error");
         }
         finally
         {

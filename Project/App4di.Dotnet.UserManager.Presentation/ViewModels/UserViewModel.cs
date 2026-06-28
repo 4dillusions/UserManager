@@ -5,6 +5,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 */
 
 using App4di.Dotnet.UserManager.Application.Users;
+using App4di.Dotnet.UserManager.Presentation.Common;
 using App4di.Dotnet.UserManager.Presentation.Models;
 using App4di.Dotnet.UserManager.Presentation.Navigation;
 using App4di.Dotnet.UserManager.Presentation.Services;
@@ -54,7 +55,7 @@ public class UserViewModel : NotificationObject
         }
         catch (Exception ex)
         {
-            messageService.ShowMessage(ex.Message + "\n " + ex.InnerException, "Save error");
+            messageService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Save error");
         }
     }
 
