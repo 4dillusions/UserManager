@@ -28,19 +28,19 @@ public class XmlUserRepository : IUserRepository
     public IReadOnlyList<UserData> LoadUsers()
     {
         EnsureDataFileExists();
-        return dataManager.Load(Constants.XmlDataFilePath);
+        return dataManager.Load(DataFilePaths.XmlDataFilePath);
     }
 
     public void SaveUsers(IEnumerable<UserData> users)
     {
         ArgumentNullException.ThrowIfNull(users);
         EnsureDataFileExists();
-        dataManager.Save(users.ToList(), Constants.XmlDataFilePath);
+        dataManager.Save(users.ToList(), DataFilePaths.XmlDataFilePath);
     }
 
     private static void EnsureDataFileExists()
     {
-        if (!File.Exists(Constants.XmlDataFilePath))
+        if (!File.Exists(DataFilePaths.XmlDataFilePath))
             throw new FileNotFoundException();
     }
 }

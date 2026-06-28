@@ -22,15 +22,15 @@ public class XmlRepositoryTests
     [TestInitialize]
     public void TestInitialize()
     {
-        Directory.CreateDirectory(Constants.DataFilePath);
+        Directory.CreateDirectory(DataFilePaths.DataDirectoryPath);
         WriteUsers(CreateUsers());
     }
 
     [TestCleanup]
     public void TestCleanup()
     {
-        if (File.Exists(Constants.XmlDataFilePath))
-            File.Delete(Constants.XmlDataFilePath);
+        if (File.Exists(DataFilePaths.XmlDataFilePath))
+            File.Delete(DataFilePaths.XmlDataFilePath);
     }
 
     [TestMethod]
@@ -52,7 +52,7 @@ public class XmlRepositoryTests
 
         userRepository.SaveUsers(users);
 
-        var loadedUsers = new XmlDataManager<UserData>().Load(Constants.XmlDataFilePath);
+        var loadedUsers = new XmlDataManager<UserData>().Load(DataFilePaths.XmlDataFilePath);
         Assert.HasCount(2, loadedUsers);
         Assert.AreEqual("Updated", loadedUsers[0].Surname);
     }
@@ -74,7 +74,7 @@ public class XmlRepositoryTests
     {
         userRepository.SaveUsers(CreateUsers());
 
-        var document = XDocument.Load(Constants.XmlDataFilePath);
+        var document = XDocument.Load(DataFilePaths.XmlDataFilePath);
         var root = document.Root;
         var userElement = root?.Elements(nameof(UserData)).FirstOrDefault();
 
@@ -98,7 +98,7 @@ public class XmlRepositoryTests
 
     private static void WriteUsers(List<UserData> users)
     {
-        new XmlDataManager<UserData>().Save(users, Constants.XmlDataFilePath);
+        new XmlDataManager<UserData>().Save(users, DataFilePaths.XmlDataFilePath);
     }
 
     private static List<UserData> CreateUsers()

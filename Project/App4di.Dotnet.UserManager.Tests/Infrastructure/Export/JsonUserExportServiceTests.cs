@@ -21,27 +21,30 @@ public class JsonUserExportServiceTests
     [TestInitialize]
     public void TestInitialize()
     {
-        Directory.CreateDirectory(Constants.DataFilePath);
+        Directory.CreateDirectory(DataFilePaths.DataDirectoryPath);
     }
 
     [TestCleanup]
     public void TestCleanup()
     {
-        if (File.Exists(Constants.JsonDataFilePath))
-            File.Delete(Constants.JsonDataFilePath);
+        if (File.Exists(DataFilePaths.JsonDataFilePath))
+            File.Delete(DataFilePaths.JsonDataFilePath);
+
+        foreach (var temporaryFilePath in Directory.GetFiles(DataFilePaths.DataDirectoryPath, ".data.json.*.tmp"))
+            File.Delete(temporaryFilePath);
     }
 
     [TestMethod]
     public void ExportUsersWritesExpectedJsonAndOverwritesExistingFile()
     {
-        File.WriteAllText(Constants.JsonDataFilePath, "existing content");
+        File.WriteAllText(DataFilePaths.JsonDataFilePath, "existing content");
 
         var exported = exportService.ExportUsers(CreateUsers());
 
         Assert.IsTrue(exported);
-        Assert.IsTrue(File.Exists(Constants.JsonDataFilePath));
+        Assert.IsTrue(File.Exists(DataFilePaths.JsonDataFilePath));
 
-        using var document = JsonDocument.Parse(File.ReadAllText(Constants.JsonDataFilePath));
+        using var document = JsonDocument.Parse(File.ReadAllText(DataFilePaths.JsonDataFilePath));
         Assert.AreEqual(JsonValueKind.Array, document.RootElement.ValueKind);
         Assert.AreEqual(2, document.RootElement.GetArrayLength());
         Assert.AreEqual("Albert", document.RootElement[0].GetProperty("LoginName").GetString());
@@ -53,7 +56,7 @@ public class JsonUserExportServiceTests
     {
         exportService.ExportUsers(CreateUsers());
 
-        using var document = JsonDocument.Parse(File.ReadAllText(Constants.JsonDataFilePath));
+        using var document = JsonDocument.Parse(File.ReadAllText(DataFilePaths.JsonDataFilePath));
         var propertyNames = document.RootElement[0]
             .EnumerateObject()
             .Select(property => property.Name)
@@ -74,6 +77,24 @@ public class JsonUserExportServiceTests
             propertyNames);
 
         Assert.IsFalse(document.RootElement[0].TryGetProperty("HasErrors", out _));
+    }
+
+    [TestMethod]
+    public void FailedExportPreservesExistingFile()
+    {
+        const string existingContent = "existing content";
+        File.WriteAllText(DataFilePaths.JsonDataFilePath, existingContent);
+
+        Assert.Throws<InvalidOperationException>(() => exportService.ExportUsers(CreateFailingSequence()));
+
+        Assert.AreEqual(existingContent, File.ReadAllText(DataFilePaths.JsonDataFilePath));
+        Assert.IsEmpty(Directory.GetFiles(DataFilePaths.DataDirectoryPath, ".data.json.*.tmp"));
+    }
+
+    private static IEnumerable<UserData> CreateFailingSequence()
+    {
+        yield return new UserData();
+        throw new InvalidOperationException("Enumeration failed.");
     }
 
     private static List<UserData> CreateUsers()

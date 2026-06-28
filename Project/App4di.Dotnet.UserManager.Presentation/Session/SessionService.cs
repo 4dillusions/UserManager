@@ -10,10 +10,10 @@ namespace App4di.Dotnet.UserManager.Presentation.Session;
 
 public class SessionService : ISessionService
 {
-    public User? CurrentUser { get; set; }
+    public User? SelectedUser { get; set; }
 
     public void Clear()
     {
-        CurrentUser = null;
+        SelectedUser = null;
     }
 }

@@ -35,6 +35,7 @@ public partial class App : System.Windows.Application
             [ViewType.User] = () => CreateView<UserView, UserViewModel>()
         });
 
+        // Use a fixed culture so WPF parsing, validation, and formatting stay consistent across machines.
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
         Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 

@@ -31,13 +31,13 @@ namespace App4di.Dotnet.UserManager.Tests.Infrastructure.Data
     [TestClass]
     public class DataManagerTests
     {
-        static readonly string XmlPathAndFileName = Constants.DataFilePath + @"Test.xml";
-        static readonly string JsonPathAndFileName = Constants.DataFilePath + @"Test.json";
+        static readonly string XmlPathAndFileName = Path.Combine(DataFilePaths.DataDirectoryPath, "Test.xml");
+        static readonly string JsonPathAndFileName = Path.Combine(DataFilePaths.DataDirectoryPath, "Test.json");
 
         [TestInitialize]
         public void TestInitialize()
         {
-            Directory.CreateDirectory(Constants.DataFilePath);
+            Directory.CreateDirectory(DataFilePaths.DataDirectoryPath);
         }
 
         [TestCleanup]

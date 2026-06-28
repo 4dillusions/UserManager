@@ -13,14 +13,14 @@ namespace App4di.Dotnet.UserManager.Tests.Presentation.Session;
 public class SessionServiceTests
 {
     [TestMethod]
-    public void SessionStoresCurrentUser()
+    public void SessionStoresSelectedUser()
     {
         var sessionService = new SessionService();
         var user = new User { UserId = 1 };
 
-        sessionService.CurrentUser = user;
+        sessionService.SelectedUser = user;
 
-        Assert.AreSame(user, sessionService.CurrentUser);
+        Assert.AreSame(user, sessionService.SelectedUser);
     }
 
     [TestMethod]
@@ -28,15 +28,15 @@ public class SessionServiceTests
     {
         var sessionService = new SessionService
         {
-            CurrentUser = new User { UserId = 1 }
+            SelectedUser = new User { UserId = 1 }
         };
         var replacement = new User { UserId = 2 };
 
-        sessionService.CurrentUser = replacement;
-        Assert.AreSame(replacement, sessionService.CurrentUser);
+        sessionService.SelectedUser = replacement;
+        Assert.AreSame(replacement, sessionService.SelectedUser);
 
         sessionService.Clear();
 
-        Assert.IsNull(sessionService.CurrentUser);
+        Assert.IsNull(sessionService.SelectedUser);
     }
 }

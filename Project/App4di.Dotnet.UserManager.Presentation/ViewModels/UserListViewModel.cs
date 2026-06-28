@@ -56,10 +56,10 @@ public class UserListViewModel : NotificationObject
         SelectedAddressCity = AddressCities.FirstOrDefault();
 
         Users = LoadUsers(filter);
-        if (sessionService.CurrentUser == null)
+        if (sessionService.SelectedUser == null)
             SelectedUser = Users.FirstOrDefault();
         else
-            SelectedUser = Users.FirstOrDefault(u => u.UserId == sessionService.CurrentUser.UserId) ?? Users.FirstOrDefault();
+            SelectedUser = Users.FirstOrDefault(u => u.UserId == sessionService.SelectedUser.UserId) ?? Users.FirstOrDefault();
     }
 
     public AddressCity? SelectedAddressCity
@@ -98,7 +98,7 @@ public class UserListViewModel : NotificationObject
             if (EqualityComparer<User?>.Default.Equals(selectedUser, value))
                 return;
 
-            sessionService.CurrentUser = value;
+            sessionService.SelectedUser = value;
             selectedUser = value;
             RaisePropertyChanged();
         }

@@ -29,10 +29,18 @@ public class JsonUserExportService : IUserExportService
     {
         ArgumentNullException.ThrowIfNull(users);
 
-        if (File.Exists(Constants.JsonDataFilePath))
-            File.Delete(Constants.JsonDataFilePath);
+        var temporaryFilePath = DataFilePaths.CreateTemporaryFilePath(DataFilePaths.JsonDataFilePath);
 
-        dataManager.Save(users.ToList(), Constants.JsonDataFilePath);
-        return File.Exists(Constants.JsonDataFilePath);
+        try
+        {
+            dataManager.Save(users.ToList(), temporaryFilePath);
+            File.Move(temporaryFilePath, DataFilePaths.JsonDataFilePath, overwrite: true);
+            return File.Exists(DataFilePaths.JsonDataFilePath);
+        }
+        finally
+        {
+            if (File.Exists(temporaryFilePath))
+                File.Delete(temporaryFilePath);
+        }
     }
 }

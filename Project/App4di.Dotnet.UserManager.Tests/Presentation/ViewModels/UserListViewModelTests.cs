@@ -86,7 +86,7 @@ public class UserListViewModelTests
         viewModel.SelectedUser = selectedUser;
         viewModel.EditCommand.Execute(null);
 
-        Assert.AreSame(selectedUser, sessionService.CurrentUser);
+        Assert.AreSame(selectedUser, sessionService.SelectedUser);
         Assert.IsNotNull(editSessionService.EditingUser);
         Assert.AreNotSame(selectedUser, editSessionService.EditingUser);
         Assert.AreEqual(selectedUser.UserId, editSessionService.EditingUser.UserId);
