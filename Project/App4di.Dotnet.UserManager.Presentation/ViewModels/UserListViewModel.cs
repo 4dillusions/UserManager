@@ -110,7 +110,11 @@ public class UserListViewModel : NotificationObject
     public ObservableCollection<User> Users
     {
         get;
-        set => SetProperty(ref field, value);
+        set
+        {
+            if (SetProperty(ref field, value))
+                exportCommand?.RaiseCanExecuteChanged();
+        }
     } = [];
 
     private RelayCommand? findCommand;
@@ -176,7 +180,7 @@ public class UserListViewModel : NotificationObject
     {
         if (SelectedUser != null)
         {
-            userEditSessionService.BeginEdit(SelectedUser, LoadUsers(new UserFilter()).ToList());
+            userEditSessionService.BeginEdit(SelectedUser, LoadUsers(new UserFilter()));
             navigationService.Navigate(ViewType.User);
         }
     }
@@ -211,7 +215,7 @@ public class UserListViewModel : NotificationObject
 
     private bool CanExport()
     {
-        return true;
+        return Users.Count > 0;
     }
 
     private ObservableCollection<User> LoadUsers(UserFilter userFilter)

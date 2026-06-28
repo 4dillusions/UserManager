@@ -13,6 +13,7 @@ using App4di.Dotnet.UserManager.Presentation.Services;
 using App4di.Dotnet.UserManager.Presentation.Session;
 using App4di.Dotnet.UserManager.Presentation.Users;
 using App4di.Dotnet.UserManager.Presentation.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace App4di.Dotnet.UserManager.Tests.Presentation.ViewModels;
 
@@ -144,6 +145,32 @@ public class UserListViewModelTests
         viewModel.SelectedUser = user;
 
         Assert.IsTrue(editCommand.CanExecute(null));
+        Assert.AreEqual(2, canExecuteChangedCount);
+    }
+
+    [TestMethod]
+    public void ExportCommandRequiresVisibleUsersAndNotifiesWhenUsersChange()
+    {
+        var viewModel = new UserListViewModel(
+            new NavigationService(),
+            new MessageServiceStub(),
+            new UserQueryServiceStub(),
+            new UserExportServiceStub(),
+            new SessionService(),
+            new UserEditSessionService());
+        var exportCommand = viewModel.ExportCommand;
+        var canExecuteChangedCount = 0;
+        exportCommand.CanExecuteChanged += (_, _) => canExecuteChangedCount++;
+
+        Assert.IsTrue(exportCommand.CanExecute(null));
+
+        viewModel.Users = [];
+
+        Assert.IsFalse(exportCommand.CanExecute(null));
+
+        viewModel.Users = new ObservableCollection<User> { new() };
+
+        Assert.IsTrue(exportCommand.CanExecute(null));
         Assert.AreEqual(2, canExecuteChangedCount);
     }
 

@@ -13,7 +13,7 @@ namespace App4di.Dotnet.UserManager.Presentation.Users;
 
 public class UserEditSessionService : IUserEditSessionService
 {
-    private List<User>? users;
+    private IReadOnlyList<User>? users;
     private User? selectedUser;
     private UserData? originalUser;
     private int editingUserId;
@@ -22,7 +22,7 @@ public class UserEditSessionService : IUserEditSessionService
     public bool HasChanges => EditingUser != null && originalUser != null && !HasSameValues(EditingUser, originalUser);
     public event EventHandler? EditStateChanged;
 
-    public void BeginEdit(User user, List<User> users)
+    public void BeginEdit(User user, IReadOnlyList<User> users)
     {
         ArgumentNullException.ThrowIfNull(user);
         ArgumentNullException.ThrowIfNull(users);
@@ -41,7 +41,7 @@ public class UserEditSessionService : IUserEditSessionService
         if (EditingUser == null || users == null)
             throw new InvalidOperationException("No user edit session is active.");
 
-        var originalUserIndex = users.FindIndex(user => user.UserId == editingUserId);
+        var originalUserIndex = FindUserIndex(users, editingUserId);
         if (originalUserIndex < 0)
             throw new InvalidOperationException($"User with ID '{editingUserId}' was not found.");
 
@@ -86,6 +86,17 @@ public class UserEditSessionService : IUserEditSessionService
     private void EditingUserPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         EditStateChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private static int FindUserIndex(IReadOnlyList<User> users, int userId)
+    {
+        for (var index = 0; index < users.Count; index++)
+        {
+            if (users[index].UserId == userId)
+                return index;
+        }
+
+        return -1;
     }
 
     private static bool HasSameValues(User user, UserData original)

@@ -14,6 +14,6 @@ public interface IUserEditSessionService : IUserSaveSession
     User? EditingUser { get; }
     bool HasChanges { get; }
     event EventHandler? EditStateChanged;
-    void BeginEdit(User user, List<User> users);
+    void BeginEdit(User user, IReadOnlyList<User> users);
     void Cancel();
 }

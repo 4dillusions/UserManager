@@ -39,8 +39,19 @@ public class JsonUserExportService : IUserExportService
         }
         finally
         {
-            if (File.Exists(temporaryFilePath))
-                File.Delete(temporaryFilePath);
+            TryDeleteTemporaryFile(temporaryFilePath);
+        }
+    }
+
+    private static void TryDeleteTemporaryFile(string filePath)
+    {
+        try
+        {
+            File.Delete(filePath);
+        }
+        catch
+        {
+            // Best-effort cleanup must not mask an export failure.
         }
     }
 }
