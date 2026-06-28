@@ -4,18 +4,21 @@
     <ControlTemplate x:Key="validationTemplate">
         <Border Background="{DynamicResource DetailSettingsBackgroundBrush}">
             <DockPanel>
-                <TextBlock Foreground="Red" FontSize="20">!</TextBlock>
+                <TextBlock Foreground="{DynamicResource ErrorBrush}" FontSize="20">!</TextBlock>
                 <AdornedElementPlaceholder/>
             </DockPanel>
         </Border>
     </ControlTemplate>
 
     <Style x:Key="textBoxInError" TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="{DynamicResource InputBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
         <Style.Triggers>
             <Trigger Property="Validation.HasError" Value="true">
                 <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
                 <Setter Property="BorderThickness" Value="3" />
-                <Setter Property="BorderBrush" Value="Red" />
+                <Setter Property="BorderBrush" Value="{DynamicResource ErrorBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>

@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:converters="clr-namespace:App4di.Dotnet.UserManager.WPFUI.Converters"
         x:Class="App4di.Dotnet.UserManager.WPFUI.LoginView" Height="334" Width="300"
-        Background="#E2E2E2" BorderBrush="#1A1A1A" BorderThickness="1">
+        Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
     <Grid>
         <StackPanel>
-            <Label Content="  Please Log In" FontSize="20" FontWeight="Bold" Width="300" VerticalAlignment="Center" Foreground="White" 
-                   Background="{StaticResource HeaderBackground}"/>
-            <Label Background="#29ADC6" BorderBrush="#1A1A1A" BorderThickness="1" Height="7"/>
+            <Label Content="  Please Log In" FontSize="20" FontWeight="Bold" Width="300" VerticalAlignment="Center" Foreground="{StaticResource HeaderTextBrush}"
+                   Background="{StaticResource HeaderBackgroundBrush}"/>
+            <Label Background="{StaticResource AccentBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Height="7"/>
             <Image Width="100" Height="100" Margin="0, 10, 0, 0" Source="../Contents/login.png"/>
 
             <Grid>
@@ -34,7 +34,7 @@
             </Grid>
 
             <Label Content=" User Manager by Robert Oze" FontSize="13" FontWeight="Bold" Height="40" Width="300" HorizontalAlignment="Center"
-               VerticalAlignment="Center" Foreground="White" Background="{StaticResource FooterBackground}"/>
+               VerticalAlignment="Center" Foreground="{StaticResource HeaderTextBrush}" Background="{StaticResource FooterBackgroundBrush}"/>
         </StackPanel>
     </Grid>
 

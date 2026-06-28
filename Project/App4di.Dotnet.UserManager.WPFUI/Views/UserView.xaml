@@ -5,11 +5,11 @@
         xmlns:converters="clr-namespace:App4di.Dotnet.UserManager.WPFUI.Converters"
         xmlns:res="clr-namespace:App4di.Dotnet.UserManager.WPFUI" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-        mc:Ignorable="d" x:Class="App4di.Dotnet.UserManager.WPFUI.UserView" Width="746" Height="414" Background="#E2E2E2" BorderBrush="#1A1A1A" BorderThickness="1">
+        mc:Ignorable="d" x:Class="App4di.Dotnet.UserManager.WPFUI.UserView" Width="746" Height="414" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
     <StackPanel>
-        <Label Content="  Please Edit a User" FontSize="20" FontWeight="Bold" Width="746" VerticalAlignment="Center" Foreground="White" 
-                   Background="{StaticResource HeaderBackground}"/>
-        <Label Background="#29ADC6" BorderBrush="#1A1A1A" BorderThickness="1" Height="7"/>
+        <Label Content="  Please Edit a User" FontSize="20" FontWeight="Bold" Width="746" VerticalAlignment="Center" Foreground="{StaticResource HeaderTextBrush}"
+                   Background="{StaticResource HeaderBackgroundBrush}"/>
+        <Label Background="{StaticResource AccentBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Height="7"/>
         <Image Width="100" Height="100" Margin="0, 10, 0, 0" Source="../Contents/editUser.png"/>
         
         <Grid>
@@ -42,7 +42,7 @@
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox>
-            <TextBlock Grid.Row="1" Grid.Column="2" Margin="5, 5, 0, 2" Foreground="Red">
+            <TextBlock Grid.Row="1" Grid.Column="2" Margin="5, 5, 0, 2" Foreground="{StaticResource ErrorBrush}">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="Error: {0}">
                         <Binding ElementName="LoginText" Path="(Validation.Errors)[0].ErrorContent"/>
@@ -60,7 +60,7 @@
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox>
-            <TextBlock Grid.Row="2" Grid.Column="2" Margin="5, 5, 0, 2" Foreground="Red">
+            <TextBlock Grid.Row="2" Grid.Column="2" Margin="5, 5, 0, 2" Foreground="{StaticResource ErrorBrush}">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="Error: {0}">
                         <Binding ElementName="PasswordText" Path="(Validation.Errors)[0].ErrorContent"/>
@@ -78,7 +78,7 @@
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox>
-            <TextBlock Grid.Row="3" Grid.Column="2" Margin="5, 5, 0, 2" Foreground="Red">
+            <TextBlock Grid.Row="3" Grid.Column="2" Margin="5, 5, 0, 2" Foreground="{StaticResource ErrorBrush}">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="Error: {0}">
                         <Binding ElementName="FirstNameText" Path="(Validation.Errors)[0].ErrorContent"/>
@@ -96,7 +96,7 @@
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox>
-            <TextBlock Grid.Row="4" Grid.Column="2" Margin="5, 5, 0, 2" Foreground="Red">
+            <TextBlock Grid.Row="4" Grid.Column="2" Margin="5, 5, 0, 2" Foreground="{StaticResource ErrorBrush}">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="Error: {0}">
                         <Binding ElementName="SurnameText" Path="(Validation.Errors)[0].ErrorContent"/>
@@ -117,7 +117,7 @@
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox>
-            <TextBlock Grid.Row="6" Grid.Column="2" Margin="5, 5, 0, 2" Foreground="Red">
+            <TextBlock Grid.Row="6" Grid.Column="2" Margin="5, 5, 0, 2" Foreground="{StaticResource ErrorBrush}">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="Error: {0}">
                         <Binding ElementName="BirthPlaceText" Path="(Validation.Errors)[0].ErrorContent"/>
@@ -135,7 +135,7 @@
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox>
-            <TextBlock Grid.Row="7" Grid.Column="2" Margin="5, 5, 0, 2" Foreground="Red">
+            <TextBlock Grid.Row="7" Grid.Column="2" Margin="5, 5, 0, 2" Foreground="{StaticResource ErrorBrush}">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="Error: {0}">
                         <Binding ElementName="AddressCityText" Path="(Validation.Errors)[0].ErrorContent"/>
@@ -170,6 +170,6 @@
         </Grid>
 
         <Label Content=" User Manager by Robert Oze - www.4dillusions.com" FontSize="13" FontWeight="Bold" Height="40" Width="746" HorizontalAlignment="Center"
-               VerticalAlignment="Center" Foreground="White" Background="{StaticResource FooterBackground}"/>
+               VerticalAlignment="Center" Foreground="{StaticResource HeaderTextBrush}" Background="{StaticResource FooterBackgroundBrush}"/>
     </StackPanel>
 </UserControl>

@@ -333,6 +333,7 @@ Responsibilities include:
 * Platform services
 * Composition Root
 * Dependency Injection wiring
+* Centralized colors, brushes and shared WPF control styles
 
 This layer contains only WPF-specific code and connects the Presentation layer with the Infrastructure implementations.
 
