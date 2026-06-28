@@ -34,9 +34,4 @@
         <GradientStop Color="{DynamicResource PrimaryLightColor}" Offset="1.0"/>
     </LinearGradientBrush>
 
-    <LinearGradientBrush x:Key="ComboBoxBackgroundBrush" StartPoint="0,1" EndPoint="0,0">
-        <GradientStop Color="{DynamicResource PrimaryColor}" Offset="0.0"/>
-        <GradientStop Color="{DynamicResource ComboBoxLightColor}" Offset="1.0"/>
-    </LinearGradientBrush>
-
 </ResourceDictionary>

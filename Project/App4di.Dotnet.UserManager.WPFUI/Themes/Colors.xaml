@@ -14,7 +14,6 @@
 
     <!-- Supporting colors that preserve the existing appearance -->
     <Color x:Key="PrimaryLightColor">#60D8F0</Color>
-    <Color x:Key="ComboBoxLightColor">#5ED8EF</Color>
     <Color x:Key="ControlBorderColor">#2194A7</Color>
     <Color x:Key="InputBackgroundColor">#FFFFFF</Color>
     <Color x:Key="HeaderTextColor">#FFFFFF</Color>
