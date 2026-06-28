@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Compile-time project dependencies</title>
+  <desc id="desc">WPFUI references Presentation, Presentation and Infrastructure reference Application, and Application references Domain.</desc>
+  <defs>
+    <style>
+      text { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; fill: #16313d; }
+      .title { font-size: 30px; font-weight: 700; }
+      .subtitle { font-size: 16px; fill: #526b77; }
+      .layer { font-size: 22px; font-weight: 650; }
+      .detail { font-size: 14px; fill: #526b77; }
+      .card { stroke-width: 2.5; }
+      .edge { stroke: #456877; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+    </style>
+    <filter id="shadow" x="-15%" y="-15%" width="140%" height="145%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#244653" flood-opacity="0.13" />
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#456877" />
+    </marker>
+  </defs>
+
+  <rect width="1200" height="760" fill="#f3f7f9" />
+  <rect x="30" y="30" width="1140" height="700" rx="28" fill="#ffffff" stroke="#d7e1e7" stroke-width="2" />
+
+  <text x="70" y="88" class="title">Compile-time Project Dependencies</text>
+  <text x="70" y="120" class="subtitle">Arrows point from the referencing project to its dependency</text>
+
+  <g filter="url(#shadow)">
+    <rect x="420" y="160" width="360" height="105" rx="20" class="card" fill="#fde8e6" stroke="#c97870" />
+    <rect x="420" y="320" width="360" height="105" rx="20" class="card" fill="#e4f6ea" stroke="#63a77a" />
+    <rect x="130" y="485" width="360" height="105" rx="20" class="card" fill="#e8f1ff" stroke="#668fc4" />
+    <rect x="710" y="485" width="360" height="105" rx="20" class="card" fill="#dff2fb" stroke="#5d9fc2" />
+    <rect x="130" y="635" width="360" height="75" rx="20" class="card" fill="#fff3dc" stroke="#d2a24a" />
+  </g>
+
+  <text x="600" y="214" class="layer" text-anchor="middle">Domain</text>
+  <text x="600" y="240" class="detail" text-anchor="middle">independent model</text>
+
+  <text x="600" y="374" class="layer" text-anchor="middle">Application</text>
+  <text x="600" y="400" class="detail" text-anchor="middle">use cases and contracts</text>
+
+  <text x="310" y="539" class="layer" text-anchor="middle">Presentation</text>
+  <text x="310" y="565" class="detail" text-anchor="middle">UI orchestration</text>
+
+  <text x="890" y="539" class="layer" text-anchor="middle">Infrastructure</text>
+  <text x="890" y="565" class="detail" text-anchor="middle">technical implementations</text>
+
+  <text x="310" y="682" class="layer" text-anchor="middle">WPFUI</text>
+
+  <path d="M600 320 L600 265" class="edge" />
+  <path d="M400 485 L400 455 L535 455 L535 425" class="edge" />
+  <path d="M800 485 L800 455 L665 455 L665 425" class="edge" />
+  <path d="M310 635 L310 590" class="edge" />
+</svg>

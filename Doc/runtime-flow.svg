@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="970" viewBox="0 0 1200 970" role="img" aria-labelledby="title desc">
+  <title id="title">Typical application runtime flow</title>
+  <desc id="desc">A request flows from the user through WPFUI, Presentation, and Application. Application uses Domain models and delegates technical work to Infrastructure, which accesses XML, JSON, and the file system.</desc>
+  <defs>
+    <style>
+      text { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; fill: #16313d; }
+      .title { font-size: 30px; font-weight: 700; }
+      .subtitle { font-size: 16px; fill: #526b77; }
+      .layer { font-size: 21px; font-weight: 650; }
+      .detail { font-size: 14px; fill: #526b77; }
+      .card { stroke-width: 2.5; }
+      .edge { stroke: #456877; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .edge-label { font-size: 13px; fill: #526b77; }
+    </style>
+    <filter id="shadow" x="-15%" y="-15%" width="140%" height="145%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#244653" flood-opacity="0.13" />
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#456877" />
+    </marker>
+  </defs>
+
+  <rect width="1200" height="970" fill="#f3f7f9" />
+  <rect x="30" y="30" width="1140" height="910" rx="28" fill="#ffffff" stroke="#d7e1e7" stroke-width="2" />
+
+  <text x="70" y="88" class="title">Typical Application Runtime Flow</text>
+  <text x="70" y="120" class="subtitle">Request flow and technical delegation through the application</text>
+
+  <g filter="url(#shadow)">
+    <rect x="420" y="155" width="360" height="75" rx="20" class="card" fill="#f3f6f8" stroke="#91a5af" />
+    <rect x="420" y="280" width="360" height="90" rx="20" class="card" fill="#fff3dc" stroke="#d2a24a" />
+    <rect x="420" y="420" width="360" height="90" rx="20" class="card" fill="#e8f1ff" stroke="#668fc4" />
+    <rect x="420" y="560" width="360" height="90" rx="20" class="card" fill="#e4f6ea" stroke="#63a77a" />
+    <rect x="815" y="560" width="300" height="90" rx="20" class="card" fill="#fde8e6" stroke="#c97870" />
+    <rect x="420" y="700" width="360" height="90" rx="20" class="card" fill="#dff2fb" stroke="#5d9fc2" />
+    <rect x="420" y="830" width="360" height="60" rx="20" class="card" fill="#fff8e9" stroke="#caaa67" />
+  </g>
+
+  <text x="600" y="202" class="layer" text-anchor="middle">User</text>
+  <text x="600" y="333" class="layer" text-anchor="middle">WPFUI</text>
+  <text x="600" y="473" class="layer" text-anchor="middle">Presentation</text>
+  <text x="600" y="613" class="layer" text-anchor="middle">Application</text>
+  <text x="965" y="613" class="layer" text-anchor="middle">Domain</text>
+  <text x="600" y="753" class="layer" text-anchor="middle">Infrastructure</text>
+  <text x="600" y="868" class="layer" text-anchor="middle">XML / JSON / File System</text>
+
+  <path d="M600 230 L600 280" class="edge" />
+  <path d="M600 370 L600 420" class="edge" />
+  <path d="M600 510 L600 560" class="edge" />
+  <path d="M780 605 L815 605" class="edge" />
+  <text x="798" y="590" class="edge-label" text-anchor="middle">models</text>
+  <path d="M600 650 L600 700" class="edge" />
+  <text x="620" y="680" class="edge-label">ports</text>
+  <path d="M600 790 L600 830" class="edge" />
+</svg>
