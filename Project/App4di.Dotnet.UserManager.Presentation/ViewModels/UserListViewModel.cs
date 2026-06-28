@@ -23,10 +23,12 @@ public class UserListViewModel : NotificationObject
     private AddressCity? selectedAddressCity;
     private User? selectedUser;
     private UserFilter filter = new();
+    private int totalUserCount;
     private readonly INavigationService navigationService;
     private readonly IMessageService messageService;
     private readonly IUserQueryService userQueryService;
     private readonly IUserExportService userExportService;
+    private readonly IDeleteUserUseCase deleteUserUseCase;
     private readonly ISessionService sessionService;
     private readonly IUserEditSessionService userEditSessionService;
 
@@ -35,6 +37,7 @@ public class UserListViewModel : NotificationObject
         IMessageService messageService,
         IUserQueryService userQueryService,
         IUserExportService userExportService,
+        IDeleteUserUseCase deleteUserUseCase,
         ISessionService sessionService,
         IUserEditSessionService userEditSessionService)
     {
@@ -42,6 +45,7 @@ public class UserListViewModel : NotificationObject
         this.messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
         this.userQueryService = userQueryService ?? throw new ArgumentNullException(nameof(userQueryService));
         this.userExportService = userExportService ?? throw new ArgumentNullException(nameof(userExportService));
+        this.deleteUserUseCase = deleteUserUseCase ?? throw new ArgumentNullException(nameof(deleteUserUseCase));
         this.sessionService = sessionService ?? throw new ArgumentNullException(nameof(sessionService));
         this.userEditSessionService = userEditSessionService ?? throw new ArgumentNullException(nameof(userEditSessionService));
         Reset();
@@ -57,6 +61,7 @@ public class UserListViewModel : NotificationObject
         SelectedAddressCity = AddressCities.FirstOrDefault();
 
         Users = LoadUsers(filter);
+        totalUserCount = Users.Count;
         if (sessionService.SelectedUser == null)
             SelectedUser = Users.FirstOrDefault();
         else
@@ -104,6 +109,7 @@ public class UserListViewModel : NotificationObject
             selectedUser = value;
             RaisePropertyChanged();
             editCommand?.RaiseCanExecuteChanged();
+            deleteCommand?.RaiseCanExecuteChanged();
         }
     }
 
@@ -188,6 +194,49 @@ public class UserListViewModel : NotificationObject
     private bool CanEdit()
     {
         return SelectedUser != null;
+    }
+
+    private RelayCommand? deleteCommand;
+    public FW4di.Dotnet.MVVM.ICommand DeleteCommand
+    {
+        get
+        {
+            deleteCommand ??= new RelayCommand(_ => Delete(), _ => CanDelete());
+            return deleteCommand;
+        }
+    }
+
+    private void Delete()
+    {
+        if (SelectedUser == null)
+            return;
+
+        var selectedUser = SelectedUser;
+        if (!messageService.ShowConfirmation(
+            $"Delete user '{selectedUser.LoginName}'?",
+            "Delete User"))
+        {
+            return;
+        }
+
+        try
+        {
+            if (!deleteUserUseCase.Execute(selectedUser.UserId))
+                return;
+
+            totalUserCount--;
+            Users = LoadUsers(filter);
+            SelectedUser = Users.FirstOrDefault();
+        }
+        catch (Exception ex)
+        {
+            messageService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Delete error");
+        }
+    }
+
+    private bool CanDelete()
+    {
+        return SelectedUser != null && totalUserCount > 1;
     }
 
     private RelayCommand? exportCommand;

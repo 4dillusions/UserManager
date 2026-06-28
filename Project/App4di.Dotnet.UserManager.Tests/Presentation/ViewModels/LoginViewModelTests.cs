@@ -76,6 +76,11 @@ public class LoginViewModelTests
         public void ShowMessage(string message, string? title = null)
         {
         }
+
+        public bool ShowConfirmation(string message, string? title = null)
+        {
+            return false;
+        }
     }
 
     private sealed class ApplicationServiceStub : IApplicationService

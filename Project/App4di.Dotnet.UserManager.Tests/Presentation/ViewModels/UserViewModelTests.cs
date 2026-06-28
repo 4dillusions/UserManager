@@ -189,5 +189,10 @@ public class UserViewModelTests
         {
             Title = title;
         }
+
+        public bool ShowConfirmation(string message, string? title = null)
+        {
+            return false;
+        }
     }
 }

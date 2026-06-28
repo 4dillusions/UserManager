@@ -9,4 +9,5 @@ namespace App4di.Dotnet.UserManager.Presentation.Services;
 public interface IMessageService
 {
     void ShowMessage(string message, string? title = null);
+    bool ShowConfirmation(string message, string? title = null);
 }

@@ -15,4 +15,13 @@ public class WpfMessageService : IMessageService
     {
         MessageBox.Show(message, title ?? "User Manager");
     }
+
+    public bool ShowConfirmation(string message, string? title = null)
+    {
+        return MessageBox.Show(
+            message,
+            title ?? "User Manager",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Warning) == MessageBoxResult.Yes;
+    }
 }

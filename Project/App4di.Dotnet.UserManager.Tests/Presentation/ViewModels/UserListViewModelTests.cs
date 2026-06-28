@@ -29,6 +29,7 @@ public class UserListViewModelTests
             new MessageServiceStub(),
             queryService,
             new UserExportServiceStub(),
+            new DeleteUserUseCaseStub(),
             new SessionService(),
             new UserEditSessionService());
 
@@ -52,6 +53,7 @@ public class UserListViewModelTests
             new MessageServiceStub(),
             queryService,
             new UserExportServiceStub(),
+            new DeleteUserUseCaseStub(),
             new SessionService(),
             new UserEditSessionService());
         viewModel.TextInAll = "Rubik";
@@ -77,6 +79,7 @@ public class UserListViewModelTests
             messageService,
             queryService,
             exportService,
+            new DeleteUserUseCaseStub(),
             new SessionService(),
             new UserEditSessionService());
 
@@ -107,6 +110,7 @@ public class UserListViewModelTests
             new MessageServiceStub(),
             queryService,
             new UserExportServiceStub(),
+            new DeleteUserUseCaseStub(),
             sessionService,
             editSessionService);
 
@@ -129,6 +133,7 @@ public class UserListViewModelTests
             new MessageServiceStub(),
             new UserQueryServiceStub(),
             new UserExportServiceStub(),
+            new DeleteUserUseCaseStub(),
             new SessionService(),
             new UserEditSessionService());
         var editCommand = viewModel.EditCommand;
@@ -156,6 +161,7 @@ public class UserListViewModelTests
             new MessageServiceStub(),
             new UserQueryServiceStub(),
             new UserExportServiceStub(),
+            new DeleteUserUseCaseStub(),
             new SessionService(),
             new UserEditSessionService());
         var exportCommand = viewModel.ExportCommand;
@@ -172,6 +178,103 @@ public class UserListViewModelTests
 
         Assert.IsTrue(exportCommand.CanExecute(null));
         Assert.AreEqual(2, canExecuteChangedCount);
+    }
+
+    [TestMethod]
+    public void DeleteCommandRequiresSelectionAndMoreThanOneUser()
+    {
+        var queryService = new MutableUserQueryService(
+        [
+            new UserData { UserId = 1, LoginName = "First" },
+            new UserData { UserId = 2, LoginName = "Second" }
+        ]);
+        var viewModel = new UserListViewModel(
+            new NavigationService(),
+            new MessageServiceStub(),
+            queryService,
+            new UserExportServiceStub(),
+            new DeleteUserUseCaseStub(),
+            new SessionService(),
+            new UserEditSessionService());
+
+        Assert.IsTrue(viewModel.DeleteCommand.CanExecute(null));
+
+        var selectedUser = viewModel.SelectedUser;
+        viewModel.SelectedUser = null;
+
+        Assert.IsFalse(viewModel.DeleteCommand.CanExecute(null));
+
+        viewModel.SelectedUser = selectedUser;
+
+        Assert.IsTrue(viewModel.DeleteCommand.CanExecute(null));
+
+        var singleUserViewModel = new UserListViewModel(
+            new NavigationService(),
+            new MessageServiceStub(),
+            new MutableUserQueryService([new UserData { UserId = 1, LoginName = "Only" }]),
+            new UserExportServiceStub(),
+            new DeleteUserUseCaseStub(),
+            new SessionService(),
+            new UserEditSessionService());
+
+        Assert.IsFalse(singleUserViewModel.DeleteCommand.CanExecute(null));
+    }
+
+    [TestMethod]
+    public void DeleteCommandDoesNotDeleteWhenConfirmationIsDeclined()
+    {
+        var queryService = new MutableUserQueryService(
+        [
+            new UserData { UserId = 1, LoginName = "First" },
+            new UserData { UserId = 2, LoginName = "Second" }
+        ]);
+        var deleteUseCase = new DeleteUserUseCaseStub();
+        var messageService = new MessageServiceStub { ConfirmationResult = false };
+        var viewModel = new UserListViewModel(
+            new NavigationService(),
+            messageService,
+            queryService,
+            new UserExportServiceStub(),
+            deleteUseCase,
+            new SessionService(),
+            new UserEditSessionService());
+
+        viewModel.DeleteCommand.Execute(null);
+
+        Assert.AreEqual(1, messageService.ConfirmationCallCount);
+        Assert.AreEqual(0, deleteUseCase.CallCount);
+        Assert.HasCount(2, viewModel.Users);
+    }
+
+    [TestMethod]
+    public void DeleteCommandDeletesAndRefreshesUsersWhenConfirmationIsAccepted()
+    {
+        var queryService = new MutableUserQueryService(
+        [
+            new UserData { UserId = 1, LoginName = "First" },
+            new UserData { UserId = 2, LoginName = "Second" }
+        ]);
+        var deleteUseCase = new DeleteUserUseCaseStub
+        {
+            OnExecute = userId => queryService.Users.RemoveAll(user => user.UserId == userId)
+        };
+        var messageService = new MessageServiceStub { ConfirmationResult = true };
+        var viewModel = new UserListViewModel(
+            new NavigationService(),
+            messageService,
+            queryService,
+            new UserExportServiceStub(),
+            deleteUseCase,
+            new SessionService(),
+            new UserEditSessionService());
+
+        viewModel.DeleteCommand.Execute(null);
+
+        Assert.AreEqual(1, deleteUseCase.DeletedUserId);
+        Assert.HasCount(1, viewModel.Users);
+        Assert.AreEqual(2, viewModel.Users[0].UserId);
+        Assert.AreEqual(2, viewModel.SelectedUser?.UserId);
+        Assert.IsFalse(viewModel.DeleteCommand.CanExecute(null));
     }
 
     private sealed class UserQueryServiceStub : IUserQueryService
@@ -208,10 +311,51 @@ public class UserListViewModelTests
     private sealed class MessageServiceStub : IMessageService
     {
         public string? Message { get; private set; }
+        public bool ConfirmationResult { get; init; }
+        public int ConfirmationCallCount { get; private set; }
 
         public void ShowMessage(string message, string? title = null)
         {
             Message = message;
+        }
+
+        public bool ShowConfirmation(string message, string? title = null)
+        {
+            ConfirmationCallCount++;
+            return ConfirmationResult;
+        }
+    }
+
+    private sealed class DeleteUserUseCaseStub : IDeleteUserUseCase
+    {
+        public int CallCount { get; private set; }
+        public int? DeletedUserId { get; private set; }
+        public Action<int>? OnExecute { get; init; }
+
+        public bool Execute(int userId)
+        {
+            CallCount++;
+            DeletedUserId = userId;
+            OnExecute?.Invoke(userId);
+            return true;
+        }
+    }
+
+    private sealed class MutableUserQueryService(IEnumerable<UserData> users) : IUserQueryService
+    {
+        public List<UserData> Users { get; } = users.ToList();
+
+        public IReadOnlyList<UserData> GetUsers(UserQueryCriteria filter)
+        {
+            return Users.ToList();
+        }
+
+        public IReadOnlyList<string> GetAddressCities()
+        {
+            return Users.Select(user => user.AddressCity)
+                .Where(city => !string.IsNullOrEmpty(city))
+                .Distinct()
+                .ToList();
         }
     }
 
