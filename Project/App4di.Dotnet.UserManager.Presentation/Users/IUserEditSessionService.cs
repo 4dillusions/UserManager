@@ -12,8 +12,11 @@ namespace App4di.Dotnet.UserManager.Presentation.Users;
 public interface IUserEditSessionService : IUserSaveSession
 {
     User? EditingUser { get; }
+    UserEditMode Mode { get; }
     bool HasChanges { get; }
     event EventHandler? EditStateChanged;
+    event EventHandler? SaveCompleted;
     void BeginEdit(User user, IReadOnlyList<User> users);
+    void BeginAdd(IReadOnlyList<User> users);
     void Cancel();
 }

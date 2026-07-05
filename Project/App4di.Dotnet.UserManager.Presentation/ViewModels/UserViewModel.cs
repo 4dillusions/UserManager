@@ -22,6 +22,11 @@ public class UserViewModel : NotificationObject
     private readonly IUserEditSessionService userEditSessionService;
 
     public User? User => userEditSessionService.EditingUser;
+    public DateTime MinimumBirthDate => BirthDateRules.MinimumBirthDate;
+    public DateTime MaximumBirthDate => BirthDateRules.MaximumBirthDate;
+    public string HeaderText => userEditSessionService.Mode == UserEditMode.Add
+        ? "Please Add a User"
+        : "Please Edit a User";
 
     public UserViewModel(
         INavigationService navigationService,
@@ -88,6 +93,7 @@ public class UserViewModel : NotificationObject
     private void EditStateChanged(object? sender, EventArgs e)
     {
         RaisePropertyChanged(nameof(User));
+        RaisePropertyChanged(nameof(HeaderText));
         saveCommand?.RaiseCanExecuteChanged();
     }
 }

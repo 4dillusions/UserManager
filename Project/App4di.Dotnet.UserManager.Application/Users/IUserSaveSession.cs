@@ -10,6 +10,7 @@ namespace App4di.Dotnet.UserManager.Application.Users;
 
 public interface IUserSaveSession
 {
+    UserData UserToSave { get; }
     IReadOnlyList<UserData> CreateSaveSnapshot();
     void CompleteSave();
 }

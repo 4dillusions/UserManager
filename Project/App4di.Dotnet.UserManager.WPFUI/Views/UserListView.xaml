@@ -51,6 +51,7 @@
                   
             <Grid Grid.Row="2" Grid.ColumnSpan="2">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button MinWidth="140" MaxWidth="140" Margin="5,0,0,0" Content="➕ Add User" Command="{Binding AddCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
                     <Button MinWidth="140" MaxWidth="140" Margin="5,0,0,0" Content="✏️ Edit User" Command="{Binding EditCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
                     <Button MinWidth="140" MaxWidth="140" Margin="5,0,0,0" Content="🗑️ Delete User" Command="{Binding DeleteCommand, Mode=Default, Converter={converters:CommandAdapterConverter}}"/>
                 </StackPanel>

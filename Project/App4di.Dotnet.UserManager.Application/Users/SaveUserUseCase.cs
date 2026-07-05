@@ -21,7 +21,21 @@ public class SaveUserUseCase : ISaveUserUseCase
     {
         ArgumentNullException.ThrowIfNull(userSaveSession);
 
+        var userToSave = userSaveSession.UserToSave;
+        if (!BirthDateRules.IsValid(userToSave.BirthDate))
+        {
+            throw new InvalidOperationException(
+                $"Birth date must be between {BirthDateRules.MinimumBirthDate:d} and {BirthDateRules.MaximumBirthDate:d}.");
+        }
+
         var users = userSaveSession.CreateSaveSnapshot();
+        if (users.Any(user =>
+            user.UserId != userToSave.UserId &&
+            string.Equals(user.LoginName, userToSave.LoginName, StringComparison.OrdinalIgnoreCase)))
+        {
+            throw new InvalidOperationException($"Login name '{userToSave.LoginName}' already exists.");
+        }
+
         userRepository.SaveUsers(users);
         userSaveSession.CompleteSave();
     }

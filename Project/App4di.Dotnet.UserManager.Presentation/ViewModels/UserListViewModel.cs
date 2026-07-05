@@ -48,6 +48,7 @@ public class UserListViewModel : NotificationObject
         this.deleteUserUseCase = deleteUserUseCase ?? throw new ArgumentNullException(nameof(deleteUserUseCase));
         this.sessionService = sessionService ?? throw new ArgumentNullException(nameof(sessionService));
         this.userEditSessionService = userEditSessionService ?? throw new ArgumentNullException(nameof(userEditSessionService));
+        this.userEditSessionService.SaveCompleted += UserEditSessionServiceSaveCompleted;
         Reset();
     }
 
@@ -173,6 +174,29 @@ public class UserListViewModel : NotificationObject
     }
 
     private RelayCommand? editCommand;
+    private RelayCommand? addCommand;
+    public FW4di.Dotnet.MVVM.ICommand AddCommand
+    {
+        get
+        {
+            addCommand ??= new RelayCommand(_ => Add(), _ => true);
+            return addCommand;
+        }
+    }
+
+    private void Add()
+    {
+        try
+        {
+            userEditSessionService.BeginAdd(LoadUsers(new UserFilter()));
+            navigationService.Navigate(ViewType.User);
+        }
+        catch (Exception ex)
+        {
+            messageService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Add error");
+        }
+    }
+
     public FW4di.Dotnet.MVVM.ICommand EditCommand
     {
         get
@@ -276,5 +300,38 @@ public class UserListViewModel : NotificationObject
         };
 
         return new ObservableCollection<User>(userQueryService.GetUsers(criteria).Select(UserMapper.ToUser));
+    }
+
+    private void UserEditSessionServiceSaveCompleted(object? sender, EventArgs e)
+    {
+        try
+        {
+            var selectedUserId = SelectedUser?.UserId;
+            var selectedCityName = SelectedAddressCity?.CityName;
+            var refreshedAddressCities = new ObservableCollection<AddressCity> { new() };
+            foreach (var cityName in userQueryService.GetAddressCities())
+                refreshedAddressCities.Add(new AddressCity { CityName = cityName });
+
+            var refreshedSelectedAddressCity = refreshedAddressCities
+                .FirstOrDefault(city => city.CityName == selectedCityName)
+                ?? refreshedAddressCities.FirstOrDefault();
+            var refreshedFilter = new UserFilter
+            {
+                AddressCity = refreshedSelectedAddressCity?.CityName ?? AddressCity.DefaultName,
+                TextInAll = filter.TextInAll
+            };
+            var refreshedUsers = LoadUsers(refreshedFilter);
+            var refreshedTotalUserCount = LoadUsers(new UserFilter()).Count;
+
+            AddressCities = refreshedAddressCities;
+            SelectedAddressCity = refreshedSelectedAddressCity;
+            Users = refreshedUsers;
+            totalUserCount = refreshedTotalUserCount;
+            SelectedUser = Users.FirstOrDefault(user => user.UserId == selectedUserId) ?? Users.FirstOrDefault();
+        }
+        catch (Exception ex)
+        {
+            messageService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Refresh error");
+        }
     }
 }

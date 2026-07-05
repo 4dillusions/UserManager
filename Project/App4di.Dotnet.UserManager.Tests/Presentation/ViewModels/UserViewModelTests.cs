@@ -19,6 +19,121 @@ namespace App4di.Dotnet.UserManager.Tests.Presentation.ViewModels;
 public class UserViewModelTests
 {
     [TestMethod]
+    public void HeaderTextReflectsAddAndEditMode()
+    {
+        var editSessionService = new UserEditSessionService();
+        editSessionService.BeginAdd([]);
+        var viewModel = CreateViewModel(new NavigationService(), new UserRepositoryStub(), editSessionService);
+
+        Assert.AreEqual("Please Add a User", viewModel.HeaderText);
+
+        var user = CreateUser(1, "Original");
+        editSessionService.BeginEdit(user, [user]);
+
+        Assert.AreEqual("Please Edit a User", viewModel.HeaderText);
+    }
+
+    [TestMethod]
+    public void SaveInAddModePersistsAppendedUserAndNavigatesBack()
+    {
+        var existing = CreateUser(3, "Existing");
+        var editSessionService = new UserEditSessionService();
+        editSessionService.BeginAdd([existing]);
+        editSessionService.EditingUser!.LoginName = "NewUser";
+        editSessionService.EditingUser.BirthDate = new DateTime(2000, 1, 1);
+        var repository = new UserRepositoryStub();
+        var navigationService = new NavigationService();
+        navigationService.Navigate(ViewType.User);
+        var viewModel = CreateViewModel(navigationService, repository, editSessionService);
+
+        viewModel.SaveCommand.Execute(null);
+
+        Assert.HasCount(2, repository.SavedUsers!);
+        Assert.AreEqual(4, repository.SavedUsers![1].UserId);
+        Assert.AreEqual("NewUser", repository.SavedUsers[1].LoginName);
+        Assert.IsNull(editSessionService.EditingUser);
+        Assert.AreEqual(ViewType.UserList, navigationService.CurrentView);
+    }
+
+    [TestMethod]
+    public void DuplicateLoginNameInAddModeDoesNotPersistOrNavigate()
+    {
+        var existing = CreateUser(1, "Existing");
+        existing.LoginName = "Duplicate";
+        var editSessionService = new UserEditSessionService();
+        editSessionService.BeginAdd([existing]);
+        editSessionService.EditingUser!.LoginName = "duplicate";
+        var repository = new UserRepositoryStub();
+        var navigationService = new NavigationService();
+        navigationService.Navigate(ViewType.User);
+        var messageService = new MessageServiceStub();
+        var viewModel = CreateViewModel(navigationService, repository, editSessionService, messageService);
+
+        viewModel.SaveCommand.Execute(null);
+
+        Assert.IsNull(repository.SavedUsers);
+        Assert.IsNotNull(editSessionService.EditingUser);
+        Assert.AreEqual(ViewType.User, navigationService.CurrentView);
+        Assert.AreEqual("Save error", messageService.Title);
+    }
+
+    [TestMethod]
+    public void InvalidBirthDateInAddModeDoesNotPersistOrNavigate()
+    {
+        var existing = CreateUser(1, "Existing");
+        var editSessionService = new UserEditSessionService();
+        editSessionService.BeginAdd([existing]);
+        editSessionService.EditingUser!.LoginName = "NewUser";
+        editSessionService.EditingUser.BirthDate = new DateTime(1499, 12, 31);
+        var repository = new UserRepositoryStub();
+        var navigationService = new NavigationService();
+        navigationService.Navigate(ViewType.User);
+        var messageService = new MessageServiceStub();
+        var viewModel = CreateViewModel(navigationService, repository, editSessionService, messageService);
+
+        viewModel.SaveCommand.Execute(null);
+
+        Assert.IsNull(repository.SavedUsers);
+        Assert.IsNotNull(editSessionService.EditingUser);
+        Assert.AreEqual(ViewType.User, navigationService.CurrentView);
+        Assert.AreEqual("Save error", messageService.Title);
+    }
+
+    [TestMethod]
+    public void InvalidBirthDateInEditModeDoesNotPersistOrNavigate()
+    {
+        var original = CreateUser(1, "Original");
+        var editSessionService = CreateEditSession(original, [original]);
+        editSessionService.EditingUser!.BirthDate = DateTime.Today.AddYears(-18).AddDays(1);
+        var repository = new UserRepositoryStub();
+        var navigationService = new NavigationService();
+        navigationService.Navigate(ViewType.User);
+        var messageService = new MessageServiceStub();
+        var viewModel = CreateViewModel(navigationService, repository, editSessionService, messageService);
+
+        viewModel.SaveCommand.Execute(null);
+
+        Assert.IsNull(repository.SavedUsers);
+        Assert.AreEqual(new DateTime(2000, 1, 1), original.BirthDate);
+        Assert.IsNotNull(editSessionService.EditingUser);
+        Assert.AreEqual(ViewType.User, navigationService.CurrentView);
+        Assert.AreEqual("Save error", messageService.Title);
+    }
+
+    [TestMethod]
+    public void BirthDateRangePropertiesUseCentralRules()
+    {
+        var user = CreateUser(1, "Original");
+        var viewModel = CreateViewModel(
+            new NavigationService(),
+            new UserRepositoryStub(),
+            CreateEditSession(user, [user]));
+
+        Assert.AreEqual(BirthDateRules.MinimumBirthDate, viewModel.MinimumBirthDate);
+        Assert.AreEqual(BirthDateRules.MaximumBirthDate, viewModel.MaximumBirthDate);
+    }
+
+    [TestMethod]
     public void UserViewModelLoadsEditableCopyFromEditSession()
     {
         var original = CreateUser(1, "Original");

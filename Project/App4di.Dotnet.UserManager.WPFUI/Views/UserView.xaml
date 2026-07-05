@@ -7,7 +7,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         mc:Ignorable="d" x:Class="App4di.Dotnet.UserManager.WPFUI.UserView" Width="746" Height="414" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
     <StackPanel>
-        <Label Content="  Please Edit a User" FontSize="20" FontWeight="Bold" Width="746" VerticalAlignment="Center" Foreground="{StaticResource HeaderTextBrush}"
+        <Label Content="{Binding HeaderText}" Padding="10,5,5,5" FontSize="20" FontWeight="Bold" Width="746" VerticalAlignment="Center" Foreground="{StaticResource HeaderTextBrush}"
                    Background="{StaticResource HeaderBackgroundBrush}"/>
         <Label Background="{StaticResource AccentBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Height="7"/>
         <Image Width="100" Height="100" Margin="0, 10, 0, 0" Source="../Contents/editUser.png"/>
@@ -105,7 +105,23 @@
             </TextBlock>
 
             <Label Grid.Row="5" Grid.Column="0" Content="Birth Date" HorizontalAlignment="Left"/>
-            <DatePicker x:Name="BirthDatePicker" Grid.Row="5" Grid.Column="1" MinWidth="250" HorizontalAlignment="Left" Margin="2, 2, 0, 2" SelectedDate="{Binding User.BirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <DatePicker x:Name="BirthDatePicker" Grid.Row="5" Grid.Column="1" MinWidth="250" HorizontalAlignment="Left" Margin="2, 2, 0, 2"
+                        DisplayDateStart="{Binding MinimumBirthDate, Mode=OneWay}" DisplayDateEnd="{Binding MaximumBirthDate, Mode=OneWay}">
+                <DatePicker.SelectedDate>
+                    <Binding Path="User.BirthDate" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <validators:BirthDateRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </DatePicker.SelectedDate>
+            </DatePicker>
+            <TextBlock Grid.Row="5" Grid.Column="2" Margin="5, 5, 0, 2" Foreground="{StaticResource ErrorBrush}">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="Error: {0}">
+                        <Binding ElementName="BirthDatePicker" Path="(Validation.Errors)[0].ErrorContent"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
 
             <Label Grid.Row="6" Grid.Column="0" Content="Birth Place" HorizontalAlignment="Left"/>
             <TextBox x:Name="BirthPlaceText" Grid.Row="6" Grid.Column="1" MinWidth="200" HorizontalAlignment="Left" Margin="2, 2, 0, 2" 

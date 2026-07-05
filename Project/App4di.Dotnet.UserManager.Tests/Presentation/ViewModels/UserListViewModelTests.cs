@@ -21,6 +21,160 @@ namespace App4di.Dotnet.UserManager.Tests.Presentation.ViewModels;
 public class UserListViewModelTests
 {
     [TestMethod]
+    public void AddCommandStartsAddSessionAndNavigatesToEditor()
+    {
+        var navigationService = new NavigationService();
+        var editSessionService = new UserEditSessionService();
+        var viewModel = new UserListViewModel(
+            navigationService,
+            new MessageServiceStub(),
+            new MutableUserQueryService(
+            [
+                new UserData { UserId = 2, LoginName = "First" },
+                new UserData { UserId = 7, LoginName = "Second" }
+            ]),
+            new UserExportServiceStub(),
+            new DeleteUserUseCaseStub(),
+            new SessionService(),
+            editSessionService);
+
+        viewModel.AddCommand.Execute(null);
+
+        Assert.AreEqual(ViewType.User, navigationService.CurrentView);
+        Assert.AreEqual(UserEditMode.Add, editSessionService.Mode);
+        Assert.AreEqual(8, editSessionService.EditingUser?.UserId);
+    }
+
+    [TestMethod]
+    public void AddCommandReportsLoadFailureWithoutStartingSessionOrNavigating()
+    {
+        var navigationService = new NavigationService();
+        var editSessionService = new UserEditSessionService();
+        var messageService = new MessageServiceStub();
+        var queryService = new MutableUserQueryService(
+            [new UserData { UserId = 1, LoginName = "First" }]);
+        var viewModel = new UserListViewModel(
+            navigationService,
+            messageService,
+            queryService,
+            new UserExportServiceStub(),
+            new DeleteUserUseCaseStub(),
+            new SessionService(),
+            editSessionService);
+        queryService.GetUsersException = new IOException("Load failed");
+
+        viewModel.AddCommand.Execute(null);
+
+        Assert.AreEqual(ViewType.Login, navigationService.CurrentView);
+        Assert.IsNull(editSessionService.EditingUser);
+        Assert.AreEqual("Add error", messageService.Title);
+        StringAssert.Contains(messageService.Message, "Load failed");
+    }
+
+    [TestMethod]
+    public void ReturningWithoutSavePreservesSearchState()
+    {
+        var navigationService = new NavigationService();
+        var queryService = new UserQueryServiceStub();
+        var viewModel = new UserListViewModel(
+            navigationService,
+            new MessageServiceStub(),
+            queryService,
+            new UserExportServiceStub(),
+            new DeleteUserUseCaseStub(),
+            new SessionService(),
+            new UserEditSessionService());
+        viewModel.TextInAll = "Rubik";
+        viewModel.SelectedAddressCity = viewModel.AddressCities[1];
+
+        navigationService.Navigate(ViewType.User);
+        navigationService.Navigate(ViewType.UserList);
+
+        Assert.AreEqual("Rubik", viewModel.TextInAll);
+        Assert.AreEqual("Budapest", viewModel.SelectedAddressCity?.CityName);
+        Assert.AreEqual(1, queryService.GetUsersCallCount);
+    }
+
+    [TestMethod]
+    public void SuccessfulSaveRefreshesUsersWithoutClearingFilter()
+    {
+        var queryService = new MutableUserQueryService(
+            [new UserData { UserId = 1, LoginName = "First" }]);
+        var editSessionService = new UserEditSessionService();
+        var viewModel = new UserListViewModel(
+            new NavigationService(),
+            new MessageServiceStub(),
+            queryService,
+            new UserExportServiceStub(),
+            new DeleteUserUseCaseStub(),
+            new SessionService(),
+            editSessionService);
+        viewModel.TextInAll = "First";
+        editSessionService.BeginAdd(viewModel.Users);
+        queryService.Users.Add(new UserData { UserId = 2, LoginName = "Second" });
+
+        editSessionService.CompleteSave();
+
+        Assert.AreEqual("First", viewModel.TextInAll);
+        Assert.HasCount(2, viewModel.Users);
+    }
+
+    [TestMethod]
+    public void SuccessfulSaveRefreshesAddressCitiesAndPreservesSelectedCity()
+    {
+        var queryService = new MutableUserQueryService(
+            [new UserData { UserId = 1, LoginName = "First", AddressCity = "Budapest" }]);
+        var editSessionService = new UserEditSessionService();
+        var viewModel = new UserListViewModel(
+            new NavigationService(),
+            new MessageServiceStub(),
+            queryService,
+            new UserExportServiceStub(),
+            new DeleteUserUseCaseStub(),
+            new SessionService(),
+            editSessionService);
+        viewModel.SelectedAddressCity = viewModel.AddressCities.Single(city => city.CityName == "Budapest");
+        editSessionService.BeginAdd(viewModel.Users);
+        queryService.Users.Add(new UserData { UserId = 2, LoginName = "Second", AddressCity = "Szeged" });
+
+        editSessionService.CompleteSave();
+
+        CollectionAssert.AreEquivalent(
+            new[] { AddressCity.DefaultName, "Budapest", "Szeged" },
+            viewModel.AddressCities.Select(city => city.CityName).ToArray());
+        Assert.AreEqual("Budapest", viewModel.SelectedAddressCity?.CityName);
+    }
+
+    [TestMethod]
+    public void RefreshFailureAfterSaveIsReportedWithoutFailingCompletedSession()
+    {
+        var queryService = new MutableUserQueryService(
+            [new UserData { UserId = 1, LoginName = "First", AddressCity = "Budapest" }]);
+        var editSessionService = new UserEditSessionService();
+        var messageService = new MessageServiceStub();
+        var viewModel = new UserListViewModel(
+            new NavigationService(),
+            messageService,
+            queryService,
+            new UserExportServiceStub(),
+            new DeleteUserUseCaseStub(),
+            new SessionService(),
+            editSessionService);
+        viewModel.SelectedAddressCity = viewModel.AddressCities.Single(city => city.CityName == "Budapest");
+        var addressCitiesBeforeRefresh = viewModel.AddressCities;
+        var selectedAddressCityBeforeRefresh = viewModel.SelectedAddressCity;
+        editSessionService.BeginAdd(viewModel.Users);
+        queryService.GetAddressCitiesException = new IOException("Refresh failed");
+
+        editSessionService.CompleteSave();
+
+        Assert.IsNull(editSessionService.EditingUser);
+        Assert.AreSame(addressCitiesBeforeRefresh, viewModel.AddressCities);
+        Assert.AreSame(selectedAddressCityBeforeRefresh, viewModel.SelectedAddressCity);
+        StringAssert.Contains(messageService.Message, "Refresh failed");
+    }
+
+    [TestMethod]
     public void UserListViewModelUsesUserQueryService()
     {
         var queryService = new UserQueryServiceStub();
@@ -311,12 +465,14 @@ public class UserListViewModelTests
     private sealed class MessageServiceStub : IMessageService
     {
         public string? Message { get; private set; }
+        public string? Title { get; private set; }
         public bool ConfirmationResult { get; init; }
         public int ConfirmationCallCount { get; private set; }
 
         public void ShowMessage(string message, string? title = null)
         {
             Message = message;
+            Title = title;
         }
 
         public bool ShowConfirmation(string message, string? title = null)
@@ -344,14 +500,22 @@ public class UserListViewModelTests
     private sealed class MutableUserQueryService(IEnumerable<UserData> users) : IUserQueryService
     {
         public List<UserData> Users { get; } = users.ToList();
+        public Exception? GetUsersException { get; set; }
+        public Exception? GetAddressCitiesException { get; set; }
 
         public IReadOnlyList<UserData> GetUsers(UserQueryCriteria filter)
         {
+            if (GetUsersException != null)
+                throw GetUsersException;
+
             return Users.ToList();
         }
 
         public IReadOnlyList<string> GetAddressCities()
         {
+            if (GetAddressCitiesException != null)
+                throw GetAddressCitiesException;
+
             return Users.Select(user => user.AddressCity)
                 .Where(city => !string.IsNullOrEmpty(city))
                 .Distinct()

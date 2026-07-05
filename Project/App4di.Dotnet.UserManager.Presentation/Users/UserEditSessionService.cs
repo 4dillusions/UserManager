@@ -19,27 +19,51 @@ public class UserEditSessionService : IUserEditSessionService
     private int editingUserId;
 
     public User? EditingUser { get; private set; }
-    public bool HasChanges => EditingUser != null && originalUser != null && !HasSameValues(EditingUser, originalUser);
+    public UserData UserToSave => EditingUser != null
+        ? UserMapper.ToUserData(EditingUser)
+        : throw new InvalidOperationException("No user edit session is active.");
+    public UserEditMode Mode { get; private set; } = UserEditMode.Edit;
+    public bool HasChanges => EditingUser != null &&
+        (Mode == UserEditMode.Add || originalUser != null && !HasSameValues(EditingUser, originalUser));
     public event EventHandler? EditStateChanged;
+    public event EventHandler? SaveCompleted;
 
     public void BeginEdit(User user, IReadOnlyList<User> users)
     {
         ArgumentNullException.ThrowIfNull(user);
         ArgumentNullException.ThrowIfNull(users);
 
-        this.users = users;
+        StartSession(users, UserEditMode.Edit);
         selectedUser = user;
         originalUser = UserMapper.ToUserData(user);
         editingUserId = user.UserId;
-        EditingUser = UserMapper.Copy(user);
-        EditingUser.PropertyChanged += EditingUserPropertyChanged;
-        EditStateChanged?.Invoke(this, EventArgs.Empty);
+        SetEditingUser(UserMapper.Copy(user));
+    }
+
+    public void BeginAdd(IReadOnlyList<User> users)
+    {
+        ArgumentNullException.ThrowIfNull(users);
+
+        var maximumUserId = users.Count == 0 ? 0 : users.Max(user => user.UserId);
+        if (maximumUserId == int.MaxValue)
+            throw new InvalidOperationException("No user ID is available for a new user.");
+
+        var userId = maximumUserId + 1;
+        StartSession(users, UserEditMode.Add);
+        SetEditingUser(new User { UserId = userId });
     }
 
     public IReadOnlyList<UserData> CreateSaveSnapshot()
     {
         if (EditingUser == null || users == null)
             throw new InvalidOperationException("No user edit session is active.");
+
+        if (Mode == UserEditMode.Add)
+        {
+            var addSnapshot = users.Select(UserMapper.ToUserData).ToList();
+            addSnapshot.Add(UserMapper.ToUserData(EditingUser));
+            return addSnapshot;
+        }
 
         var originalUserIndex = FindUserIndex(users, editingUserId);
         if (originalUserIndex < 0)
@@ -55,6 +79,13 @@ public class UserEditSessionService : IUserEditSessionService
         if (EditingUser == null || users == null)
             throw new InvalidOperationException("No user edit session is active.");
 
+        if (Mode == UserEditMode.Add)
+        {
+            Clear();
+            SaveCompleted?.Invoke(this, EventArgs.Empty);
+            return;
+        }
+
         var originalUser = users.FirstOrDefault(user => user.UserId == editingUserId)
             ?? throw new InvalidOperationException($"User with ID '{editingUserId}' was not found.");
 
@@ -63,6 +94,7 @@ public class UserEditSessionService : IUserEditSessionService
             UserMapper.Copy(EditingUser, selectedUser);
 
         Clear();
+        SaveCompleted?.Invoke(this, EventArgs.Empty);
     }
 
     public void Cancel()
@@ -80,6 +112,20 @@ public class UserEditSessionService : IUserEditSessionService
         selectedUser = null;
         originalUser = null;
         editingUserId = default;
+        EditStateChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void StartSession(IReadOnlyList<User> users, UserEditMode mode)
+    {
+        Clear();
+        this.users = users;
+        Mode = mode;
+    }
+
+    private void SetEditingUser(User user)
+    {
+        EditingUser = user;
+        EditingUser.PropertyChanged += EditingUserPropertyChanged;
         EditStateChanged?.Invoke(this, EventArgs.Empty);
     }
 

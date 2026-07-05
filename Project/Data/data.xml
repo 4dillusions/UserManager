@@ -6,7 +6,7 @@
     <Password>Albert1</Password>
     <FirstName>Albert</FirstName>
     <Surname>Einstein</Surname>
-    <BirthDate>2879-03-14T00:00:00</BirthDate>
+    <BirthDate>1879-03-14T00:00:00</BirthDate>
     <BirthPlace>German</BirthPlace>
     <AddressCity>Württemberg</AddressCity>
   </UserData>
