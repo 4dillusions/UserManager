@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
-  <title id="title">Compile-time project dependencies</title>
-  <desc id="desc">WPFUI references Presentation, Presentation and Infrastructure reference Application, and Application references Domain.</desc>
+  <title id="title">Simplified layer dependencies</title>
+  <desc id="desc">Simplified application-layer dependency direction. Shared framework modules and the full WPFUI composition references are shown in architecture.svg.</desc>
   <defs>
     <style>
       text { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; fill: #16313d; }
@@ -22,8 +22,8 @@
   <rect width="1200" height="760" fill="#f3f7f9" />
   <rect x="30" y="30" width="1140" height="700" rx="28" fill="#ffffff" stroke="#d7e1e7" stroke-width="2" />
 
-  <text x="70" y="88" class="title">Compile-time Project Dependencies</text>
-  <text x="70" y="120" class="subtitle">Arrows point from the referencing project to its dependency</text>
+  <text x="70" y="88" class="title">Simplified Layer Dependencies</text>
+  <text x="70" y="120" class="subtitle">Main application-layer direction; see architecture.svg for every ProjectReference</text>
 
   <g filter="url(#shadow)">
     <rect x="420" y="160" width="360" height="105" rx="20" class="card" fill="#fde8e6" stroke="#c97870" />

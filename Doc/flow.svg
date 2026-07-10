@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1650" viewBox="0 0 1800 1650" role="img" aria-labelledby="title desc">
   <title id="title">UserManager runtime flow</title>
-  <desc id="desc">Current application flow from startup and authentication through user queries, filtering, editing, saving, cancellation, and JSON export.</desc>
+  <desc id="desc">Current application flow from startup and authentication through user queries, filtering, add/edit sessions, deletion, saving, cancellation, and JSON export.</desc>
   <defs>
     <style>
       text { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; fill: #16313d; }
@@ -98,7 +98,7 @@
   <text x="650" y="1056" class="layer" fill="#436d9e">PRESENTATION</text>
   <text x="650" y="1093" class="label">User list · UserListViewModel</text>
   <text x="650" y="1121" class="body">Load cities and users; restore the current selection</text>
-  <text x="650" y="1147" class="small">Available commands: Find, Export JSON, Edit selected user</text>
+  <text x="650" y="1147" class="small">Available commands: Find, Add, Edit, Delete, Export JSON</text>
 
   <!-- Query service -->
   <g filter="url(#shadow)">
@@ -133,13 +133,21 @@
   <text x="645" y="1533" class="label">Data/data.json</text>
   <text x="645" y="1558" class="small">Success or error message is displayed</text>
 
-  <!-- Begin edit -->
+  <!-- Delete -->
+  <g filter="url(#shadow)">
+    <rect x="95" y="1460" width="400" height="105" rx="22" class="card" fill="#e4f6ea" stroke="#63a77a" />
+  </g>
+  <text x="130" y="1496" class="layer" fill="#438359">DELETE COMMAND / APPLICATION</text>
+  <text x="130" y="1533" class="label">DeleteUserUseCase</text>
+  <text x="130" y="1558" class="small">Confirm deletion, save XML, refresh list</text>
+
+  <!-- Begin add or edit -->
   <g filter="url(#shadow)">
     <rect x="1125" y="1020" width="575" height="155" rx="22" class="card" fill="#e8f1ff" stroke="#668fc4" />
   </g>
-  <text x="1160" y="1056" class="layer" fill="#436d9e">EDIT COMMAND / PRESENTATION</text>
-  <text x="1160" y="1093" class="label">Begin edit session</text>
-  <text x="1160" y="1121" class="body">Reload full user list and copy selected user</text>
+  <text x="1160" y="1056" class="layer" fill="#436d9e">ADD OR EDIT COMMAND / PRESENTATION</text>
+  <text x="1160" y="1093" class="label">Begin add or edit session</text>
+  <text x="1160" y="1121" class="body">Reload full user list; create new user or copy selected user</text>
   <text x="1160" y="1147" class="small">Navigate to User view; original list remains unchanged</text>
 
   <!-- User editor -->
@@ -195,8 +203,13 @@
   <path d="M810 1385 L810 1460" class="data-edge" />
   <text x="830" y="1427" class="edge-label">write JSON</text>
 
-  <!-- Edit, cancel and save branches -->
+  <!-- Add/edit, delete, cancel and save branches -->
   <path d="M1110 1097 L1125 1097" class="edge" />
+  <text x="1115" y="1082" class="edge-label">Add / Edit</text>
+  <path d="M620 1175 L620 1210 L295 1210 L295 1460" class="edge" />
+  <text x="450" y="1192" class="edge-label">Delete</text>
+  <path d="M495 1512 L555 1512 L555 1585 L900 1585 L900 1175" class="return-edge" />
+  <text x="570" y="1578" class="edge-label">refresh list</text>
   <path d="M1412 1175 L1412 1260" class="edge" />
   <text x="1432" y="1222" class="edge-label">navigate</text>
   <path d="M1412 1385 L1412 1460" class="edge" />

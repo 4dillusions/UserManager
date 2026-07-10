@@ -62,7 +62,9 @@ The application contains three screens:
    * Display all users.
    * Filter by city.
    * Search user data.
-   * Open the editor.
+   * Add new users.
+   * Edit the selected user.
+   * Delete the selected user.
 
 3. **User Editor**
 
@@ -116,13 +118,13 @@ The main architectural goals are:
 
 ## Dependencies
 
-The following project dependencies must always be preserved:
+The following simplified project dependencies must always be preserved:
 
 <p align="center">
   <img src="Doc/dependencies.svg">
 </p>
 
-The arrows represent project dependencies. They describe which projects may reference each other at compile time, not how requests flow through the application at runtime.
+The arrows represent the main project dependencies. They describe which application layers may reference each other at compile time, not every shared framework dependency and not how requests flow through the application at runtime.
 
 ### Runtime Flow
 
@@ -141,17 +143,9 @@ Rules:
 
 - Domain must not depend on any other project.
 - Application may depend only on Domain.
-- Presentation may depend only on Application and Domain.
+- Presentation may depend only on Application, Domain and the shared FW4di.Dotnet.MVVM module.
 - Infrastructure may depend only on Application and Domain.
-- WPFUI composes the application and connects Presentation with Infrastructure at runtime.
-
-Rules:
-
-* Domain must not depend on any other project.
-* Application may depend only on Domain.
-* Presentation may depend only on Application and Domain.
-* Infrastructure may depend only on Application and Domain.
-* WPFUI composes the application and connects Presentation with Infrastructure.
+- WPFUI composes the application and may reference Application, Presentation, Infrastructure and the shared FW4di.Dotnet.Core module.
 
 ---
 
@@ -247,6 +241,7 @@ Current responsibilities include:
 * User queries
 * User export
 * Transactional save use case
+* Delete user use case
 * Repository contracts
 * Service contracts
 
