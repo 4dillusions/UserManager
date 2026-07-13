@@ -11,7 +11,13 @@
 </p>
 
 <p align="center">
-  <img src="Doc/userManager.jpg">
+  <img src="Doc/userManagerLogin.jpg">
+</p>
+<p align="center">
+  <img src="Doc/userManagerSelect.jpg">
+</p>
+<p align="center">
+  <img src="Doc/userManagerEdit.jpg">
 </p>
 
 # UserManager
@@ -126,6 +132,10 @@ The following simplified project dependencies must always be preserved:
 
 The arrows represent the main project dependencies. They describe which application layers may reference each other at compile time, not every shared framework dependency and not how requests flow through the application at runtime.
 
+<p align="center">
+  <img src="Doc/architecture.jpg">
+</p>
+
 ### Runtime Flow
 
 At runtime, the WPFUI project acts as the composition root. It wires together the Presentation and Infrastructure layers through the contracts defined by the Application layer.
@@ -142,12 +152,27 @@ The Application layer coordinates the use case, operates on Domain models, and d
 Rules:
 
 - Domain must not depend on any other project.
-- Application may depend only on Domain.
-- Presentation may depend only on Application, Domain and the shared FW4di.Dotnet.MVVM module.
-- Infrastructure may depend only on Application and Domain.
+- Application business code may depend only on Domain. Its dependency registration entry point may additionally depend on the shared FW4di.Dotnet.Core DI abstraction.
+- Presentation may depend only on Application, Domain and the shared FW4di.Dotnet.MVVM module. Its dependency registration entry point may additionally depend on the shared FW4di.Dotnet.Core DI abstraction.
+- Infrastructure may depend only on Application and Domain, plus the shared FW4di.Dotnet.Core module for technical helpers and dependency registration.
 - WPFUI composes the application and may reference Application, Presentation, Infrastructure and the shared FW4di.Dotnet.Core module.
 
 ---
+
+## Dependency Registration
+
+WPFUI is the application's composition root. It starts dependency registration, selects the concrete modules used by the application, wires WPF-specific adapters, and resolves the startup ViewModel and View.
+
+Dependency registration is explicit and split by module:
+
+* `BindApplication()` is owned by the Application project and registers only Application implementations such as authentication, query services and use cases.
+* `BindPresentation()` is owned by the Presentation project and registers only Presentation implementations such as ViewModels, navigation, session services and edit session state.
+* `BindInfrastructure()` is owned by the Infrastructure project and registers only Infrastructure implementations such as XML repositories, JSON export and data managers.
+* `BindWpfUi()` is owned by WPFUI and registers only WPF-specific adapters such as message and application lifetime services.
+
+Each module registers only types from its own assembly. Application defines the abstractions required by use cases, Infrastructure provides the technical implementations, and WPFUI performs the final composition by invoking the module registration methods in a deterministic order.
+
+The registration code does not scan all loaded assemblies. Adding an alternative implementation should be done by changing the composition root or adding a narrowly named module registration method instead of hiding the application setup behind a generic global binding call.
 
 ## Design Guidelines
 
@@ -330,7 +355,7 @@ Responsibilities include:
 * Dependency Injection wiring
 * Centralized colors, brushes and shared WPF control styles
 
-This layer contains only WPF-specific code and connects the Presentation layer with the Infrastructure implementations.
+This layer contains only WPF-specific code and connects the Presentation layer with the Infrastructure implementations by explicitly invoking the module registration entry points.
 
 ---
 
@@ -364,10 +389,6 @@ In larger applications the test suite may also include:
 * End-to-end tests
 
 ---
-
-<p align="center">
-  <img src="Doc/architecture.svg">
-</p>
 
 <p align="center">
   The diagram above illustrates the dependency relationships between the architectural layers.

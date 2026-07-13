@@ -20,7 +20,7 @@ public class JsonUserExportService : IUserExportService
     {
     }
 
-    internal JsonUserExportService(IDataManager<UserData> dataManager)
+    public JsonUserExportService(JsonDataManager<UserData> dataManager)
     {
         this.dataManager = dataManager ?? throw new ArgumentNullException(nameof(dataManager));
     }

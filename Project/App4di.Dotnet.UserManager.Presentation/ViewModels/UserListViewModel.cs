@@ -6,6 +6,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 
 using App4di.Dotnet.UserManager.Application.Export;
 using App4di.Dotnet.UserManager.Application.Users;
+using App4di.Dotnet.UserManager.Domain;
 using App4di.Dotnet.UserManager.Presentation.Common;
 using App4di.Dotnet.UserManager.Presentation.Mapping;
 using App4di.Dotnet.UserManager.Presentation.Models;
@@ -25,29 +26,52 @@ public class UserListViewModel : NotificationObject
     private UserFilter filter = new();
     private int totalUserCount;
     private readonly INavigationService navigationService;
-    private readonly IMessageService messageService;
+    private readonly IUserNotificationService userNotificationService;
     private readonly IUserQueryService userQueryService;
     private readonly IUserExportService userExportService;
     private readonly IDeleteUserUseCase deleteUserUseCase;
     private readonly ISessionService sessionService;
     private readonly IUserEditSessionService userEditSessionService;
+    private readonly UserAutoMapperManager mapper;
 
     public UserListViewModel(
         INavigationService navigationService,
-        IMessageService messageService,
+        IUserNotificationService userNotificationService,
         IUserQueryService userQueryService,
         IUserExportService userExportService,
         IDeleteUserUseCase deleteUserUseCase,
         ISessionService sessionService,
         IUserEditSessionService userEditSessionService)
+        : this(
+            navigationService,
+            userNotificationService,
+            userQueryService,
+            userExportService,
+            deleteUserUseCase,
+            sessionService,
+            userEditSessionService,
+            new UserAutoMapperManager())
+    {
+    }
+
+    public UserListViewModel(
+        INavigationService navigationService,
+        IUserNotificationService userNotificationService,
+        IUserQueryService userQueryService,
+        IUserExportService userExportService,
+        IDeleteUserUseCase deleteUserUseCase,
+        ISessionService sessionService,
+        IUserEditSessionService userEditSessionService,
+        UserAutoMapperManager mapper)
     {
         this.navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-        this.messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
+        this.userNotificationService = userNotificationService ?? throw new ArgumentNullException(nameof(userNotificationService));
         this.userQueryService = userQueryService ?? throw new ArgumentNullException(nameof(userQueryService));
         this.userExportService = userExportService ?? throw new ArgumentNullException(nameof(userExportService));
         this.deleteUserUseCase = deleteUserUseCase ?? throw new ArgumentNullException(nameof(deleteUserUseCase));
         this.sessionService = sessionService ?? throw new ArgumentNullException(nameof(sessionService));
         this.userEditSessionService = userEditSessionService ?? throw new ArgumentNullException(nameof(userEditSessionService));
+        this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         this.userEditSessionService.SaveCompleted += UserEditSessionServiceSaveCompleted;
         Reset();
     }
@@ -143,7 +167,7 @@ public class UserListViewModel : NotificationObject
         }
         catch (Exception ex)
         {
-            messageService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Find error");
+            userNotificationService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Find error");
         }
     }
 
@@ -193,7 +217,7 @@ public class UserListViewModel : NotificationObject
         }
         catch (Exception ex)
         {
-            messageService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Add error");
+            userNotificationService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Add error");
         }
     }
 
@@ -236,7 +260,7 @@ public class UserListViewModel : NotificationObject
             return;
 
         var selectedUser = SelectedUser;
-        if (!messageService.ShowConfirmation(
+        if (!userNotificationService.ShowConfirmation(
             $"Delete user '{selectedUser.LoginName}'?",
             "Delete User"))
         {
@@ -254,7 +278,7 @@ public class UserListViewModel : NotificationObject
         }
         catch (Exception ex)
         {
-            messageService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Delete error");
+            userNotificationService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Delete error");
         }
     }
 
@@ -277,12 +301,12 @@ public class UserListViewModel : NotificationObject
     {
         try
         {
-            var exportFilePath = userExportService.ExportUsers(Users.Select(UserMapper.ToUserData));
-            messageService.ShowMessage($"Data exported to JSON file:{Environment.NewLine}{exportFilePath}");
+            var exportFilePath = userExportService.ExportUsers(Users.Select(mapper.Map<User, UserData>));
+            userNotificationService.ShowMessage($"Data exported to JSON file:{Environment.NewLine}{exportFilePath}");
         }
         catch (Exception ex)
         {
-            messageService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Export error");
+            userNotificationService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Export error");
         }
     }
 
@@ -299,7 +323,7 @@ public class UserListViewModel : NotificationObject
             TextInAll = userFilter.TextInAll
         };
 
-        return new ObservableCollection<User>(userQueryService.GetUsers(criteria).Select(UserMapper.ToUser));
+        return new ObservableCollection<User>(userQueryService.GetUsers(criteria).Select(mapper.Map<UserData, User>));
     }
 
     private void UserEditSessionServiceSaveCompleted(object? sender, EventArgs e)
@@ -331,7 +355,7 @@ public class UserListViewModel : NotificationObject
         }
         catch (Exception ex)
         {
-            messageService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Refresh error");
+            userNotificationService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Refresh error");
         }
     }
 }

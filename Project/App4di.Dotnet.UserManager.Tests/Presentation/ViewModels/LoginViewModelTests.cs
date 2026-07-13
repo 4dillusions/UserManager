@@ -21,7 +21,7 @@ public class LoginViewModelTests
         var navigationService = new NavigationService();
         var viewModel = new LoginViewModel(
             navigationService,
-            new MessageServiceStub(),
+            new UserNotificationServiceStub(),
             new ApplicationServiceStub(),
             authenticationService)
         {
@@ -43,7 +43,7 @@ public class LoginViewModelTests
         var navigationService = new NavigationService();
         var viewModel = new LoginViewModel(
             navigationService,
-            new MessageServiceStub(),
+            new UserNotificationServiceStub(),
             new ApplicationServiceStub(),
             new AuthenticationServiceStub(false))
         {
@@ -71,7 +71,7 @@ public class LoginViewModelTests
         }
     }
 
-    private sealed class MessageServiceStub : IMessageService
+    private sealed class UserNotificationServiceStub : IUserNotificationService
     {
         public void ShowMessage(string message, string? title = null)
         {

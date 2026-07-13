@@ -24,14 +24,14 @@ public class BirthDateRulesTests
     }
 
     [TestMethod]
-    public void EighteenthBirthdayIsValid()
+    public void MaximumBirthDateIsValid()
     {
-        Assert.IsTrue(BirthDateRules.IsValid(DateTime.Today.AddYears(-18)));
+        Assert.IsTrue(BirthDateRules.IsValid(BirthDateRules.MaximumBirthDate));
     }
 
     [TestMethod]
-    public void DateAfterEighteenthBirthdayIsInvalid()
+    public void DateAfterMaximumBirthDateIsInvalid()
     {
-        Assert.IsFalse(BirthDateRules.IsValid(DateTime.Today.AddYears(-18).AddDays(1)));
+        Assert.IsFalse(BirthDateRules.IsValid(BirthDateRules.MaximumBirthDate.AddDays(1)));
     }
 }

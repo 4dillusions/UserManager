@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace App4di.Dotnet.UserManager.WPFUI.Service;
 
-public class WpfMessageService : IMessageService
+public class WpfUserNotificationService : IUserNotificationService
 {
     public void ShowMessage(string message, string? title = null)
     {

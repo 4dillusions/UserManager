@@ -20,7 +20,7 @@ public class XmlUserRepository : IUserRepository
     {
     }
 
-    internal XmlUserRepository(IDataManager<UserData> dataManager)
+    public XmlUserRepository(XmlDataManager<UserData> dataManager)
     {
         this.dataManager = dataManager ?? throw new ArgumentNullException(nameof(dataManager));
     }

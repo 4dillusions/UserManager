@@ -68,7 +68,7 @@ public class UserQueryServiceTests
                 {
                     UserId = 42,
                     LoginName = "User",
-                    BirthDate = new DateTime(2000, 1, 1)
+                    BirthDate = BirthDateRules.MinimumBirthDate
                 }
             ]),
             new AddressCityRepositoryStub([]));

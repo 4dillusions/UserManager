@@ -8,8 +8,11 @@ namespace App4di.Dotnet.UserManager.Application.Users;
 
 public static class BirthDateRules
 {
-    public static DateTime MinimumBirthDate { get; } = new(1500, 1, 1);
-    public static DateTime MaximumBirthDate => DateTime.Today.AddYears(-18);
+    public const int MinimumBirthYear = 1500;
+    public const int MinimumAgeInYears = 18;
+
+    public static DateTime MinimumBirthDate { get; } = new(MinimumBirthYear, 1, 1);
+    public static DateTime MaximumBirthDate => DateTime.Today.AddYears(-MinimumAgeInYears);
 
     public static bool IsValid(DateTime birthDate)
     {

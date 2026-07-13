@@ -39,6 +39,8 @@
     <path d="M562 401 L562 376 L452 376 L452 352"/>
     <!-- WPFUI to Presentation -->
     <path d="M171 520 L171 484"/>
+    <!-- WPFUI to Infrastructure -->
+    <path d="M315 551 L633 551 L633 486"/>
   </g>
 
   <!-- Domain -->

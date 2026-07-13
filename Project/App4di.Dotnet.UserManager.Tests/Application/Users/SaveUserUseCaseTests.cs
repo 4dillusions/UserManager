@@ -13,11 +13,14 @@ namespace App4di.Dotnet.UserManager.Tests.Application.Users;
 [TestClass]
 public class SaveUserUseCaseTests
 {
+    private static readonly DateTime ValidBirthDate = BirthDateRules.MinimumBirthDate;
+    private static readonly DateTime InvalidBirthDate = BirthDateRules.MinimumBirthDate.AddDays(-1);
+
     [TestMethod]
     public void SuccessfulSavePersistsSnapshotBeforeCompletingSession()
     {
         var calls = new List<string>();
-        var users = new List<UserData> { new() { UserId = 1, Surname = "Changed", BirthDate = new DateTime(2000, 1, 1) } };
+        var users = new List<UserData> { new() { UserId = 1, Surname = "Changed", BirthDate = ValidBirthDate } };
         var session = new UserSaveSessionStub(users, calls);
         var repository = new UserRepositoryStub(calls);
         var useCase = new SaveUserUseCase(repository);
@@ -32,7 +35,7 @@ public class SaveUserUseCaseTests
     public void FailedRepositorySaveDoesNotCompleteSession()
     {
         var calls = new List<string>();
-        var session = new UserSaveSessionStub([new UserData { BirthDate = new DateTime(2000, 1, 1) }], calls);
+        var session = new UserSaveSessionStub([new UserData { BirthDate = ValidBirthDate }], calls);
         var repository = new UserRepositoryStub(calls) { SaveException = new IOException("Save failed") };
         var useCase = new SaveUserUseCase(repository);
 
@@ -47,8 +50,8 @@ public class SaveUserUseCaseTests
         var calls = new List<string>();
         var session = new UserSaveSessionStub(
         [
-            new UserData { UserId = 1, LoginName = "Existing", BirthDate = new DateTime(2000, 1, 1) },
-            new UserData { UserId = 2, LoginName = "existing", BirthDate = new DateTime(2000, 1, 1) }
+            new UserData { UserId = 1, LoginName = "Existing", BirthDate = ValidBirthDate },
+            new UserData { UserId = 2, LoginName = "existing", BirthDate = ValidBirthDate }
         ], calls);
         var repository = new UserRepositoryStub(calls);
         var useCase = new SaveUserUseCase(repository);
@@ -65,7 +68,7 @@ public class SaveUserUseCaseTests
     {
         var calls = new List<string>();
         var session = new UserSaveSessionStub(
-            [new UserData { UserId = 1, LoginName = "User", BirthDate = new DateTime(1499, 12, 31) }],
+            [new UserData { UserId = 1, LoginName = "User", BirthDate = InvalidBirthDate }],
             calls);
         var repository = new UserRepositoryStub(calls);
         var useCase = new SaveUserUseCase(repository);
@@ -83,9 +86,9 @@ public class SaveUserUseCaseTests
         var calls = new List<string>();
         var users = new List<UserData>
         {
-            new() { UserId = 1, LoginName = "Legacy", BirthDate = new DateTime(1499, 12, 31) },
-            new() { UserId = 2, LoginName = "legacy", BirthDate = new DateTime(2000, 1, 1) },
-            new() { UserId = 3, LoginName = "Edited", BirthDate = new DateTime(2000, 1, 1) }
+            new() { UserId = 1, LoginName = "Legacy", BirthDate = InvalidBirthDate },
+            new() { UserId = 2, LoginName = "legacy", BirthDate = ValidBirthDate },
+            new() { UserId = 3, LoginName = "Edited", BirthDate = ValidBirthDate }
         };
         var repository = new UserRepositoryStub(calls);
         var useCase = new SaveUserUseCase(repository);

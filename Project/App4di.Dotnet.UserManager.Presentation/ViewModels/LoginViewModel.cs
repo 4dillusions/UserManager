@@ -16,18 +16,18 @@ public class LoginViewModel : NotificationObject
 {
     private bool isCanLogin = true;
     private readonly INavigationService navigationService;
-    private readonly IMessageService messageService;
+    private readonly IUserNotificationService userNotificationService;
     private readonly IApplicationService applicationService;
     private readonly IAuthenticationService authenticationService;
 
     public LoginViewModel(
         INavigationService navigationService,
-        IMessageService messageService,
+        IUserNotificationService userNotificationService,
         IApplicationService applicationService,
         IAuthenticationService authenticationService)
     {
         this.navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-        this.messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
+        this.userNotificationService = userNotificationService ?? throw new ArgumentNullException(nameof(userNotificationService));
         this.applicationService = applicationService ?? throw new ArgumentNullException(nameof(applicationService));
         this.authenticationService = authenticationService ?? throw new ArgumentNullException(nameof(authenticationService));
     }
@@ -63,11 +63,11 @@ public class LoginViewModel : NotificationObject
             if (authenticationService.Authenticate(LoginName, Password))
                 navigationService.Navigate(ViewType.UserList);
             else
-                messageService.ShowMessage("Wrong LoginName or Password!");
+                userNotificationService.ShowMessage("Wrong LoginName or Password!");
         }
         catch (Exception ex)
         {
-            messageService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Refresh error");
+            userNotificationService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Refresh error");
         }
         finally
         {

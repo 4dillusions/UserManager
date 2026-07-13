@@ -17,7 +17,7 @@ namespace App4di.Dotnet.UserManager.Presentation.ViewModels;
 public class UserViewModel : NotificationObject
 {
     private readonly INavigationService navigationService;
-    private readonly IMessageService messageService;
+    private readonly IUserNotificationService userNotificationService;
     private readonly ISaveUserUseCase saveUserUseCase;
     private readonly IUserEditSessionService userEditSessionService;
 
@@ -30,12 +30,12 @@ public class UserViewModel : NotificationObject
 
     public UserViewModel(
         INavigationService navigationService,
-        IMessageService messageService,
+        IUserNotificationService userNotificationService,
         ISaveUserUseCase saveUserUseCase,
         IUserEditSessionService userEditSessionService)
     {
         this.navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-        this.messageService = messageService ?? throw new ArgumentNullException(nameof(messageService));
+        this.userNotificationService = userNotificationService ?? throw new ArgumentNullException(nameof(userNotificationService));
         this.saveUserUseCase = saveUserUseCase ?? throw new ArgumentNullException(nameof(saveUserUseCase));
         this.userEditSessionService = userEditSessionService ?? throw new ArgumentNullException(nameof(userEditSessionService));
         this.userEditSessionService.EditStateChanged += EditStateChanged;
@@ -60,7 +60,7 @@ public class UserViewModel : NotificationObject
         }
         catch (Exception ex)
         {
-            messageService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Save error");
+            userNotificationService.ShowMessage(ExceptionMessageFormatter.Format(ex), "Save error");
         }
     }
 

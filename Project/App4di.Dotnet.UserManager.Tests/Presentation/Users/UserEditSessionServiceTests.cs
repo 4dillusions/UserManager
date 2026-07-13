@@ -6,6 +6,7 @@ Released under the terms of the GNU General Public License version 3 or later.
 
 using App4di.Dotnet.UserManager.Presentation.Models;
 using App4di.Dotnet.UserManager.Presentation.Users;
+using App4di.Dotnet.UserManager.Application.Users;
 
 namespace App4di.Dotnet.UserManager.Tests.Presentation.Users;
 
@@ -167,7 +168,7 @@ public class UserEditSessionServiceTests
             Password = $"Password{userId}",
             FirstName = $"First{userId}",
             Surname = surname,
-            BirthDate = new DateTime(2000, 1, userId),
+            BirthDate = BirthDateRules.MinimumBirthDate.AddDays(userId),
             BirthPlace = "Budapest",
             AddressCity = "Budapest"
         };

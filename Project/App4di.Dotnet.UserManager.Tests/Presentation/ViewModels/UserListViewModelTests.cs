@@ -27,7 +27,7 @@ public class UserListViewModelTests
         var editSessionService = new UserEditSessionService();
         var viewModel = new UserListViewModel(
             navigationService,
-            new MessageServiceStub(),
+            new UserNotificationServiceStub(),
             new MutableUserQueryService(
             [
                 new UserData { UserId = 2, LoginName = "First" },
@@ -50,12 +50,12 @@ public class UserListViewModelTests
     {
         var navigationService = new NavigationService();
         var editSessionService = new UserEditSessionService();
-        var messageService = new MessageServiceStub();
+        var userNotificationService = new UserNotificationServiceStub();
         var queryService = new MutableUserQueryService(
             [new UserData { UserId = 1, LoginName = "First" }]);
         var viewModel = new UserListViewModel(
             navigationService,
-            messageService,
+            userNotificationService,
             queryService,
             new UserExportServiceStub(),
             new DeleteUserUseCaseStub(),
@@ -67,8 +67,8 @@ public class UserListViewModelTests
 
         Assert.AreEqual(ViewType.Login, navigationService.CurrentView);
         Assert.IsNull(editSessionService.EditingUser);
-        Assert.AreEqual("Add error", messageService.Title);
-        StringAssert.Contains(messageService.Message, "Load failed");
+        Assert.AreEqual("Add error", userNotificationService.Title);
+        StringAssert.Contains(userNotificationService.Message, "Load failed");
     }
 
     [TestMethod]
@@ -78,7 +78,7 @@ public class UserListViewModelTests
         var queryService = new UserQueryServiceStub();
         var viewModel = new UserListViewModel(
             navigationService,
-            new MessageServiceStub(),
+            new UserNotificationServiceStub(),
             queryService,
             new UserExportServiceStub(),
             new DeleteUserUseCaseStub(),
@@ -103,7 +103,7 @@ public class UserListViewModelTests
         var editSessionService = new UserEditSessionService();
         var viewModel = new UserListViewModel(
             new NavigationService(),
-            new MessageServiceStub(),
+            new UserNotificationServiceStub(),
             queryService,
             new UserExportServiceStub(),
             new DeleteUserUseCaseStub(),
@@ -127,7 +127,7 @@ public class UserListViewModelTests
         var editSessionService = new UserEditSessionService();
         var viewModel = new UserListViewModel(
             new NavigationService(),
-            new MessageServiceStub(),
+            new UserNotificationServiceStub(),
             queryService,
             new UserExportServiceStub(),
             new DeleteUserUseCaseStub(),
@@ -151,10 +151,10 @@ public class UserListViewModelTests
         var queryService = new MutableUserQueryService(
             [new UserData { UserId = 1, LoginName = "First", AddressCity = "Budapest" }]);
         var editSessionService = new UserEditSessionService();
-        var messageService = new MessageServiceStub();
+        var userNotificationService = new UserNotificationServiceStub();
         var viewModel = new UserListViewModel(
             new NavigationService(),
-            messageService,
+            userNotificationService,
             queryService,
             new UserExportServiceStub(),
             new DeleteUserUseCaseStub(),
@@ -171,7 +171,7 @@ public class UserListViewModelTests
         Assert.IsNull(editSessionService.EditingUser);
         Assert.AreSame(addressCitiesBeforeRefresh, viewModel.AddressCities);
         Assert.AreSame(selectedAddressCityBeforeRefresh, viewModel.SelectedAddressCity);
-        StringAssert.Contains(messageService.Message, "Refresh failed");
+        StringAssert.Contains(userNotificationService.Message, "Refresh failed");
     }
 
     [TestMethod]
@@ -180,7 +180,7 @@ public class UserListViewModelTests
         var queryService = new UserQueryServiceStub();
         var viewModel = new UserListViewModel(
             new NavigationService(),
-            new MessageServiceStub(),
+            new UserNotificationServiceStub(),
             queryService,
             new UserExportServiceStub(),
             new DeleteUserUseCaseStub(),
@@ -204,7 +204,7 @@ public class UserListViewModelTests
         var queryService = new UserQueryServiceStub();
         var viewModel = new UserListViewModel(
             new NavigationService(),
-            new MessageServiceStub(),
+            new UserNotificationServiceStub(),
             queryService,
             new UserExportServiceStub(),
             new DeleteUserUseCaseStub(),
@@ -227,10 +227,10 @@ public class UserListViewModelTests
     {
         var queryService = new UserQueryServiceStub();
         var exportService = new UserExportServiceStub();
-        var messageService = new MessageServiceStub();
+        var userNotificationService = new UserNotificationServiceStub();
         var viewModel = new UserListViewModel(
             new NavigationService(),
-            messageService,
+            userNotificationService,
             queryService,
             exportService,
             new DeleteUserUseCaseStub(),
@@ -249,7 +249,7 @@ public class UserListViewModelTests
             exportService.ExportedUsers.Select(user => user.UserId).ToArray());
         Assert.AreEqual(
             $"Data exported to JSON file:{Environment.NewLine}{UserExportServiceStub.ExportFilePath}",
-            messageService.Message);
+            userNotificationService.Message);
     }
 
     [TestMethod]
@@ -261,7 +261,7 @@ public class UserListViewModelTests
         var navigationService = new NavigationService();
         var viewModel = new UserListViewModel(
             navigationService,
-            new MessageServiceStub(),
+            new UserNotificationServiceStub(),
             queryService,
             new UserExportServiceStub(),
             new DeleteUserUseCaseStub(),
@@ -284,7 +284,7 @@ public class UserListViewModelTests
     {
         var viewModel = new UserListViewModel(
             new NavigationService(),
-            new MessageServiceStub(),
+            new UserNotificationServiceStub(),
             new UserQueryServiceStub(),
             new UserExportServiceStub(),
             new DeleteUserUseCaseStub(),
@@ -312,7 +312,7 @@ public class UserListViewModelTests
     {
         var viewModel = new UserListViewModel(
             new NavigationService(),
-            new MessageServiceStub(),
+            new UserNotificationServiceStub(),
             new UserQueryServiceStub(),
             new UserExportServiceStub(),
             new DeleteUserUseCaseStub(),
@@ -344,7 +344,7 @@ public class UserListViewModelTests
         ]);
         var viewModel = new UserListViewModel(
             new NavigationService(),
-            new MessageServiceStub(),
+            new UserNotificationServiceStub(),
             queryService,
             new UserExportServiceStub(),
             new DeleteUserUseCaseStub(),
@@ -364,7 +364,7 @@ public class UserListViewModelTests
 
         var singleUserViewModel = new UserListViewModel(
             new NavigationService(),
-            new MessageServiceStub(),
+            new UserNotificationServiceStub(),
             new MutableUserQueryService([new UserData { UserId = 1, LoginName = "Only" }]),
             new UserExportServiceStub(),
             new DeleteUserUseCaseStub(),
@@ -383,10 +383,10 @@ public class UserListViewModelTests
             new UserData { UserId = 2, LoginName = "Second" }
         ]);
         var deleteUseCase = new DeleteUserUseCaseStub();
-        var messageService = new MessageServiceStub { ConfirmationResult = false };
+        var userNotificationService = new UserNotificationServiceStub { ConfirmationResult = false };
         var viewModel = new UserListViewModel(
             new NavigationService(),
-            messageService,
+            userNotificationService,
             queryService,
             new UserExportServiceStub(),
             deleteUseCase,
@@ -395,7 +395,7 @@ public class UserListViewModelTests
 
         viewModel.DeleteCommand.Execute(null);
 
-        Assert.AreEqual(1, messageService.ConfirmationCallCount);
+        Assert.AreEqual(1, userNotificationService.ConfirmationCallCount);
         Assert.AreEqual(0, deleteUseCase.CallCount);
         Assert.HasCount(2, viewModel.Users);
     }
@@ -412,10 +412,10 @@ public class UserListViewModelTests
         {
             OnExecute = userId => queryService.Users.RemoveAll(user => user.UserId == userId)
         };
-        var messageService = new MessageServiceStub { ConfirmationResult = true };
+        var userNotificationService = new UserNotificationServiceStub { ConfirmationResult = true };
         var viewModel = new UserListViewModel(
             new NavigationService(),
-            messageService,
+            userNotificationService,
             queryService,
             new UserExportServiceStub(),
             deleteUseCase,
@@ -462,7 +462,7 @@ public class UserListViewModelTests
         }
     }
 
-    private sealed class MessageServiceStub : IMessageService
+    private sealed class UserNotificationServiceStub : IUserNotificationService
     {
         public string? Message { get; private set; }
         public string? Title { get; private set; }

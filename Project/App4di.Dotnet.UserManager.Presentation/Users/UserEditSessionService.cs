@@ -13,6 +13,7 @@ namespace App4di.Dotnet.UserManager.Presentation.Users;
 
 public class UserEditSessionService : IUserEditSessionService
 {
+    private readonly UserAutoMapperManager mapper;
     private IReadOnlyList<User>? users;
     private User? selectedUser;
     private UserData? originalUser;
@@ -20,13 +21,23 @@ public class UserEditSessionService : IUserEditSessionService
 
     public User? EditingUser { get; private set; }
     public UserData UserToSave => EditingUser != null
-        ? UserMapper.ToUserData(EditingUser)
+        ? mapper.Map<User, UserData>(EditingUser)
         : throw new InvalidOperationException("No user edit session is active.");
     public UserEditMode Mode { get; private set; } = UserEditMode.Edit;
     public bool HasChanges => EditingUser != null &&
         (Mode == UserEditMode.Add || originalUser != null && !HasSameValues(EditingUser, originalUser));
     public event EventHandler? EditStateChanged;
     public event EventHandler? SaveCompleted;
+
+    public UserEditSessionService()
+        : this(new UserAutoMapperManager())
+    {
+    }
+
+    public UserEditSessionService(UserAutoMapperManager mapper)
+    {
+        this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+    }
 
     public void BeginEdit(User user, IReadOnlyList<User> users)
     {
@@ -35,9 +46,9 @@ public class UserEditSessionService : IUserEditSessionService
 
         StartSession(users, UserEditMode.Edit);
         selectedUser = user;
-        originalUser = UserMapper.ToUserData(user);
+        originalUser = mapper.Map<User, UserData>(user);
         editingUserId = user.UserId;
-        SetEditingUser(UserMapper.Copy(user));
+        SetEditingUser(mapper.Map<User, User>(user));
     }
 
     public void BeginAdd(IReadOnlyList<User> users)
@@ -60,8 +71,8 @@ public class UserEditSessionService : IUserEditSessionService
 
         if (Mode == UserEditMode.Add)
         {
-            var addSnapshot = users.Select(UserMapper.ToUserData).ToList();
-            addSnapshot.Add(UserMapper.ToUserData(EditingUser));
+            var addSnapshot = users.Select(mapper.Map<User, UserData>).ToList();
+            addSnapshot.Add(mapper.Map<User, UserData>(EditingUser));
             return addSnapshot;
         }
 
@@ -69,8 +80,8 @@ public class UserEditSessionService : IUserEditSessionService
         if (originalUserIndex < 0)
             throw new InvalidOperationException($"User with ID '{editingUserId}' was not found.");
 
-        var snapshot = users.Select(UserMapper.ToUserData).ToList();
-        snapshot[originalUserIndex] = UserMapper.ToUserData(EditingUser);
+        var snapshot = users.Select(mapper.Map<User, UserData>).ToList();
+        snapshot[originalUserIndex] = mapper.Map<User, UserData>(EditingUser);
         return snapshot;
     }
 
@@ -89,9 +100,9 @@ public class UserEditSessionService : IUserEditSessionService
         var originalUser = users.FirstOrDefault(user => user.UserId == editingUserId)
             ?? throw new InvalidOperationException($"User with ID '{editingUserId}' was not found.");
 
-        UserMapper.Copy(EditingUser, originalUser);
+        mapper.Map(EditingUser, originalUser);
         if (!ReferenceEquals(selectedUser, originalUser) && selectedUser != null)
-            UserMapper.Copy(EditingUser, selectedUser);
+            mapper.Map(EditingUser, selectedUser);
 
         Clear();
         SaveCompleted?.Invoke(this, EventArgs.Empty);

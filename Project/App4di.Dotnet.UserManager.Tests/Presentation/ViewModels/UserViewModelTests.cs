@@ -18,6 +18,9 @@ namespace App4di.Dotnet.UserManager.Tests.Presentation.ViewModels;
 [TestClass]
 public class UserViewModelTests
 {
+    private static readonly DateTime ValidBirthDate = BirthDateRules.MinimumBirthDate;
+    private static readonly DateTime InvalidBirthDate = BirthDateRules.MinimumBirthDate.AddDays(-1);
+
     [TestMethod]
     public void HeaderTextReflectsAddAndEditMode()
     {
@@ -40,7 +43,7 @@ public class UserViewModelTests
         var editSessionService = new UserEditSessionService();
         editSessionService.BeginAdd([existing]);
         editSessionService.EditingUser!.LoginName = "NewUser";
-        editSessionService.EditingUser.BirthDate = new DateTime(2000, 1, 1);
+        editSessionService.EditingUser.BirthDate = ValidBirthDate;
         var repository = new UserRepositoryStub();
         var navigationService = new NavigationService();
         navigationService.Navigate(ViewType.User);
@@ -66,15 +69,15 @@ public class UserViewModelTests
         var repository = new UserRepositoryStub();
         var navigationService = new NavigationService();
         navigationService.Navigate(ViewType.User);
-        var messageService = new MessageServiceStub();
-        var viewModel = CreateViewModel(navigationService, repository, editSessionService, messageService);
+        var userNotificationService = new UserNotificationServiceStub();
+        var viewModel = CreateViewModel(navigationService, repository, editSessionService, userNotificationService);
 
         viewModel.SaveCommand.Execute(null);
 
         Assert.IsNull(repository.SavedUsers);
         Assert.IsNotNull(editSessionService.EditingUser);
         Assert.AreEqual(ViewType.User, navigationService.CurrentView);
-        Assert.AreEqual("Save error", messageService.Title);
+        Assert.AreEqual("Save error", userNotificationService.Title);
     }
 
     [TestMethod]
@@ -84,19 +87,19 @@ public class UserViewModelTests
         var editSessionService = new UserEditSessionService();
         editSessionService.BeginAdd([existing]);
         editSessionService.EditingUser!.LoginName = "NewUser";
-        editSessionService.EditingUser.BirthDate = new DateTime(1499, 12, 31);
+        editSessionService.EditingUser.BirthDate = InvalidBirthDate;
         var repository = new UserRepositoryStub();
         var navigationService = new NavigationService();
         navigationService.Navigate(ViewType.User);
-        var messageService = new MessageServiceStub();
-        var viewModel = CreateViewModel(navigationService, repository, editSessionService, messageService);
+        var userNotificationService = new UserNotificationServiceStub();
+        var viewModel = CreateViewModel(navigationService, repository, editSessionService, userNotificationService);
 
         viewModel.SaveCommand.Execute(null);
 
         Assert.IsNull(repository.SavedUsers);
         Assert.IsNotNull(editSessionService.EditingUser);
         Assert.AreEqual(ViewType.User, navigationService.CurrentView);
-        Assert.AreEqual("Save error", messageService.Title);
+        Assert.AreEqual("Save error", userNotificationService.Title);
     }
 
     [TestMethod]
@@ -104,20 +107,20 @@ public class UserViewModelTests
     {
         var original = CreateUser(1, "Original");
         var editSessionService = CreateEditSession(original, [original]);
-        editSessionService.EditingUser!.BirthDate = DateTime.Today.AddYears(-18).AddDays(1);
+        editSessionService.EditingUser!.BirthDate = BirthDateRules.MaximumBirthDate.AddDays(1);
         var repository = new UserRepositoryStub();
         var navigationService = new NavigationService();
         navigationService.Navigate(ViewType.User);
-        var messageService = new MessageServiceStub();
-        var viewModel = CreateViewModel(navigationService, repository, editSessionService, messageService);
+        var userNotificationService = new UserNotificationServiceStub();
+        var viewModel = CreateViewModel(navigationService, repository, editSessionService, userNotificationService);
 
         viewModel.SaveCommand.Execute(null);
 
         Assert.IsNull(repository.SavedUsers);
-        Assert.AreEqual(new DateTime(2000, 1, 1), original.BirthDate);
+        Assert.AreEqual(ValidBirthDate.AddDays(1), original.BirthDate);
         Assert.IsNotNull(editSessionService.EditingUser);
         Assert.AreEqual(ViewType.User, navigationService.CurrentView);
-        Assert.AreEqual("Save error", messageService.Title);
+        Assert.AreEqual("Save error", userNotificationService.Title);
     }
 
     [TestMethod]
@@ -230,8 +233,8 @@ public class UserViewModelTests
         var repository = new UserRepositoryStub { SaveException = new IOException("Save failed") };
         var navigationService = new NavigationService();
         navigationService.Navigate(ViewType.User);
-        var messageService = new MessageServiceStub();
-        var viewModel = CreateViewModel(navigationService, repository, editSessionService, messageService);
+        var userNotificationService = new UserNotificationServiceStub();
+        var viewModel = CreateViewModel(navigationService, repository, editSessionService, userNotificationService);
         viewModel.User!.Surname = "Changed";
 
         viewModel.SaveCommand.Execute(null);
@@ -239,18 +242,18 @@ public class UserViewModelTests
         Assert.AreEqual("Original", original.Surname);
         Assert.AreEqual("Changed", editSessionService.EditingUser?.Surname);
         Assert.AreEqual(ViewType.User, navigationService.CurrentView);
-        Assert.AreEqual("Save error", messageService.Title);
+        Assert.AreEqual("Save error", userNotificationService.Title);
     }
 
     private static UserViewModel CreateViewModel(
         INavigationService navigationService,
         IUserRepository repository,
         IUserEditSessionService editSessionService,
-        IMessageService? messageService = null)
+        IUserNotificationService? userNotificationService = null)
     {
         return new UserViewModel(
             navigationService,
-            messageService ?? new MessageServiceStub(),
+            userNotificationService ?? new UserNotificationServiceStub(),
             new SaveUserUseCase(repository),
             editSessionService);
     }
@@ -271,7 +274,7 @@ public class UserViewModelTests
             Password = $"Password{userId}",
             FirstName = $"First{userId}",
             Surname = surname,
-            BirthDate = new DateTime(2000, 1, userId),
+            BirthDate = ValidBirthDate.AddDays(userId),
             BirthPlace = "Budapest",
             AddressCity = "Budapest"
         };
@@ -296,7 +299,7 @@ public class UserViewModelTests
         }
     }
 
-    private sealed class MessageServiceStub : IMessageService
+    private sealed class UserNotificationServiceStub : IUserNotificationService
     {
         public string? Title { get; private set; }
 
