@@ -2,9 +2,12 @@ html/
 TestResults/
 Database/
 Dropbox/
+bin/
 obj/
+Obj/
 Bin/
 .vs/
+.dotnet/
 .history/
 *.pdom
 *.index
@@ -32,5 +35,3 @@ Bin/
 *.opensdf
 *.tree
 *.suo
-!data.xml
-!Newtonsoft.Json.*

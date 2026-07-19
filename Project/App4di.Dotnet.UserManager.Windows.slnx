@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/FirstParty/">
+    <Project Path="FirstParty/FW4di.Dotnet.Core/Project/FW4di.Dotnet.Core/FW4di.Dotnet.Core.csproj" />
+    <Project Path="FirstParty/FW4di.Dotnet.MVVM/Project/FW4di.Dotnet.MVVM/FW4di.Dotnet.MVVM.csproj" />
+  </Folder>
+  <Project Path="App4di.Dotnet.UserManager.Application/App4di.Dotnet.UserManager.Application.csproj" />
+  <Project Path="App4di.Dotnet.UserManager.Domain/App4di.Dotnet.UserManager.Domain.csproj" />
+  <Project Path="App4di.Dotnet.UserManager.Infrastructure/App4di.Dotnet.UserManager.Infrastructure.csproj" Id="e54c06b1-f767-4ef8-8c5e-9f5516d7452b" />
+  <Project Path="App4di.Dotnet.UserManager.Presentation/App4di.Dotnet.UserManager.Presentation.csproj" />
+  <Project Path="App4di.Dotnet.UserManager.Tests/App4di.Dotnet.UserManager.Tests.csproj" Id="f5dcba0c-2796-4d34-917f-301acb61b97e" />
+  <Project Path="App4di.Dotnet.UserManager.WPFUI/App4di.Dotnet.UserManager.WPFUI.csproj" Id="56deef58-a841-4a4c-9774-ec51894c9693" />
+</Solution>

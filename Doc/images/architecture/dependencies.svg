@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1122" height="630" viewBox="0 0 1122 630">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#1f3b4d" flood-opacity="0.16"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#456b7b"/>
+    </marker>
+    <style>
+      .title{font:700 25px Arial,Helvetica,sans-serif;fill:#163342}
+      .subtitle{font:400 13px Arial,Helvetica,sans-serif;fill:#5c7584}
+      .section{font:700 18px Arial,Helvetica,sans-serif;fill:#163342}
+      .boxTitle{font:700 18px Arial,Helvetica,sans-serif;fill:#102d3b}
+      .boxSub{font:400 11px Arial,Helvetica,sans-serif;fill:#5b7483}
+      .panelTitle{font:700 18px Arial,Helvetica,sans-serif;fill:#163342}
+      .panelSub{font:400 11px Arial,Helvetica,sans-serif;fill:#6b7f8c}
+      .itemTitle{font:700 14px Arial,Helvetica,sans-serif;fill:#173443}
+      .itemText{font:400 11px Arial,Helvetica,sans-serif;fill:#617986}
+      .badgeText{font:700 10px Arial,Helvetica,sans-serif;fill:#fff;letter-spacing:.2px}
+    </style>
+  </defs>
+
+  <!-- background and outer card -->
+  <rect width="1122" height="630" fill="#f4f8fb"/>
+  <rect x="11" y="12" width="1100" height="606" rx="24" fill="#ffffff" stroke="#d2e0e8" stroke-width="1.6"/>
+
+  <!-- headings -->
+  <text x="43" y="60" class="title">Layer Dependencies and MVVM Realization</text>
+  <text x="43" y="84" class="subtitle">Main application-layer direction and the concrete Model–ViewModel–View mapping</text>
+  <text x="43" y="121" class="section">Simplified Layer Dependencies</text>
+
+  <!-- arrows / connectors behind boxes -->
+  <g fill="none" stroke="#456b7b" stroke-width="3" marker-end="url(#arrow)">
+    <!-- Application to Domain -->
+    <path d="M402 269 L402 224"/>
+    <!-- Presentation to Application -->
+    <path d="M242 401 L242 376 L350 376 L350 352"/>
+    <!-- Infrastructure to Application -->
+    <path d="M562 401 L562 376 L452 376 L452 352"/>
+    <!-- WPFUI to Presentation -->
+    <path d="M171 520 L171 484"/>
+    <!-- WPFUI to Infrastructure -->
+    <path d="M315 551 L633 551 L633 486"/>
+  </g>
+
+  <!-- Domain -->
+  <g filter="url(#shadow)">
+    <rect x="258" y="141" width="289" height="84" rx="16" fill="#fde8e5" stroke="#df7f74" stroke-width="2"/>
+  </g>
+  <text x="402.5" y="184" text-anchor="middle" class="boxTitle">Domain</text>
+  <text x="402.5" y="210" text-anchor="middle" class="boxSub">independent model</text>
+  <rect x="471" y="147" width="66" height="23" rx="13" fill="#4d8b65"/>
+  <text x="504" y="162" text-anchor="middle" class="badgeText">MODEL</text>
+
+  <!-- Application -->
+  <g filter="url(#shadow)">
+    <rect x="258" y="269" width="289" height="83" rx="16" fill="#e4f4e7" stroke="#66ad78" stroke-width="2"/>
+  </g>
+  <text x="402.5" y="313" text-anchor="middle" class="boxTitle">Application</text>
+  <text x="402.5" y="336" text-anchor="middle" class="boxSub">use cases and contracts</text>
+  <rect x="471" y="275" width="66" height="23" rx="13" fill="#4d8b65"/>
+  <text x="504" y="290" text-anchor="middle" class="badgeText">MODEL</text>
+
+  <!-- Presentation -->
+  <g filter="url(#shadow)">
+    <rect x="27" y="401" width="288" height="84" rx="16" fill="#e6eefb" stroke="#5c91d6" stroke-width="2"/>
+  </g>
+  <text x="171" y="445" text-anchor="middle" class="boxTitle">Presentation</text>
+  <text x="171" y="468" text-anchor="middle" class="boxSub">UI orchestration</text>
+  <rect x="221" y="407" width="84" height="23" rx="13" fill="#4f80bd"/>
+  <text x="263" y="422" text-anchor="middle" class="badgeText">VIEWMODEL</text>
+
+  <!-- Infrastructure -->
+  <g filter="url(#shadow)">
+    <rect x="489" y="401" width="288" height="84" rx="16" fill="#e3f5fb" stroke="#56a5d1" stroke-width="2"/>
+  </g>
+  <text x="633" y="445" text-anchor="middle" class="boxTitle">Infrastructure</text>
+  <text x="633" y="468" text-anchor="middle" class="boxSub">technical implementations</text>
+  <rect x="703" y="407" width="64" height="23" rx="13" fill="#4d8b65"/>
+  <text x="735" y="422" text-anchor="middle" class="badgeText">MODEL</text>
+
+  <!-- WPFUI -->
+  <g filter="url(#shadow)">
+    <rect x="27" y="520" width="288" height="61" rx="16" fill="#fff3dc" stroke="#e1a03a" stroke-width="2"/>
+  </g>
+  <text x="171" y="557" text-anchor="middle" class="boxTitle">WPFUI</text>
+  <rect x="247" y="526" width="58" height="23" rx="13" fill="#a77e25"/>
+  <text x="276" y="541" text-anchor="middle" class="badgeText">VIEW</text>
+
+  <!-- right panel -->
+  <rect x="792" y="119" width="280" height="480" rx="19" fill="#f7fafc" stroke="#d0e0e9" stroke-width="2"/>
+  <text x="817" y="153" class="panelTitle">MVVM in this project</text>
+  <text x="817" y="173" class="panelSub">MVVM roles span multiple architectural layers.</text>
+
+  <!-- model card -->
+  <rect x="817" y="196" width="232" height="151" rx="15" fill="#edf7ef" stroke="#65ae78" stroke-width="1.8"/>
+  <rect x="833" y="210" width="66" height="22" rx="12" fill="#4d8b65"/>
+  <text x="866" y="225" text-anchor="middle" class="badgeText">MODEL</text>
+  <text x="833" y="254" class="itemTitle">Domain</text>
+  <text x="833" y="270" class="itemText">core business data</text>
+  <text x="833" y="293" class="itemTitle">Application</text>
+  <text x="833" y="309" class="itemText">use cases and business rules</text>
+  <text x="833" y="332" class="itemTitle">Infrastructure</text>
+  <text x="938" y="332" class="itemText">technical persistence</text>
+
+  <!-- viewmodel card -->
+  <rect x="817" y="367" width="232" height="87" rx="15" fill="#edf3fc" stroke="#5c91d6" stroke-width="1.8"/>
+  <rect x="833" y="381" width="86" height="22" rx="12" fill="#4f80bd"/>
+  <text x="876" y="396" text-anchor="middle" class="badgeText">VIEWMODEL</text>
+  <text x="833" y="425" class="itemTitle">Presentation.ViewModels</text>
+  <text x="833" y="443" class="itemText">commands, state and UI orchestration</text>
+
+  <!-- view card -->
+  <rect x="817" y="475" width="232" height="84" rx="15" fill="#fff6e6" stroke="#e1a03a" stroke-width="1.8"/>
+  <rect x="833" y="489" width="57" height="22" rx="12" fill="#a77e25"/>
+  <text x="861.5" y="504" text-anchor="middle" class="badgeText">VIEW</text>
+  <text x="833" y="533" class="itemTitle">WPFUI.Views</text>
+  <text x="833" y="551" class="itemText">XAML and WPF-specific view behavior</text>
+
+  <!-- bottom note -->
+  <rect x="817" y="570" width="232" height="19" rx="10" fill="#e8f1f7"/>
+  <text x="933" y="584" text-anchor="middle" class="itemText">Presentation.Models = bindable UI-side models</text>
+</svg>

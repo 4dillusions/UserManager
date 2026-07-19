@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>App4di.Dotnet.UserManager.WPFUI</RootNamespace>
+    <AssemblyName>App4di.Dotnet.UserManager.WPFUI</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\App4di.Dotnet.UserManager.Application\App4di.Dotnet.UserManager.Application.csproj" />
+    <ProjectReference Include="..\App4di.Dotnet.UserManager.Infrastructure\App4di.Dotnet.UserManager.Infrastructure.csproj" />
+    <ProjectReference Include="..\App4di.Dotnet.UserManager.Presentation\App4di.Dotnet.UserManager.Presentation.csproj" />
+    <ProjectReference Include="..\FirstParty\FW4di.Dotnet.Core\Project\FW4di.Dotnet.Core\FW4di.Dotnet.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Icojam-Blue-Bits-User-settings.ico" />
+    <Resource Include="Contents\login.png" />
+    <Resource Include="Contents\users.png" />
+    <Resource Include="Contents\editUser.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\Data\data.xml" Link="Data\data.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>Data\data.xml</TargetPath>
+    </Content>
+  </ItemGroup>
+
+
+</Project>

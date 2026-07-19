@@ -1,0 +1,6 @@
+[submodule "Project/FirstParty/FW4di.Dotnet.Core"]
+	path = Project/FirstParty/FW4di.Dotnet.Core
+	url = https://github.com/libs4di/FW4di.Dotnet.Core.git
+[submodule "Project/FirstParty/FW4di.Dotnet.MVVM"]
+	path = Project/FirstParty/FW4di.Dotnet.MVVM
+	url = https://github.com/libs4di/FW4di.Dotnet.MVVM.git

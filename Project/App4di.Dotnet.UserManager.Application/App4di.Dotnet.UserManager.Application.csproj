@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\App4di.Dotnet.UserManager.Domain\App4di.Dotnet.UserManager.Domain.csproj" />
+    <ProjectReference Include="..\FirstParty\FW4di.Dotnet.Core\Project\FW4di.Dotnet.Core\FW4di.Dotnet.Core.csproj" />
+  </ItemGroup>
+
+</Project>
