@@ -154,7 +154,7 @@ dotnet publish Project/App4di.Dotnet.UserManager.WPFUI/App4di.Dotnet.UserManager
 A publikált file-ok ide kerülnek:
 
 ```text
-Project/App4di.Dotnet.UserManager.WPFUI/bin/Release/net10.0-windows/win-x64/publish/
+Project/Bin/Release/
 ```
 
 Ha single-file executable helyett self-contained mappát szeretnél publikálni, hagyd el a `PublishSingleFile` beállítást:

@@ -154,7 +154,7 @@ dotnet publish Project/App4di.Dotnet.UserManager.WPFUI/App4di.Dotnet.UserManager
 The published files are created under:
 
 ```text
-Project/App4di.Dotnet.UserManager.WPFUI/bin/Release/net10.0-windows/win-x64/publish/
+Project/Bin/Release/
 ```
 
 To publish a self-contained folder instead of a single-file executable, omit `PublishSingleFile`:
