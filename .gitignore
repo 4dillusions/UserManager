@@ -4,6 +4,7 @@ Database/
 Dropbox/
 bin/
 obj/
+Obj/
 Bin/
 .vs/
 .dotnet/

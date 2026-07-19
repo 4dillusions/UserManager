@@ -1,6 +1,16 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
+
+# Documentation and repository metadata
+.gitattributes text eol=lf
+.gitignore     text eol=lf
+.gitmodules    text eol=lf
+.editorconfig  text eol=lf
+*.md           text eol=lf
+LICENSE        text eol=lf
+*.svg          text eol=lf
+
 # Custom for Visual Studio
 *.cs     diff=csharp
 *.cs     text eol=crlf
