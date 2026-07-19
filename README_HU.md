@@ -148,11 +148,7 @@ Készíthető self-contained Windows build, amely a célgépen külön telepíte
 Single-file, 64 bites Windows executable publikálása:
 
 ```bash
-dotnet publish Project/App4di.Dotnet.UserManager.WPFUI/App4di.Dotnet.UserManager.WPFUI.csproj \
-  -c Release \
-  -r win-x64 \
-  --self-contained true \
-  -p:PublishSingleFile=true
+dotnet publish Project/App4di.Dotnet.UserManager.WPFUI/App4di.Dotnet.UserManager.WPFUI.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
 ```
 
 A publikált file-ok ide kerülnek:
@@ -164,10 +160,7 @@ Project/App4di.Dotnet.UserManager.WPFUI/bin/Release/net10.0-windows/win-x64/publ
 Ha single-file executable helyett self-contained mappát szeretnél publikálni, hagyd el a `PublishSingleFile` beállítást:
 
 ```bash
-dotnet publish Project/App4di.Dotnet.UserManager.WPFUI/App4di.Dotnet.UserManager.WPFUI.csproj \
-  -c Release \
-  -r win-x64 \
-  --self-contained true
+dotnet publish Project/App4di.Dotnet.UserManager.WPFUI/App4di.Dotnet.UserManager.WPFUI.csproj -c Release -r win-x64 --self-contained true
 ```
 
 32 bites Windowshoz `win-x86`, Windows ARM64-hez `win-arm64` runtime identifiert használj.

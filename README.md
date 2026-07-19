@@ -148,11 +148,7 @@ You can create a self-contained Windows build that can run on a target machine w
 Publish a single-file 64-bit Windows executable:
 
 ```bash
-dotnet publish Project/App4di.Dotnet.UserManager.WPFUI/App4di.Dotnet.UserManager.WPFUI.csproj \
-  -c Release \
-  -r win-x64 \
-  --self-contained true \
-  -p:PublishSingleFile=true
+dotnet publish Project/App4di.Dotnet.UserManager.WPFUI/App4di.Dotnet.UserManager.WPFUI.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
 ```
 
 The published files are created under:
@@ -164,10 +160,7 @@ Project/App4di.Dotnet.UserManager.WPFUI/bin/Release/net10.0-windows/win-x64/publ
 To publish a self-contained folder instead of a single-file executable, omit `PublishSingleFile`:
 
 ```bash
-dotnet publish Project/App4di.Dotnet.UserManager.WPFUI/App4di.Dotnet.UserManager.WPFUI.csproj \
-  -c Release \
-  -r win-x64 \
-  --self-contained true
+dotnet publish Project/App4di.Dotnet.UserManager.WPFUI/App4di.Dotnet.UserManager.WPFUI.csproj -c Release -r win-x64 --self-contained true
 ```
 
 Use `win-x86` for 32-bit Windows or `win-arm64` for Windows on ARM64.
