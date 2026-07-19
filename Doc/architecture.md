@@ -270,6 +270,10 @@ ViewModels should not contain:
 
 The arrows represent the main project dependencies. They describe which application layers may reference each other at compile time. They are not the same thing as runtime request flow.
 
+### Architecture
+
+<p align="center"><img src="images/architecture/architecture.jpg" alt="UserManager layered architecture"></p>
+
 An expanded textual view:
 
 ```text

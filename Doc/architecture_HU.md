@@ -270,6 +270,10 @@ A ViewModel ne tartalmazzon:
 
 A nyilak a fő project dependencyket mutatják. Azt írják le, hogy compile time mely application layerek referálhatják egymást. Ez nem ugyanaz, mint a runtime request flow.
 
+### Architektúra
+
+<p align="center"><img src="images/architecture/architecture.jpg" alt="UserManager layered architecture"></p>
+
 Kibővített szöveges nézet:
 
 ```text
