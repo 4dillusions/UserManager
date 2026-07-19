@@ -21,6 +21,8 @@ Rétegzett WPF mintaalkalmazás, amely modern MVVM architektúrát, Dependency I
 
 A repository egyben újrahasznosítható technikai tudásbázis WPF, MVVM, layered architecture és Clean Architecture ihletésű tervezés témákhoz.
 
+Az alkalmazás eredetileg egy WPF frontend állásinterjú próbafeladatként indult, majd refaktorálás után újrahasznosítható architektúra mintává alakult.
+
 ## Képernyőképek
 
 <p align="center"><img src="Doc/images/screenshots/user-manager-login.jpg" alt="UserManager login screen"></p>
@@ -138,6 +140,37 @@ dotnet test Project/App4di.Dotnet.UserManager.Windows.slnx
 ```
 
 A jelenlegi tesztek Domain, Application, Presentation, Infrastructure, dependency registration, repository behavior, export behavior, navigation, session és ViewModel viselkedést fednek le.
+
+## Publikálás
+
+Készíthető self-contained Windows build, amely a célgépen külön telepített .NET Runtime nélkül is fut. A build gépen továbbra is szükség van a .NET SDK-ra.
+
+Single-file, 64 bites Windows executable publikálása:
+
+```bash
+dotnet publish Project/App4di.Dotnet.UserManager.WPFUI/App4di.Dotnet.UserManager.WPFUI.csproj \
+  -c Release \
+  -r win-x64 \
+  --self-contained true \
+  -p:PublishSingleFile=true
+```
+
+A publikált file-ok ide kerülnek:
+
+```text
+Project/App4di.Dotnet.UserManager.WPFUI/bin/Release/net10.0-windows/win-x64/publish/
+```
+
+Ha single-file executable helyett self-contained mappát szeretnél publikálni, hagyd el a `PublishSingleFile` beállítást:
+
+```bash
+dotnet publish Project/App4di.Dotnet.UserManager.WPFUI/App4di.Dotnet.UserManager.WPFUI.csproj \
+  -c Release \
+  -r win-x64 \
+  --self-contained true
+```
+
+32 bites Windowshoz `win-x86`, Windows ARM64-hez `win-arm64` runtime identifiert használj.
 
 ## Dokumentáció
 

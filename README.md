@@ -21,6 +21,8 @@ A layered WPF sample application demonstrating modern MVVM architecture, depende
 
 The repository is also a reusable technical reference for WPF, MVVM, layered architecture, and Clean Architecture-inspired design.
 
+The application originally started as a WPF frontend job interview exercise, then was refactored and shaped into a reusable architecture sample.
+
 ## Screenshots
 
 <p align="center"><img src="Doc/images/screenshots/user-manager-login.jpg" alt="UserManager login screen"></p>
@@ -138,6 +140,37 @@ dotnet test Project/App4di.Dotnet.UserManager.Windows.slnx
 ```
 
 Current tests cover Domain, Application, Presentation, Infrastructure, dependency registration, repository behavior, export behavior, navigation, sessions, and ViewModels.
+
+## Publish
+
+You can create a self-contained Windows build that can run on a target machine without installing the .NET Runtime separately. The build machine still needs the .NET SDK.
+
+Publish a single-file 64-bit Windows executable:
+
+```bash
+dotnet publish Project/App4di.Dotnet.UserManager.WPFUI/App4di.Dotnet.UserManager.WPFUI.csproj \
+  -c Release \
+  -r win-x64 \
+  --self-contained true \
+  -p:PublishSingleFile=true
+```
+
+The published files are created under:
+
+```text
+Project/App4di.Dotnet.UserManager.WPFUI/bin/Release/net10.0-windows/win-x64/publish/
+```
+
+To publish a self-contained folder instead of a single-file executable, omit `PublishSingleFile`:
+
+```bash
+dotnet publish Project/App4di.Dotnet.UserManager.WPFUI/App4di.Dotnet.UserManager.WPFUI.csproj \
+  -c Release \
+  -r win-x64 \
+  --self-contained true
+```
+
+Use `win-x86` for 32-bit Windows or `win-arm64` for Windows on ARM64.
 
 ## Documentation
 
