@@ -6,8 +6,8 @@
 
 ## Nyelvek
 
-- 🇬🇧 [English](README.md)
-- 🇭🇺 Magyar
+- [English](README.md)
+- Magyar
 
 <p align="center">
   <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="Windows badge" height="20"/>
@@ -17,7 +17,7 @@
   </a>
 </p>
 
-Rétegzett WPF mintaalkalmazás, amely modern MVVM architektúrát, Dependency Injection használatot, Repository patternt, Application Use Case-eket, valamint a Presentation, az üzleti logika és a perzisztencia tiszta szétválasztását mutatja be.
+Rétegzett WPF mintaalkalmazás, amely modern MVVM architektúrát, Dependency Injection használatot, Repository patternt, Application Use Case-eket, valamint a Presentation, az üzleti logika és a persistence tiszta szétválasztását mutatja be.
 
 A repository egyben újrahasznosítható technikai tudásbázis WPF, MVVM, layered architecture és Clean Architecture ihletésű tervezés témákhoz.
 
@@ -29,13 +29,13 @@ A repository egyben újrahasznosítható technikai tudásbázis WPF, MVVM, layer
 
 ## Áttekintés
 
-UserManager is a small WPF application capable of user authentication, user management, XML persistence, and JSON export.
+A UserManager egy kis WPF alkalmazás, amely user authentication, user management, XML persistence és JSON export funkciókat tartalmaz.
 
-Az alkalmazás három screenből áll:
+Az alkalmazás három képernyőből áll:
 
-1. **Login** - authenticates a user against the XML data file.
-2. **User List** - displays users, filters by city, searches user data, adds, edits, deletes, and exports users.
-3. **User Editor** - edits every field except `UserId`, shows input validation, and uses a transactional Save / Cancel workflow.
+1. **Login** - a user hitelesítése az XML adatfájl alapján.
+2. **User List** - felhasználók listázása, város szerinti szűrés, keresés, hozzáadás, szerkesztés, törlés és export.
+3. **User Editor** - minden mező szerkesztése a `UserId` kivételével, input validation megjelenítése, valamint tranzakcionális Save / Cancel workflow.
 
 ## Főbb jellemzők
 
@@ -47,25 +47,25 @@ Az alkalmazás három screenből áll:
 - Transactional Edit Session.
 - XML persistence.
 - Atomic JSON export.
-- Separation of Presentation, Business Logic and Persistence.
-- Unit tests across Domain, Application, Presentation, Infrastructure, and dependency registration behavior.
+- Presentation, Business Logic és Persistence szétválasztása.
+- Unit testek Domain, Application, Presentation, Infrastructure és dependency registration viselkedésre.
 
 ## Architektúra összefoglaló
 
-A projekt Clean Architecture és MVVM elvekből kiinduló layered architecture-t követ, miközben tudatosan kerüli a szükségtelen bonyolítást. Minden rétegnek egyértelmű felelőssége van, és jól definiált contractokon keresztül kommunikál.
+A projekt Clean Architecture és MVVM elvekből kiinduló layered architecture-t követ, miközben tudatosan kerüli a felesleges bonyolítást. Minden rétegnek egyértelmű felelőssége van, és jól definiált contractokon keresztül kommunikál.
 
 <p align="center"><img src="Doc/images/architecture/dependencies.svg" alt="UserManager compile-time dependencies"></p>
 
 Az egyszerűsített dependency szabályok:
 
-- `Domain` depends on no other UserManager project.
-- `Application` depends on `Domain` and owns use cases and contracts.
-- `Presentation` depends on `Application`, `Domain`, and shared MVVM support.
-- `Infrastructure` implements `Application` contracts and depends on `Application` and `Domain`.
-- `WPFUI` is the Composition Root and wires the concrete application together.
-- `FW4di.Dotnet.Core` and `FW4di.Dotnet.MVVM` remain reusable technical framework modules.
+- `Domain` nem függ más UserManager projekttől.
+- `Application` a `Domain` projekttől függ, és use case-eket, illetve contractokat tartalmaz.
+- `Presentation` az `Application`, `Domain` és a shared MVVM support rétegekre támaszkodik.
+- `Infrastructure` az `Application` contractokat implementálja, és az `Application`, illetve `Domain` projektekre hivatkozik.
+- `WPFUI` a Composition Root, amely összeköti a konkrét alkalmazást.
+- `FW4di.Dotnet.Core` és `FW4di.Dotnet.MVVM` újrahasznosítható technikai framework modulok maradnak.
 
-A részletes architektúra dokumentáció itt található: [Doc/hu/architecture.md](Doc/hu/architecture.md).
+A részletes architektúra dokumentáció itt található: [Doc/architecture_HU.md](Doc/architecture_HU.md).
 
 ## Projektstruktúra
 
@@ -75,8 +75,10 @@ UserManager
 ├── README_HU.md
 ├── Doc/
 │   ├── images/
-│   ├── en/
-│   └── hu/
+│   ├── architecture.md
+│   ├── architecture_HU.md
+│   ├── cookbook/
+│   └── decisions/
 └── Project/
     ├── App4di.Dotnet.UserManager.Domain/
     ├── App4di.Dotnet.UserManager.Application/
@@ -87,7 +89,7 @@ UserManager
     └── FirstParty/
 ```
 
-For a detailed explanation of every module and layer, see [Doc/hu/modules-and-layers.md](Doc/hu/modules-and-layers.md).
+Minden architekturális modul és réteg részletes magyarázata itt található: [Doc/architecture_HU.md](Doc/architecture_HU.md).
 
 ## Clone
 
@@ -101,19 +103,19 @@ git submodule update --remote --merge
 
 Az alkalmazás `.NET 10.0` targetet használ, a WPF UI pedig `net10.0-windows` targetet.
 
-Open the solution from:
+A solution helye:
 
 ```text
 Project/App4di.Dotnet.UserManager.Windows.slnx
 ```
 
-Build from the command line:
+Build parancssorból:
 
 ```bash
 dotnet build Project/App4di.Dotnet.UserManager.Windows.slnx
 ```
 
-Run the WPF application from Visual Studio or another Windows/.NET desktop capable IDE by selecting the `App4di.Dotnet.UserManager.WPFUI` project.
+A WPF alkalmazás Visual Studioból vagy más Windows/.NET desktop fejlesztőkörnyezetből futtatható az `App4di.Dotnet.UserManager.WPFUI` projekt kiválasztásával.
 
 Az alkalmazás adatfájlja: `Project/Data/data.xml`.
 
@@ -123,19 +125,13 @@ Az alkalmazás adatfájlja: `Project/Data/data.xml`.
 dotnet test Project/App4di.Dotnet.UserManager.Windows.slnx
 ```
 
-A jelenlegi testek Domain, Application, Presentation, Infrastructure, dependency registration, repository behavior, export behavior, navigation, session és ViewModel viselkedést fednek le. Részletek: [Doc/hu/testing.md](Doc/hu/testing.md).
+A jelenlegi tesztek Domain, Application, Presentation, Infrastructure, dependency registration, repository behavior, export behavior, navigation, session és ViewModel viselkedést fednek le.
 
 ## Dokumentáció
 
-- [Teljes dokumentációs index](Doc/hu/README.md)
-- [Architecture](Doc/hu/architecture.md)
-- [Modules and layers](Doc/hu/modules-and-layers.md)
-- [Dependency registration](Doc/hu/dependency-registration.md)
-- [Runtime flow](Doc/hu/runtime-flow.md)
-- [Design guidelines](Doc/hu/design-guidelines.md)
-- [Testing](Doc/hu/testing.md)
-- [Cookbook](Doc/hu/cookbook/README.md)
-- [Architecture Decision Records](Doc/hu/decisions/README.md)
+- [Architecture handbook](Doc/architecture.md) / [Architektúra kézikönyv](Doc/architecture_HU.md)
+- [Cookbook](Doc/cookbook/README.md) / [Receptgyűjtemény](Doc/cookbook/README_HU.md)
+- [Architecture Decision Records](Doc/decisions/README.md) / [Architekturális döntési napló](Doc/decisions/README_HU.md)
 
 ## License
 

@@ -6,8 +6,8 @@
 
 ## Languages
 
-- 🇬🇧 English
-- 🇭🇺 [Magyar](README_HU.md)
+- English
+- [Magyar](README_HU.md)
 
 <p align="center">
   <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="Windows badge" height="20"/>
@@ -65,7 +65,7 @@ The simplified dependency rules are:
 - `WPFUI` is the Composition Root and wires the concrete application together.
 - `FW4di.Dotnet.Core` and `FW4di.Dotnet.MVVM` remain reusable technical framework modules.
 
-Detailed architecture documentation is available in [Doc/en/architecture.md](Doc/en/architecture.md).
+Detailed architecture documentation is available in [Doc/architecture.md](Doc/architecture.md).
 
 ## Project Structure
 
@@ -75,8 +75,10 @@ UserManager
 ├── README_HU.md
 ├── Doc/
 │   ├── images/
-│   ├── en/
-│   └── hu/
+│   ├── architecture.md
+│   ├── architecture_HU.md
+│   ├── cookbook/
+│   └── decisions/
 └── Project/
     ├── App4di.Dotnet.UserManager.Domain/
     ├── App4di.Dotnet.UserManager.Application/
@@ -87,7 +89,7 @@ UserManager
     └── FirstParty/
 ```
 
-For a detailed explanation of every module and layer, see [Doc/en/modules-and-layers.md](Doc/en/modules-and-layers.md).
+For a detailed explanation of every architectural module and layer, see [Doc/architecture.md](Doc/architecture.md).
 
 ## Clone
 
@@ -123,19 +125,13 @@ The application data file is stored under `Project/Data/data.xml`.
 dotnet test Project/App4di.Dotnet.UserManager.Windows.slnx
 ```
 
-Current tests cover Domain, Application, Presentation, Infrastructure, dependency registration, repository behavior, export behavior, navigation, sessions, and ViewModels. More detail is available in [Doc/en/testing.md](Doc/en/testing.md).
+Current tests cover Domain, Application, Presentation, Infrastructure, dependency registration, repository behavior, export behavior, navigation, sessions, and ViewModels.
 
 ## Documentation
 
-- [Complete documentation index](Doc/en/README.md)
-- [Architecture](Doc/en/architecture.md)
-- [Modules and layers](Doc/en/modules-and-layers.md)
-- [Dependency registration](Doc/en/dependency-registration.md)
-- [Runtime flow](Doc/en/runtime-flow.md)
-- [Design guidelines](Doc/en/design-guidelines.md)
-- [Testing](Doc/en/testing.md)
-- [Cookbook](Doc/en/cookbook/README.md)
-- [Architecture Decision Records](Doc/en/decisions/README.md)
+- [Architecture handbook](Doc/architecture.md) / [Architektúra kézikönyv](Doc/architecture_HU.md)
+- [Cookbook](Doc/cookbook/README.md) / [Receptgyűjtemény](Doc/cookbook/README_HU.md)
+- [Architecture Decision Records](Doc/decisions/README.md) / [Architekturális döntési napló](Doc/decisions/README_HU.md)
 
 ## License
 
