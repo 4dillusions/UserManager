@@ -1,6 +1,6 @@
 # ADR-0003: Module-Owned Dependency Registration
 
-[Magyar változat](0003-module-registration_HU.md) · [ADR index](README.md) · [Architecture handbook](../architecture.md)
+[🇭🇺 Magyar változat](0003-module-registration_HU.md) · [🇬🇧 ADR index](README.md) · [🇬🇧 Architecture handbook](../architecture.md)
 
 ## Status
 

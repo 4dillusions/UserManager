@@ -1,6 +1,6 @@
 # ADR-0003: Modulonkénti Dependency Registration
 
-[English version](0003-module-registration.md) · [ADR index](README_HU.md) · [Architektúra kézikönyv](../architecture_HU.md)
+[🇬🇧 English version](0003-module-registration.md) · [🇭🇺 ADR index](README_HU.md) · [🇭🇺 Architektúra kézikönyv](../architecture_HU.md)
 
 ## Status
 

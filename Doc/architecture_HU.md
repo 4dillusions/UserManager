@@ -1,6 +1,6 @@
 # Architektúra
 
-[English version](architecture.md) · [Receptgyűjtemény](cookbook/README_HU.md) · [Architekturális döntési napló](decisions/README_HU.md)
+[🇬🇧 English version](architecture.md) · [🇭🇺 Receptgyűjtemény](cookbook/README_HU.md) · [🇭🇺 Architekturális döntési napló](decisions/README_HU.md)
 
 A UserManager repository nem product documentation site-nak készült. Elsősorban MVVM és layered architecture referenciaimplementáció, valamint hosszú távú személyes tudásbázis, amely új WPF projektek indítása előtt újra elővehető.
 
@@ -975,7 +975,7 @@ Az export contract maradjon Application rétegben, ha use case-ek vagy ViewModel
 
 A stabil business conceptök Domain rétegbe kerüljenek, amikor azt írják le, hogy mi a rendszer, és függetlennek kell maradniuk UI-tól és persistence-től. Az application workflow Application rétegbe kerüljön, amikor azt írja le, hogy mit csinál a rendszer.
 
-A részletes, lépésenkénti útmutatók külön maradnak a [Receptgyűjteményben](cookbook/README_HU.md).
+A részletes, lépésenkénti útmutatók külön maradnak a [🇭🇺 Receptgyűjteményben](cookbook/README_HU.md).
 
 ## Forrásajánlások
 

@@ -1,6 +1,6 @@
 # ADR-0004: Transactional Edit Session
 
-[Magyar változat](0004-edit-session_HU.md) · [ADR index](README.md) · [Architecture handbook](../architecture.md)
+[🇭🇺 Magyar változat](0004-edit-session_HU.md) · [🇬🇧 ADR index](README.md) · [🇬🇧 Architecture handbook](../architecture.md)
 
 ## Status
 

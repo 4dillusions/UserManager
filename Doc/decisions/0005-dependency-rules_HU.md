@@ -1,6 +1,6 @@
 # ADR-0005: Dependency szabályok
 
-[English version](0005-dependency-rules.md) · [ADR index](README_HU.md) · [Architektúra kézikönyv](../architecture_HU.md)
+[🇬🇧 English version](0005-dependency-rules.md) · [🇭🇺 ADR index](README_HU.md) · [🇭🇺 Architektúra kézikönyv](../architecture_HU.md)
 
 ## Status
 

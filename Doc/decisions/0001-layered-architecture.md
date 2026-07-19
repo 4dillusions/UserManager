@@ -1,6 +1,6 @@
 # ADR-0001: Layered Architecture
 
-[Magyar változat](0001-layered-architecture_HU.md) · [ADR index](README.md) · [Architecture handbook](../architecture.md)
+[🇭🇺 Magyar változat](0001-layered-architecture_HU.md) · [🇬🇧 ADR index](README.md) · [🇬🇧 Architecture handbook](../architecture.md)
 
 ## Status
 

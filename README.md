@@ -6,8 +6,8 @@
 
 ## Languages
 
-- English
-- [Magyar](README_HU.md)
+- 🇬🇧 English
+- 🇭🇺 [Magyar](README_HU.md)
 
 <p align="center">
   <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="Windows badge" height="20"/>
@@ -129,9 +129,9 @@ Current tests cover Domain, Application, Presentation, Infrastructure, dependenc
 
 ## Documentation
 
-- [Architecture handbook](Doc/architecture.md) / [Architektúra kézikönyv](Doc/architecture_HU.md)
-- [Cookbook](Doc/cookbook/README.md) / [Receptgyűjtemény](Doc/cookbook/README_HU.md)
-- [Architecture Decision Records](Doc/decisions/README.md) / [Architekturális döntési napló](Doc/decisions/README_HU.md)
+- [🇬🇧 Architecture handbook](Doc/architecture.md) / [🇭🇺 Architektúra kézikönyv](Doc/architecture_HU.md)
+- [🇬🇧 Cookbook](Doc/cookbook/README.md) / [🇭🇺 Receptgyűjtemény](Doc/cookbook/README_HU.md)
+- [🇬🇧 Architecture Decision Records](Doc/decisions/README.md) / [🇭🇺 Architekturális döntési napló](Doc/decisions/README_HU.md)
 
 ## License
 

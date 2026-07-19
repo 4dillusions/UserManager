@@ -1,6 +1,6 @@
 # Architecture
 
-[Magyar változat](architecture_HU.md) · [Cookbook](cookbook/README.md) · [Architecture Decision Records](decisions/README.md)
+[🇭🇺 Magyar változat](architecture_HU.md) · [🇬🇧 Cookbook](cookbook/README.md) · [🇬🇧 Architecture Decision Records](decisions/README.md)
 
 UserManager is not intended to be a product documentation site. It is primarily an MVVM and layered architecture reference implementation, and a long-term personal knowledge base that can be revisited before starting future WPF projects.
 
@@ -976,7 +976,7 @@ Keep the export contract in Application if use cases or ViewModels depend on the
 
 Place stable business concepts in Domain when they describe what the system is and should remain independent from UI and persistence. Place application workflow in Application when the behavior describes what the system does.
 
-Detailed step-by-step recipes remain separate in the [Cookbook](cookbook/README.md).
+Detailed step-by-step recipes remain separate in the [🇬🇧 Cookbook](cookbook/README.md).
 
 ## Source Recommendations
 

@@ -1,6 +1,6 @@
 # ADR-0004: Tranzakcionális Edit Session
 
-[English version](0004-edit-session.md) · [ADR index](README_HU.md) · [Architektúra kézikönyv](../architecture_HU.md)
+[🇬🇧 English version](0004-edit-session.md) · [🇭🇺 ADR index](README_HU.md) · [🇭🇺 Architektúra kézikönyv](../architecture_HU.md)
 
 ## Status
 

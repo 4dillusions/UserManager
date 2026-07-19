@@ -1,6 +1,6 @@
 # ADR-0002: WPFUI as Composition Root
 
-[Magyar változat](0002-composition-root_HU.md) · [ADR index](README.md) · [Architecture handbook](../architecture.md)
+[🇭🇺 Magyar változat](0002-composition-root_HU.md) · [🇬🇧 ADR index](README.md) · [🇬🇧 Architecture handbook](../architecture.md)
 
 ## Status
 
