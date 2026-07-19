@@ -93,9 +93,21 @@ For a detailed explanation of every architectural module and layer, see [Doc/arc
 
 ## Clone
 
+Clone the entire project including the submodules:
+
 ```bash
 git clone --recurse-submodules https://github.com/4dillusions/UserManager.git
+```
+
+If the project is already cloned and you forgot to fetch the submodules:
+
+```bash
 git submodule update --init --recursive
+```
+
+If the submodules have been updated and you want to fetch the latest changes:
+
+```bash
 git submodule update --remote --merge
 ```
 

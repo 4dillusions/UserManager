@@ -93,9 +93,21 @@ Minden architekturális modul és réteg részletes magyarázata itt található
 
 ## Clone
 
+Klónozd a teljes projektet a submodule-okkal együtt:
+
 ```bash
 git clone --recurse-submodules https://github.com/4dillusions/UserManager.git
+```
+
+Ha a projekt már klónozva van, de a submodule-ok kimaradtak:
+
+```bash
 git submodule update --init --recursive
+```
+
+Ha a submodule-ok frissültek, és le szeretnéd kérni a legújabb változásokat:
+
+```bash
 git submodule update --remote --merge
 ```
 
